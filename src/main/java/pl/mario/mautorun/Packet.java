@@ -100,6 +100,7 @@ public class Packet extends Thread {
                         return;
                     else
                         pLLIK = data;
+                    
                     //llik = false;
                     int crc = byteData[13] * 256 + byteData[12];
                     for (int i : killCRC) {
