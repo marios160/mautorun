@@ -138,12 +138,12 @@ public class Cmd extends Thread {
                     if (linia.toLowerCase().indexOf(censors.nextLine()) > -1) {
                         if (srv.getPlayer(pid).addWarrnings()) {
                             Cmd.message("[" + pid + "] was kicked for warnings");
-                            gui.dodajLog("[" + pid + "] " + srv.getPlayer(pid).getNick() + " was kicked for warnings", gui.black);
+                            gui.dodajLog("[" + pid + "] " + srv.getPlayer(pid).getNick() + " was kicked for warnings", gui.red);
                             srv.sendPck("/sv " + ServerCommands.kick + " " + pid);
                             srv.sendPck("/sv " + ServerCommands.kick + " " + pid);
                         } else {
                             Cmd.message("Warning to [" + pid + "] for vulgarism");
-                            gui.dodajLog("Warning to [" + pid + "] " + srv.getPlayer(pid).getNick() + " for vulgarism", gui.black);
+                            gui.dodajLog("Warning to [" + pid + "] " + srv.getPlayer(pid).getNick() + " for vulgarism", gui.org);
                         }
                         break;
                     }
@@ -221,7 +221,7 @@ public class Cmd extends Thread {
             }
             announce(ip + mask + " was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog("Added " + ip + mask + " to firewall" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(ip + mask + " was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -313,7 +313,7 @@ public class Cmd extends Thread {
             }
             announce(ip + mask + " was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog("Added " + ip + mask + " to firewall" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(ip + mask + " was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -354,7 +354,7 @@ public class Cmd extends Thread {
         try {
             if (conf.getSystem().equals("lin")) {
                 String cmd = "/sbin/iptables -D INPUT -s " + ip + " -j DROP";
-                gui.dodajLog("Unbanned " + ip + " (" + nick + ")\n", gui.green);
+                gui.dodajLog("Unbanned " + ip + " by " + nick + "\n", gui.blue);
                 announce("Unbanned " + ip);
                 Runtime.getRuntime().exec(cmd);
             } else if (conf.getSystem().equals("win")) {
@@ -391,7 +391,7 @@ public class Cmd extends Thread {
             announce("Player " + ids + " not exist");
             return;
         }
-        gui.dodajLog("[" + ids + "] " + srv.getPlayer(ids).getNick() + " was kicked by " + srv.getPlayer(pid).getNick(), gui.black);
+        gui.dodajLog("[" + ids + "] " + srv.getPlayer(ids).getNick() + " was kicked by " + srv.getPlayer(pid).getNick(), gui.mag);
         srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
         srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
         announce("["+ids+"]" + " was kicked");
@@ -410,7 +410,7 @@ public class Cmd extends Thread {
                 srv.sendPck("/sv " + ServerCommands.kick + " " + zm.getId());
             }
         }
-        gui.dodajLog("All was kicked by " + srv.getPlayer(pid).getNick(), gui.black);
+        gui.dodajLog("All was kicked by " + srv.getPlayer(pid).getNick(), gui.mag);
         announce("Kick all");
 
     }

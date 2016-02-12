@@ -32,7 +32,7 @@ public class Main extends Thread {
     static boolean stopSnifferLoop = false;
     static boolean stopCrashBarLoop = false;
     static String path;
-    static String version = "1.3.6";
+    static String version = "1.4.0";
 
     public Main() {
 

@@ -673,7 +673,7 @@ public class Server extends Thread {
 
     void changeMaxplayers(int id) {
         if (maxplayers != id) {
-            gui.dodajLog("Changing maxplayers to " + id, gui.black);
+            gui.dodajLog("Changing maxplayers to " + id, gui.pink);
             sendPck("/sv " + ServerCommands.maxplayers + " " + id);
         }
     }
@@ -684,8 +684,8 @@ public class Server extends Thread {
             if (odp.isEmpty()) {
                 odp = "No answer, wrong command";
             }
-            gui.dodajLog(cmd, gui.blue);
-            gui.dodajLog(odp.trim(), gui.blue);
+            gui.dodajLog(cmd, gui.gray);
+            gui.dodajLog(odp.trim(), gui.gray);
             gui.getCommandField().setText(null);
         }
     }
@@ -712,7 +712,7 @@ public class Server extends Thread {
         if (idMap != id) {
 
             try {
-                gui.dodajLog("Changing map to " + gui.getMap_button().getSelectedItem(), gui.black);
+                gui.dodajLog("Changing map to " + gui.getMap_button().getSelectedItem(), gui.pink);
                 sendPckUnanswered("/sv " + ServerCommands.gotomap + " " + listIdMaps[id]);
                 idMap = id;
             } catch (IOException ex) {
@@ -745,7 +745,7 @@ public class Server extends Thread {
     }
     
     void kickPlayer(String id){
-        gui.dodajLog("[" + id + "] " + srv.getPlayer(id).getNick() + " was kicked (REMOTELY)", gui.black);
+        gui.dodajLog("[" + id + "] " + srv.getPlayer(id).getNick() + " was kicked (REMOTELY)", gui.pink);
         srv.sendPck("/sv " + ServerCommands.kick + " " + id);
         srv.sendPck("/sv " + ServerCommands.kick + " " + id);
         Cmd.message("["+id+"]" + " was kicked (REMOTELY)");
@@ -764,7 +764,7 @@ public class Server extends Thread {
             Runtime.getRuntime().exec(cmd);
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
-            gui.dodajLog(ip + mask + " was banned (REMOTELY)", gui.blue);
+            gui.dodajLog(ip + mask + " was banned (REMOTELY)", gui.pink);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);

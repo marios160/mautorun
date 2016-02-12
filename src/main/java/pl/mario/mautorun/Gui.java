@@ -1,8 +1,6 @@
 package pl.mario.mautorun;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -11,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -32,7 +29,7 @@ import javax.swing.text.StyledDocument;
  *
  * @author Mario PL
  */
-public class Gui extends javax.swing.JFrame{
+public class Gui extends javax.swing.JFrame {
 
     /**
      * Creates new form Glowne
@@ -951,12 +948,12 @@ public class Gui extends javax.swing.JFrame{
     }//GEN-LAST:event_map_buttonActionPerformed
 
     private void kickAllButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kickAllButtActionPerformed
-        dodajLog("Kicking all (REMOTELY)", black);
+        dodajLog("Kicking all (REMOTELY)", pink);
         Cmd.kickall();
     }//GEN-LAST:event_kickAllButtActionPerformed
 
     private void time_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_buttonActionPerformed
-        dodajLog("Restarting map", black);
+        dodajLog("Restarting map", pink);
         Cmd.restart();
     }//GEN-LAST:event_time_buttonActionPerformed
 
@@ -1120,34 +1117,9 @@ public class Gui extends javax.swing.JFrame{
     }
 
     void createPopupMenu() {
-//        popupMenu = new JPopupMenu();
-//        JMenuItem menuKick = new JMenuItem("Kick ");
-//        JMenuItem menuBan = new JMenuItem("Ban ");
-//        JMenuItem menuBan16 = new JMenuItem("Ban /16 ");
-//        JMenuItem menuIP = new JMenuItem("Copy IP: ");
-//        JMenuItem menuNick = new JMenuItem("Copy Nick: ");
-//        ActionListener tabListener = new TableActionListener();
-//        menuKick.addActionListener(tabListener);
-//        menuBan.addActionListener(tabListener);
-//        menuBan16.addActionListener(tabListener);
-//        menuIP.addActionListener(tabListener);
-//        menuNick.addActionListener(tabListener);
-//        
-//
-//        popupMenu.add(menuKick);
-//        popupMenu.add(menuBan);
-//        popupMenu.add(menuBan16);
-//        popupMenu.add(menuIP);
-//        popupMenu.add(menuNick);
-        //popupMenu = TableActionListener.createPopupMenu();
-        //igiTab.setComponentPopupMenu(popupMenu);
         igiTab.addMouseListener(new TableMouseListener(igiTab));
-        //consTab.setComponentPopupMenu(popupMenu);
         consTab.addMouseListener(new TableMouseListener(consTab));
     }
-    
-
-
 
     public Gui() {
         initComponents();
@@ -1797,7 +1769,5 @@ public class Gui extends javax.swing.JFrame{
     public void setjLabel8(JLabel jLabel8) {
         this.jLabel8 = jLabel8;
     }
-
-
 
 }

@@ -166,8 +166,8 @@ public class OldPacket extends Thread {
                             srv.getPlayer(id1).addFrags();
                             srv.getPlayer(id2).addDeaths();
                         }
-                    }
                     llik = true;
+                    }
 
                 } else if (udp.destination() == (Main.srv.getPort())) {
 

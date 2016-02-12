@@ -38,8 +38,8 @@ public class TableActionListener implements ActionListener {
         }
         menuKick = new JMenuItem("Kick " + table.getValueAt(row, 1));
         menuBan = new JMenuItem("Ban " + table.getValueAt(row, 3));
-        menuBanDef = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + Main.conf.getDefMask()+1);
-        menuBanMax = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + Main.conf.getMaxMask()+1);
+        menuBanDef = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getDefMask()+1));
+        menuBanMax = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getMaxMask()+1));
         menuIP = new JMenuItem("Copy IP: " + table.getValueAt(row, 3));
         menuNick = new JMenuItem("Copy Nick: " + table.getValueAt(row, 1));
         id = (String) table.getValueAt(row, 0);

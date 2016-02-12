@@ -7,11 +7,12 @@ import org.jnetpcap.packet.PcapPacket;
  *
  * @author Mateusz
  */
-public class Packet extends Thread {
+public abstract class Packet extends Thread {
 
     int tabcrc[] = {0, 0, 0, 0, 0};
     int num = 0;
     Queue<PcapPacket> queue;
+    
 
     public Packet(Queue<PcapPacket> queue) {
         this.queue = queue;
@@ -24,38 +25,31 @@ public class Packet extends Thread {
                     sleep(100);
                     continue;
                 }
-                PcapPacket packet = queue.poll();
-                int offset = 0;
-                int length = packet.size() - offset;
-                byte[] byteData = packet.getByteArray(offset, length);
-                String data = new String(byteData);
-                if (!checkCrc(byteData)) {
+                PacketData packet = new PacketData(queue.poll());
+                if (!checkCrc(packet)) {
                     continue;
                 }
-                action(byteData, data);
+                action(packet);
             }
         } catch (InterruptedException ex) {
             Loggs.loguj("Packet-run", ex);
         }
     }
 
-    boolean checkCrc(byte[] byteData) {
-        int crc = byteData[13] * 256 + byteData[12];
+    boolean checkCrc(PacketData packet) {
         for (int i : tabcrc) {
-            if (i == crc) {
+            if (i == packet.getCrc()) {
                 return false;
             }
         }
         if (num > 4) {
             num = 0;
         }
-        tabcrc[num] = crc;
+        tabcrc[num] = packet.getCrc();
         num++;
         return true;
     }
 
-    private void action(byte[] byteData, String data) {
-
-    }
+    abstract void action(PacketData packet);
 
 }
