@@ -1,7 +1,10 @@
 
 package pl.mario.mautorun;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import javax.swing.JOptionPane;
 import org.jnetpcap.*;
 import org.jnetpcap.packet.PcapPacket;
@@ -22,6 +25,13 @@ public class Sniffer extends Thread{
     boolean interrupt;
     static List<Sniffer> list;
     static boolean checked = false;
+    Queue<PcapPacket> lped = new LinkedList<>();
+    Queue<PcapPacket> lprc = new LinkedList<>();
+    Queue<PcapPacket> llik = new LinkedList<>();
+    Queue<PcapPacket> tahc = new LinkedList<>();
+    Queue<PcapPacket> ttes = new LinkedList<>();
+    Queue<PcapPacket> htua = new LinkedList<>();
+    Queue<PcapPacket> tsil = new LinkedList<>();
 
     public Sniffer(PcapIf device, String ip) {
         this.device = device;
@@ -57,7 +67,7 @@ public class Sniffer extends Thread{
 
                         if (interrupt)
                             return;
-                        Packet pck = new Packet(packet);
+                        OldPacket pck = new OldPacket(packet);
                         pck.start();
                 }
                 if(Thread.currentThread().isInterrupted() || Main.stopSnifferLoop){
