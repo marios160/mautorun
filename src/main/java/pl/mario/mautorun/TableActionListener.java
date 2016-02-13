@@ -73,9 +73,9 @@ public class TableActionListener implements ActionListener {
         } else if (menu == menuBan) {
             Main.srv.banPlayer(id, ip, "");
         } else if (menu == menuBanDef) {
-            Main.srv.banPlayer(id, ip, "/" + Main.conf.getDefMask()+1);
+            Main.srv.banPlayer(id, ip, "/" + (Main.conf.getDefMask()+1));
         } else if (menu == menuBanMax) {
-            Main.srv.banPlayer(id, ip, "/" + Main.conf.getMaxMask()+1);
+            Main.srv.banPlayer(id, ip, "/" + (Main.conf.getMaxMask()+1));
         } else if (menu == menuIP) {
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
