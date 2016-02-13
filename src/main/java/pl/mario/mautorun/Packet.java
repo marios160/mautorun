@@ -1,6 +1,8 @@
 package pl.mario.mautorun;
 
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jnetpcap.packet.PcapPacket;
 
 /**
@@ -29,7 +31,12 @@ public abstract class Packet extends Thread {
                 if (!checkCrc(packet)) {
                     continue;
                 }
-                action(packet);
+                try {
+                    action(packet);
+                } catch (Exception ex) {
+                    Loggs.loguj("Packet-run", ex);
+                }
+
             }
         } catch (InterruptedException ex) {
             Loggs.loguj("Packet-run", ex);
@@ -50,6 +57,6 @@ public abstract class Packet extends Thread {
         return true;
     }
 
-    abstract void action(PacketData packet);
+    abstract void action(PacketData packet) throws Exception;
 
 }
