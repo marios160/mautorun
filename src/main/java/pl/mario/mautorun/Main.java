@@ -99,6 +99,12 @@ public class Main extends Thread {
 
     static String version = "1.4.4";
     static String changes = ""
+            + "v1.4.5\n"
+            + "     - display add admin on/off\n"
+            + "     - admin panel on/off\n"
+            + "     - sk/tk control on/off"
+            + "     - items control on/off (only checkbox, function does not work)\n"
+            + "     - "
             + "v1.4.4\n"
             + "     - ban fs chat crash\n"
             + "     - reason of ban"
