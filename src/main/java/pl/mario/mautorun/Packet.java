@@ -14,7 +14,6 @@ public abstract class Packet extends Thread {
     int tabcrc[] = {0, 0, 0, 0, 0};
     int num = 0;
     Queue<PcapPacket> queue;
-    
 
     public Packet(Queue<PcapPacket> queue) {
         this.queue = queue;
@@ -27,7 +26,10 @@ public abstract class Packet extends Thread {
                     sleep(100);
                     continue;
                 }
-                PacketData packet = new PacketData(queue.poll());
+                PacketData packet;
+                synchronized (queue) {
+                    packet = new PacketData(queue.poll());
+                }
                 if (!checkCrc(packet)) {
                     continue;
                 }

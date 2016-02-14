@@ -32,7 +32,8 @@ public class Main extends Thread {
     static boolean stopSnifferLoop = false;
     static boolean stopCrashBarLoop = false;
     static String path;
-    static String version = "1.4.1";
+    static String version = "1.4.2";
+    StartSniffer sniffer;
 
     public Main() {
 
@@ -65,7 +66,7 @@ public class Main extends Thread {
         conf.setExe(gui.getNameexe().getText());
         ServerCommands.getCommands();
         Server serv = new Server();
-        StartSniffer sniffer = new StartSniffer();
+        sniffer = new StartSniffer();
         sniffer.start();
         
         while (!stopMainLoop) {

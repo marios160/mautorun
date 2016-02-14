@@ -12,7 +12,7 @@ import org.jnetpcap.protocol.lan.Ethernet;
 import org.jnetpcap.protocol.lan.SLL;
 import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Udp;
-import static pl.mario.mautorun.Main.srv;
+import static pl.mario.mautorun.Main.*;
 
 /**
  *
@@ -25,13 +25,7 @@ public class Sniffer extends Thread {
     boolean interrupt;
     static List<Sniffer> list;
     static boolean checked = false;
-    Queue<PcapPacket> lped = new LinkedList<>();
-    Queue<PcapPacket> lprc = new LinkedList<>();
-    Queue<PcapPacket> llik = new LinkedList<>();
-    Queue<PcapPacket> tahc = new LinkedList<>();
-    Queue<PcapPacket> ttes = new LinkedList<>();
-    Queue<PcapPacket> htua = new LinkedList<>();
-    Queue<PcapPacket> tsil = new LinkedList<>();
+    StartSniffer sniff;
 
     private String LPRC = "LPRC"; //Create player
     private String TAHC = "TAHC"; //chat
@@ -42,10 +36,11 @@ public class Sniffer extends Thread {
     private String TSIL = "TSIL"; //commands
     private String NRTM = "NRTM"; //Mautorun commands
 
-    public Sniffer(PcapIf device, String ip) {
+    public Sniffer(PcapIf device, String ip, StartSniffer sniff) {
         this.device = device;
         this.deviceIP = ip;
         this.interrupt = false;
+        this.sniff = sniff;
     }
 
     public void run() {
@@ -55,20 +50,6 @@ public class Sniffer extends Thread {
         int timeout = 10 * 1000;
         String pomip = deviceIP;
         final String localip = pomip.substring(0, pomip.length() - 1);
-        PckHTUA pckHTUA = new PckHTUA(htua);
-        pckHTUA.start();
-        PckLLIK pckLLIK = new PckLLIK(llik);
-        pckLLIK.start();
-        PckLPED pckLPED = new PckLPED(lped);
-        pckLPED.start();
-        PckLPRC pckLPRC = new PckLPRC(lprc);
-        pckLPRC.start();
-        PckTAHC pckTAHC = new PckTAHC(tahc);
-        pckTAHC.start();
-        PckTSIL pckTSIL = new PckTSIL(tsil);
-        pckTSIL.start();
-        PckTTES pckTTES = new PckTTES(ttes);
-        pckTTES.start();
 
         final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
         if (pcap == null) {
@@ -123,26 +104,32 @@ public class Sniffer extends Thread {
 
         try {
             if (packet.hasHeader(ip) && packet.hasHeader(udp)) {
-
                 if (udp.source() == (Main.srv.getPort())) {
 
                     if (data.contains(LPED)) {
-                        lped.add(packet);
+                        synchronized(sniff.lped){
+                        sniff.lped.add(packet);}
                     } else if (data.contains(LLIK)) {
-                        llik.add(packet);
+                        synchronized(sniff.llik){
+                        sniff.llik.add(packet);}
                     }
                 } else if (udp.destination() == (Main.srv.getPort())) {
 
                     if (data.contains(LPRC)) {
-                        lprc.add(packet);
+                        synchronized(sniff.lprc){
+                        sniff.lprc.add(packet);}
                     } else if (data.contains(TAHC)) {
-                        tahc.add(packet);
+                        synchronized(sniff.tahc){
+                        sniff.tahc.add(packet);}
                     } else if (data.contains(TTES)) {
-                        ttes.add(packet);
+                        synchronized(sniff.ttes){
+                        sniff.ttes.add(packet);}
                     } else if (data.contains(TSIL)) {
-                        tsil.add(packet);
+                        synchronized(sniff.tsil){
+                        sniff.tsil.add(packet);}
                     } else if (data.contains(HTUA)) {
-                        htua.add(packet);
+                        synchronized(sniff.htua){
+                        sniff.htua.add(packet);}
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
                         System.out.println(cmd);

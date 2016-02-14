@@ -3,13 +3,16 @@ package pl.mario.mautorun;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapAddr;
 import org.jnetpcap.PcapIf;
+import org.jnetpcap.packet.PcapPacket;
 import static pl.mario.mautorun.Sniffer.list;
 
 /**
@@ -18,6 +21,13 @@ import static pl.mario.mautorun.Sniffer.list;
  */
 public class StartSniffer extends Thread{
     
+    Queue<PcapPacket> lped = new LinkedList<>();
+    Queue<PcapPacket> lprc = new LinkedList<>();
+    Queue<PcapPacket> llik = new LinkedList<>();
+    Queue<PcapPacket> tahc = new LinkedList<>();
+    Queue<PcapPacket> ttes = new LinkedList<>();
+    Queue<PcapPacket> htua = new LinkedList<>();
+    Queue<PcapPacket> tsil = new LinkedList<>();
     
     public void run(){
         List<PcapIf> alldevs = new ArrayList<PcapIf>(); 
@@ -29,6 +39,7 @@ public class StartSniffer extends Thread{
             return;  
         }
         
+        
         String addr = "";
         list = new ArrayList<>();
         for (PcapIf alldev : alldevs) {
@@ -36,12 +47,26 @@ public class StartSniffer extends Thread{
                 if (adr.getAddr() != null)
                     addr = adr.getAddr().toString();
                 if (addr.indexOf("[INET4:0.0.0.0]") < 0 && addr.indexOf("[INET4:") > -1) {
-                    Sniffer s = new Sniffer(alldev, addr);
+                    Sniffer s = new Sniffer(alldev, addr, this);
                     list.add(s);
                     s.start();
                 }
             }
         } 
+        PckHTUA pckHTUA = new PckHTUA(htua);
+        pckHTUA.start();
+        PckLLIK pckLLIK = new PckLLIK(llik);
+        pckLLIK.start();
+        PckLPED pckLPED = new PckLPED(lped);
+        pckLPED.start();
+        PckLPRC pckLPRC = new PckLPRC(lprc);
+        pckLPRC.start();
+        PckTAHC pckTAHC = new PckTAHC(tahc);
+        pckTAHC.start();
+        PckTSIL pckTSIL = new PckTSIL(tsil);
+        pckTSIL.start();
+        PckTTES pckTTES = new PckTTES(ttes);
+        pckTTES.start();
     }
     
      public void closeSniffers(){
