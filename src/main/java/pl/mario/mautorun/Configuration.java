@@ -257,7 +257,6 @@ public class Configuration implements Serializable{
     }
 
     public boolean isCrash() {
-        qwe
         return crash;
     }
 
