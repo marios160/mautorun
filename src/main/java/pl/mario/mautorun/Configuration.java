@@ -35,6 +35,10 @@ public class Configuration implements Serializable{
     private int welcomeCombo;
     private String welcome2;
     private boolean censors;
+    private boolean sktk;
+    private boolean adminPanel;
+    private boolean dispAddAdmin;
+    private boolean items;
     
     
 
@@ -60,6 +64,10 @@ public class Configuration implements Serializable{
         this.welcomeCombo = c.welcomeCombo;
         this.welcomeCheck = c.welcomeCheck;
         this.censors = c.censors;
+        this.sktk = c.sktk;
+        this.adminPanel = c.adminPanel;
+        this.dispAddAdmin = c.dispAddAdmin;
+        this.items = c.items;
     }
     
     public Configuration(int x){
@@ -83,6 +91,10 @@ public class Configuration implements Serializable{
         this.welcomeCombo = 1;
         this.welcomeCheck = true;
         this.censors = true;
+        this.sktk = true;
+        this.dispAddAdmin = true;
+        this.adminPanel = true;
+        this.items = true;
     }
     
     public Configuration getConfFile()
@@ -245,6 +257,7 @@ public class Configuration implements Serializable{
     }
 
     public boolean isCrash() {
+        qwe
         return crash;
     }
 
@@ -258,6 +271,38 @@ public class Configuration implements Serializable{
 
     public void setCensors(boolean censors) {
         this.censors = censors;
+    }
+
+    public boolean isSktk() {
+        return sktk;
+    }
+
+    public void setSktk(boolean sktk) {
+        this.sktk = sktk;
+    }
+
+    public boolean isAdminPanel() {
+        return adminPanel;
+    }
+
+    public void setAdminPanel(boolean adminPanel) {
+        this.adminPanel = adminPanel;
+    }
+
+    public boolean isDispAddAdmin() {
+        return dispAddAdmin;
+    }
+
+    public void setDispAddAdmin(boolean dispAddAdmin) {
+        this.dispAddAdmin = dispAddAdmin;
+    }
+
+    public boolean isItems() {
+        return items;
+    }
+
+    public void setItems(boolean items) {
+        this.items = items;
     }
     
     
