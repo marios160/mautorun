@@ -18,6 +18,8 @@ public class PckTAHC extends Packet {
         String nick = srv.getPlayer(byteData[20]).getNick();
         String message = data.substring(data.indexOf(nick) + nick.length(), data.indexOf("\n", data.indexOf(nick) + nick.length()));
         gui.dodajChat(" [" + id + "] " + nick + message, gui.black);
+        if(message.contains("%n"))
+            srv.banPlayer(id, "",1);
         Cmd cmd = new Cmd(byteData[20], message);
         cmd.start();
     }

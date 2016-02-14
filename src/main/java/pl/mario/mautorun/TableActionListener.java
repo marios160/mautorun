@@ -71,11 +71,11 @@ public class TableActionListener implements ActionListener {
         if (menu == menuKick) {
             Main.srv.kickPlayer(id);
         } else if (menu == menuBan) {
-            Main.srv.banPlayer(id, ip, "");
+            Main.srv.banPlayer(id, "",2);
         } else if (menu == menuBanDef) {
-            Main.srv.banPlayer(id, ip, "/" + (Main.conf.getDefMask()+1));
+            Main.srv.banPlayer(id, "/" + (Main.conf.getDefMask()+1),2);
         } else if (menu == menuBanMax) {
-            Main.srv.banPlayer(id, ip, "/" + (Main.conf.getMaxMask()+1));
+            Main.srv.banPlayer(id, "/" + (Main.conf.getMaxMask()+1),2);
         } else if (menu == menuIP) {
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();

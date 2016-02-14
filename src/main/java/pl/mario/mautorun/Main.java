@@ -67,7 +67,7 @@ public class Main extends Thread {
         Server serv = new Server();
         sniffer = new StartSniffer();
         sniffer.start();
-        
+
         while (!stopMainLoop) {
             try {
                 srv = new Server(serv);
@@ -96,13 +96,16 @@ public class Main extends Thread {
         }
 
     }
-    
-    static String version = "1.4.3";
+
+    static String version = "1.4.4";
     static String changes = ""
-                + "v1.4.3\n"
-                + "     - censors on/off\n"
-                + "     - welcome players on/off\n"
-                + "     - list of changes\n"
-                + "";
+            + "v1.4.4\n"
+            + "     - ban fs chat crash\n"
+            + "     - reason of ban"
+            + "v1.4.3\n"
+            + "     - censors on/off\n"
+            + "     - welcome players on/off\n"
+            + "     - list of changes\n"
+            + "";
 
 }

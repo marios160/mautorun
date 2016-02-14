@@ -75,7 +75,7 @@ public class Server extends Thread {
         banPlayers = new Player[3];
         this.numPl = 0;
         this.numBan = 0;
-        nullPlayer = new Player("0", "0.0.0.0","NullPlayer" ,26015);
+        nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
     }
 
     public Server(Server serv) {
@@ -100,7 +100,7 @@ public class Server extends Thread {
         banPlayers = new Player[3];
         this.numPl = 0;
         this.numBan = 0;
-        nullPlayer = new Player("0", "0.0.0.0","NullPlayer" ,26015);
+        nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
     }
 
     public void run() {
@@ -275,15 +275,15 @@ public class Server extends Thread {
 
     void addBaseCDK(String cdk, String ip) {
         try {
-        PrintWriter base = null;
+            PrintWriter base = null;
 
             File fbase = new File(Main.path + "baseCDK.txt");
             if (!fbase.exists()) {
                 fbase.createNewFile();
             }
             base = new PrintWriter(new FileWriter(fbase, true));
-        base.append(cdk + "   " + ip + "\n");
-        base.close();
+            base.append(cdk + "   " + ip + "\n");
+            base.close();
         } catch (IOException ex) {
             Loggs.loguj("Server-addBaseCDK", ex);
         }
@@ -309,7 +309,6 @@ public class Server extends Thread {
         }
 
     }*/
-
     static void closeServer() {
         try {
             if (conf.getSystem().equals("win")) {
@@ -743,34 +742,50 @@ public class Server extends Thread {
         }
 
     }
-    
-    void kickPlayer(String id){
+
+    void kickPlayer(String id) {
         gui.dodajLog("[" + id + "] " + srv.getPlayer(id).getNick() + " was kicked (REMOTELY)", gui.pink);
         srv.sendPck("/sv " + ServerCommands.kick + " " + id);
         srv.sendPck("/sv " + ServerCommands.kick + " " + id);
-        Cmd.message("["+id+"]" + " was kicked (REMOTELY)");
+        Cmd.message("[" + id + "]" + " was kicked (REMOTELY)");
     }
-    
-    void banPlayer(String id, String ip,String mask){
+
+    void banPlayer(String id, String mask, int reason) {
         try {
-            String cmd="";
-            if (conf.getSystem().equals("lin")) {
-                cmd = "/sbin/iptables -I INPUT -s " + ip + mask + " -j DROP";
-            } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + ip + mask;
-            }
+            String cmd = "";
             Player p = getPlayer(id);
-            Cmd.message(ip + mask + " was banned");
+            if (conf.getSystem().equals("lin")) {
+                cmd = "/sbin/iptables -I INPUT -s " + p.getIp() + mask + " -j DROP";
+            } else if (conf.getSystem().equals("win")) {
+                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + p.getIp() + mask;
+            }
+            switch (reason) {
+                case 1:
+                    Cmd.message(p.getIp() + mask + " was banned for crash");
+                    gui.dodajLog(p.getIp() + mask + " was banned for crash", gui.pink);
+                    break;
+                case 2:
+                    Cmd.message(p.getIp() + mask + " was banned");
+                    gui.dodajLog(p.getIp() + mask + " was banned (REMOTELY)", gui.pink);
+                    break;
+            }
             Runtime.getRuntime().exec(cmd);
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
-            gui.dodajLog(ip + mask + " was banned (REMOTELY)", gui.pink);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
+            switch (reason) {
+                case 1:
+                    cmd += "      #For Crash";
+                    break;
+                case 2:
+                    cmd += "      #Remotely";
+                    break;
+            }
             bany.println(cmd);
             bany.close();
-            
-            p.setIp(ip + mask);
+
+            p.setIp(p.getIp() + mask);
             srv.addBanPlayers(p);
         } catch (IOException ex) {
             Loggs.loguj("Server-banPlayer", ex);
