@@ -108,6 +108,7 @@ public class Gui extends javax.swing.JFrame {
         longChat = new javax.swing.JButton();
         longLog = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
@@ -465,7 +466,6 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         consTab.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        consTab.setColumnSelectionAllowed(false);
         consTab.setFocusable(false);
         consTab.setMaximumSize(new java.awt.Dimension(400, 150));
         consTab.setMinimumSize(new java.awt.Dimension(400, 100));
@@ -613,6 +613,11 @@ public class Gui extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         Censors.setText("Censors");
+        Censors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CensorsActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -881,6 +886,18 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         jPanel2.add(jSeparator1, gridBagConstraints);
 
+        jButton1.setText("Changes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel2.add(jButton1, gridBagConstraints);
+
         jTabbedPane2.addTab("Settings", jPanel2);
 
         jLabel4.setText("By Mario PL 2016");
@@ -997,7 +1014,8 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setWelcome1(welcomePlayers.getText());
         Main.conf.setWelcome2(welcome2.getText());
         Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
-        Main.conf.setWelcomeCheck(WelcomeCheck.isEnabled());
+        Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
+        Main.conf.setCensors(Censors.isSelected());
         Main.conf.setClassFile(Main.conf);
     }//GEN-LAST:event_formWindowClosing
 
@@ -1009,8 +1027,10 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setWelcome1(welcomePlayers.getText());
         Main.conf.setWelcome2(welcome2.getText());
         Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
-        Main.conf.setWelcomeCheck(WelcomeCheck.isEnabled());
+        Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
+        Main.conf.setCensors(Censors.isSelected());
         Main.conf.setClassFile(Main.conf);
+        
     }//GEN-LAST:event_saveSettingsActionPerformed
 
     private void welcomePlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_welcomePlayersActionPerformed
@@ -1030,6 +1050,14 @@ public class Gui extends javax.swing.JFrame {
     private void defMaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defMaskActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_defMaskActionPerformed
+
+    private void CensorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CensorsActionPerformed
+        
+    }//GEN-LAST:event_CensorsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Changes changes = new Changes();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
@@ -1109,7 +1137,8 @@ public class Gui extends javax.swing.JFrame {
         welcomePlayers.setText(Main.conf.getWelcome1());
         welcome2.setText(Main.conf.getWelcome2());
         welcomeCombo.setSelectedIndex(Main.conf.getWelcomeCombo());
-        WelcomeCheck.setEnabled(Main.conf.isWelcomeCheck());
+        WelcomeCheck.setSelected(Main.conf.isWelcomeCheck());
+        Censors.setSelected(Main.conf.isCensors());
         igiTab.setComponentPopupMenu(popupMenu);
         igiTab.addMouseListener(new TableMouseListener(igiTab));
         consTab.setComponentPopupMenu(popupMenu);
@@ -1199,6 +1228,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JComboBox defMask;
     private javax.swing.JCheckBox dispAddAdmin;
     private javax.swing.JTable igiTab;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

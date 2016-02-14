@@ -32,7 +32,6 @@ public class Main extends Thread {
     static boolean stopSnifferLoop = false;
     static boolean stopCrashBarLoop = false;
     static String path;
-    static String version = "1.4.2";
     StartSniffer sniffer;
 
     public Main() {
@@ -97,5 +96,13 @@ public class Main extends Thread {
         }
 
     }
+    
+    static String version = "1.4.3";
+    static String changes = ""
+                + "v1.4.3\n"
+                + "     - censors on/off\n"
+                + "     - welcome players on/off\n"
+                + "     - list of changes\n"
+                + "";
 
 }

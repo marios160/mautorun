@@ -34,6 +34,7 @@ public class Configuration implements Serializable{
     private String welcome1;
     private int welcomeCombo;
     private String welcome2;
+    private boolean censors;
     
     
 
@@ -58,6 +59,7 @@ public class Configuration implements Serializable{
         this.welcome2 = c.welcome2;
         this.welcomeCombo = c.welcomeCombo;
         this.welcomeCheck = c.welcomeCheck;
+        this.censors = c.censors;
     }
     
     public Configuration(int x){
@@ -80,6 +82,7 @@ public class Configuration implements Serializable{
         this.welcome2 = "on IGI2 Server!";
         this.welcomeCombo = 1;
         this.welcomeCheck = true;
+        this.censors = true;
     }
     
     public Configuration getConfFile()
@@ -247,6 +250,14 @@ public class Configuration implements Serializable{
 
     public void setCrash(boolean crash) {
         this.crash = crash;
+    }
+
+    public boolean isCensors() {
+        return censors;
+    }
+
+    public void setCensors(boolean censors) {
+        this.censors = censors;
     }
     
     

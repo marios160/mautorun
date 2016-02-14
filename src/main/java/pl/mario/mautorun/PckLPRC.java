@@ -23,7 +23,8 @@ public class PckLPRC extends Packet {
                 Main.gui.dodajChat(" [" + id + "](" + packet.getIpS() + ") " + nick + " has joined", Main.gui.green);
                 Main.srv.addBaseIP(packet.getIpS(), nick);
                 Thread.sleep(5000);
-                Main.srv.welcomePlayer(player);
+                if(Main.conf.isWelcomeCheck())
+                    Main.srv.welcomePlayer(player);
             } catch (InterruptedException ex) {
                 Loggs.loguj("Packet-LPRC", ex);
             }

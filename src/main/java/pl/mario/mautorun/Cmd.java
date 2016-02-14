@@ -136,6 +136,9 @@ public class Cmd extends Thread {
                 Scanner censors = new Scanner(words);
                 while (censors.hasNextLine()) {
                     if (linia.toLowerCase().indexOf(censors.nextLine()) > -1) {
+                        if (!Main.conf.isCensors()) {
+                            return;
+                        }
                         if (srv.getPlayer(pid).addWarrnings()) {
                             Cmd.message("[" + pid + "] was kicked for warnings");
                             gui.dodajLog("[" + pid + "] " + srv.getPlayer(pid).getNick() + " was kicked for warnings", gui.red);
@@ -164,8 +167,8 @@ public class Cmd extends Thread {
         Player p;
 
         // /ban 3/24 t3
-        int maxMask = Integer.parseInt(gui.getMaxMask().getSelectedItem().toString().substring(1))+1;
-        int defMask = Integer.parseInt(gui.getDefMask().getSelectedItem().toString().substring(1))+1;
+        int maxMask = Integer.parseInt(gui.getMaxMask().getSelectedItem().toString().substring(1)) + 1;
+        int defMask = Integer.parseInt(gui.getDefMask().getSelectedItem().toString().substring(1)) + 1;
         mask = Integer.toString(defMask);
 
         if (!admin(1)) {
@@ -394,10 +397,8 @@ public class Cmd extends Thread {
         gui.dodajLog("[" + ids + "] " + srv.getPlayer(ids).getNick() + " was kicked by " + srv.getPlayer(pid).getNick(), gui.mag);
         srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
         srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
-        announce("["+ids+"]" + " was kicked");
+        announce("[" + ids + "]" + " was kicked");
     }
-    
-    
 
     void kickall(int a) {
         if (!admin(2)) {

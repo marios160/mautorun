@@ -133,6 +133,7 @@ public class Player {
     }
     
     public boolean addWarrnings() {
+        
         this.warrnings++;
         if((int)Main.gui.getWarnings().getValue() > this.warrnings)
             return false;
