@@ -97,17 +97,19 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.4";
+    static String version = "1.4.6";
     static String changes = ""
+            + "v1.4.6\n"
+            + "     - /ban id fixed\n"
             + "v1.4.5\n"
             + "     - display add admin on/off\n"
             + "     - admin panel on/off\n"
-            + "     - sk/tk control on/off"
+            + "     - sk/tk control on/off\n"
             + "     - items control on/off (only checkbox, function does not work)\n"
             + "     - "
             + "v1.4.4\n"
             + "     - ban fs chat crash\n"
-            + "     - reason of ban"
+            + "     - reason of ban\n"
             + "v1.4.3\n"
             + "     - censors on/off\n"
             + "     - welcome players on/off\n"
