@@ -1,13 +1,9 @@
-
 package pl.mario.mautorun;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapAddr;
@@ -19,8 +15,8 @@ import static pl.mario.mautorun.Sniffer.list;
  *
  * @author Mateusz
  */
-public class StartSniffer extends Thread{
-    
+public class StartSniffer extends Thread {
+
     Queue<PcapPacket> lped = new LinkedList<>();
     Queue<PcapPacket> lprc = new LinkedList<>();
     Queue<PcapPacket> llik = new LinkedList<>();
@@ -28,31 +24,33 @@ public class StartSniffer extends Thread{
     Queue<PcapPacket> ttes = new LinkedList<>();
     Queue<PcapPacket> htua = new LinkedList<>();
     Queue<PcapPacket> tsil = new LinkedList<>();
-    
-    public void run(){
-        List<PcapIf> alldevs = new ArrayList<PcapIf>(); 
-        StringBuilder errbuf = new StringBuilder();  
-        int r = Pcap.findAllDevs(alldevs, errbuf);  
-        if (r == Pcap.NOT_OK || alldevs.isEmpty()) {  
-            JOptionPane.showMessageDialog(null,"Can't read list of devices, error is "+errbuf  
-                .toString());  
-            return;  
+    Queue<PcapPacket> pord = new LinkedList<>();
+    Queue<PcapPacket> kcip = new LinkedList<>();
+
+    public void run() {
+        List<PcapIf> alldevs = new ArrayList<PcapIf>();
+        StringBuilder errbuf = new StringBuilder();
+        int r = Pcap.findAllDevs(alldevs, errbuf);
+        if (r == Pcap.NOT_OK || alldevs.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Can't read list of devices, error is " + errbuf
+                    .toString());
+            return;
         }
-        
-        
+
         String addr = "";
         list = new ArrayList<>();
         for (PcapIf alldev : alldevs) {
             for (PcapAddr adr : alldev.getAddresses()) {
-                if (adr.getAddr() != null)
+                if (adr.getAddr() != null) {
                     addr = adr.getAddr().toString();
+                }
                 if (addr.indexOf("[INET4:0.0.0.0]") < 0 && addr.indexOf("[INET4:") > -1) {
                     Sniffer s = new Sniffer(alldev, addr, this);
                     list.add(s);
                     s.start();
                 }
             }
-        } 
+        }
         PckHTUA pckHTUA = new PckHTUA(htua);
         pckHTUA.start();
         PckLLIK pckLLIK = new PckLLIK(llik);
@@ -67,13 +65,16 @@ public class StartSniffer extends Thread{
         pckTSIL.start();
         PckTTES pckTTES = new PckTTES(ttes);
         pckTTES.start();
+        PckPORD pckPORD = new PckPORD(pord);
+        pckPORD.start();
+        PckKCIP pckKCIP = new PckKCIP(kcip);
+        pckKCIP.start();
     }
-    
-     public void closeSniffers(){
+
+    public void closeSniffers() {
         for (Sniffer snifer : list) {
             snifer.interrupt = true;
         }
     }
 
-    
 }

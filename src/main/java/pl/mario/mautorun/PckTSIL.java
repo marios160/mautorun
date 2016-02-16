@@ -24,13 +24,17 @@ public class PckTSIL extends Packet {
                 if (srv.getPlayer(id).getAccess() < 2) {
                     srv.getPlayer(id).setAccess(2);
                     gui.dodajLog("Added admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
-                    Cmd.message("Added Admin " + nick);
+                    if (conf.isDispAddAdmin()) {
+                        Cmd.message("Added Admin " + nick);
+                    }
                 }
             } else if (rcon.equals(srv.getJuniorRcon())) {
                 if (srv.getPlayer(id).getAccess() < 1) {
                     srv.getPlayer(id).setAccess(1);
                     gui.dodajLog("Added Junior admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
-                    Cmd.message("Added Junior Admin " + nick);
+                    if (conf.isDispAddAdmin()) {
+                        Cmd.message("Added Junior Admin " + nick);
+                    }
                 }
             }
         }

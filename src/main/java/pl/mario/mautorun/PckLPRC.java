@@ -15,6 +15,7 @@ public class PckLPRC extends Packet {
             return;
         }
         String nick = packet.getData().substring(172, packet.getData().indexOf(0, 172));
+
         if (Main.srv.getPlayer(packet.getByteData()[36]) == null) {
             try {
                 Player player = new Player(id, packet.getIpS(), nick, packet.getPort());

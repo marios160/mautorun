@@ -11,18 +11,8 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -44,6 +34,7 @@ public class Server extends Thread {
     private int maxplayers;
     private int uptime;
     private String timeleft;
+    private int objtime;
     private boolean password;
     private int scoreIGI;
     private int scoreCons;
@@ -54,6 +45,8 @@ public class Server extends Thread {
     private String[] listMaps;
     private String[] listIdMaps;
     Player nullPlayer;
+    private int items;
+    private int itemstime;
 
     public Server() {
 
@@ -70,12 +63,15 @@ public class Server extends Thread {
         this.password = false;
         this.scoreIGI = 0;
         this.scoreCons = 0;
+
         players = new Player[35];
         oldPlayers = new Player[5];
         banPlayers = new Player[3];
         this.numPl = 0;
         this.numBan = 0;
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
+        itemstime = 1;
+        this.objtime = 0;
     }
 
     public Server(Server serv) {
@@ -101,6 +97,8 @@ public class Server extends Thread {
         this.numPl = 0;
         this.numBan = 0;
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
+        this.itemstime = 1;
+        this.objtime = 0;
     }
 
     public void run() {
@@ -146,9 +144,14 @@ public class Server extends Thread {
             gui.setCrashbar(0);
             gui.setAlwaysOnTop(true);
             gui.setAlwaysOnTop(false);
+            String pom = null;
+            while (pom == null) pom = sendPck("/sv " + ServerCommands.objtime);
+            this.objtime = Integer.parseInt(pom.substring(10));
+
             do {
                 try {
                     updateInfo();
+
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Loggs.loguj("Server-Run", ex);
@@ -194,7 +197,7 @@ public class Server extends Thread {
                 try {
                     status = sendStatus();
                 } catch (IOException ex) {
-                    Loggs.loguj("Server-UpdateInfo2", ex);
+                    //Loggs.loguj("Server-UpdateInfo2", ex);
                 }
                 i++;
             }
@@ -226,6 +229,7 @@ public class Server extends Thread {
                 gui.getUptimeVal().setText(pom);
                 pom = status.substring(status.indexOf("timeleft\\") + 9, status.indexOf("\\mapstat"));
                 timeleft = pom;
+                setItems(mapname, timeleft);
                 gui.getTime_button().setText(pom);
                 pom = status.substring(status.indexOf("password\\") + 9, status.indexOf("\\team_t0"));
                 password = Boolean.valueOf(pom);
@@ -243,6 +247,7 @@ public class Server extends Thread {
                 scoreCons = Integer.parseInt(pom);
                 gui.getVisitVal().setText(conf.getVisitors() + "");
                 gui.getCrashVal().setText(conf.getCrashes() + "");
+                gui.getRemainingItems().setText(this.items + "");
 
                 //updatePlayers(status);
                 updatePings(status);
@@ -254,6 +259,44 @@ public class Server extends Thread {
 
         } catch (Exception ex) {
             Loggs.loguj("Server-updateInfo", ex);
+        }
+    }
+
+    void setItems(String mapname, String timeleft) {
+        int time, sec;
+        if (timeleft.contains("LOADING")) {
+            time = 14;
+            sec = 1;
+        } else if (timeleft.contains("MISSION")) {
+            time = 0;
+            sec = 0;
+        } else if (timeleft.contains("NO")) {
+            return;
+        } else {
+            time = Integer.parseInt(timeleft.substring(0, 2));
+            sec = Integer.parseInt(timeleft.substring(3, 5));
+        }
+        String pom = null;
+
+        if (time >= this.objtime - 1) {
+            if (itemstime > sec) {
+                itemstime = sec;
+                return;
+            }
+            itemstime = sec;
+            if (mapname.equals(Items.Sandstorm)) {
+                this.items = Items.sand;
+            } else if (mapname.equals(Items.Redstone)) {
+                this.items = Items.red;
+            } else if (mapname.equals(Items.Timberland)) {
+                this.items = Items.timb;
+            } else if (mapname.equals(Items.Forestraid)) {
+                this.items = Items.forest;
+            } else if (mapname.equals(Items.ChineseTemple)) {
+                this.items = Items.china;
+            } else if (mapname.equals(Items.AimMap)) {
+                this.items = Items.aim;
+            }
         }
     }
 
@@ -1000,6 +1043,47 @@ public class Server extends Thread {
 
     public void setNumBan(int numBan) {
         this.numBan = numBan;
+    }
+
+    public int getItems() {
+        return items;
+    }
+
+    public void setItems(int items) {
+        this.items = items;
+    }
+
+    public synchronized void addItems() {
+        if(!conf.isItems())
+            return;
+        this.items++;
+        gui.getRemainingItems().setText(this.items + "");
+    }
+
+    public synchronized void subItems() {
+        if(!conf.isItems())
+            return;
+        this.items--;
+        if (this.items == 30) {
+            Cmd.message("Remained 30 weapons to drop");
+            Cmd.message("Please pick up weapons from the ground!");
+            gui.dodajLog("Remained 30 weapons to drop", gui.cyan);
+        } else if (this.items == 20) {
+            Cmd.message("Remained 20 weapons to drop");
+            Cmd.message("Please pick up weapons from the ground!");
+            gui.dodajLog("Remained 20 weapons to drop", gui.cyan);
+        } else if (this.items == 10) {
+            Cmd.message("Remained 10 weapons to drop");
+            Cmd.message("Please pick up weapons from the ground!");
+            gui.dodajLog("Remained 10 weapons to drop", gui.cyan);
+        } else if (this.items == 2) {
+            Cmd.restart();
+            Cmd.message("Too many weapons on the ground!");
+            Cmd.message("Next time please pick up weapons");
+            gui.dodajLog("Too many weapons on the ground!", gui.red);
+        }
+        gui.getRemainingItems().setText(this.items + "");
+
     }
 
 }

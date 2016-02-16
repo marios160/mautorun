@@ -34,6 +34,8 @@ public class Sniffer extends Thread {
     private String LPED = "LPED"; //deactive player
     private String TTES = "TTES"; //set team and skin
     private String TSIL = "TSIL"; //commands
+    private String PORD = "PORD"; //commands
+    private String KCIP = "KCIP"; //commands
     private String NRTM = "NRTM"; //Mautorun commands
 
     public Sniffer(PcapIf device, String ip, StartSniffer sniff) {
@@ -112,6 +114,14 @@ public class Sniffer extends Thread {
                     } else if (data.contains(LLIK)) {
                         synchronized(sniff.llik){
                         sniff.llik.add(packet);}
+                    
+                    } else if (data.contains(PORD)) {
+                        synchronized(sniff.pord){
+                        sniff.pord.add(packet);}
+                    
+                    } else if (data.contains(KCIP)) {
+                        synchronized(sniff.kcip){
+                        sniff.kcip.add(packet);}
                     }
                 } else if (udp.destination() == (Main.srv.getPort())) {
 

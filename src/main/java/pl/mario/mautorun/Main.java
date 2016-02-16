@@ -33,6 +33,7 @@ public class Main extends Thread {
     static boolean stopCrashBarLoop = false;
     static String path;
     StartSniffer sniffer;
+    static long time;
 
     public Main() {
 
@@ -56,6 +57,17 @@ public class Main extends Thread {
 
         //sett.setVisible(false);
         gui = new Gui();
+        time = System.currentTimeMillis();
+        while (true) {
+            try {
+                conf.setMrunTime((System.currentTimeMillis() - time)/1000);
+                gui.getmRunTime().setText((conf.getMrunTime() / (60*60)) + "h " 
+                        + ((conf.getMrunTime()/60) % (60)) + "min "+ conf.getMrunTime()%60 +"sec");
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Loggs.loguj("Main-main", ex);
+            }
+        }
     }
 
     public void run() {
@@ -97,8 +109,11 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.6";
+    static String version = "1.4.7";
     static String changes = ""
+            + "v1.4.7\n"
+            + "     - Items control\n"
+            + "     - soft uptime\n"
             + "v1.4.6\n"
             + "     - /ban id fixed\n"
             + "v1.4.5\n"

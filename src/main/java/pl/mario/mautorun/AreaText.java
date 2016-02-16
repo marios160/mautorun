@@ -1,25 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pl.mario.mautorun;
 
-/**
- *
- * @author Mateusz
- */
-public class Changes extends javax.swing.JFrame {
+import javax.swing.JTextArea;
 
-    /**
-     * Creates new form Changes
-     */
-    public Changes() {
+
+public class AreaText extends javax.swing.JFrame {
+
+
+    public AreaText() {
         initComponents();
-        this.changes.setText(Main.changes);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                setVisible(true);
+             
             }
         });
     }
@@ -34,7 +26,6 @@ public class Changes extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Changes");
 
-        changes.setEditable(false);
         changes.setColumns(20);
         changes.setRows(5);
         jScrollPane1.setViewportView(changes);
@@ -64,4 +55,13 @@ public class Changes extends javax.swing.JFrame {
     private javax.swing.JTextArea changes;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    public JTextArea getChanges() {
+        return changes;
+    }
+
+    public void setChanges(JTextArea changes) {
+        this.changes = changes;
+    }
+
 }

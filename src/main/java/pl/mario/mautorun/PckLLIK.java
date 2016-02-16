@@ -26,6 +26,9 @@ public class PckLLIK extends Packet {
         } else if (spawn == 1 || srv.getPlayer(id1).getTeam() == srv.getPlayer(id2).getTeam()) {
             srv.getPlayer(id1).subFrags();
             srv.getPlayer(id2).addDeaths();
+            if (!Main.conf.isSktk() || srv.getPlayer(id1).getAccess() > 1) {
+                return;
+            }
             if (srv.getPlayer(id1).addWarrnings()) {
                 srv.sendPck("/sv " + ServerCommands.kick + " " + id1);
                 srv.sendPck("/sv " + ServerCommands.kick + " " + id1);

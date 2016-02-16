@@ -2,13 +2,18 @@ package pl.mario.mautorun;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -24,6 +29,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import static pl.mario.mautorun.Main.gui;
 
 /**
  *
@@ -83,12 +89,10 @@ public class Gui extends javax.swing.JFrame {
         commandButt = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         Censors = new javax.swing.JCheckBox();
-        readLog = new javax.swing.JCheckBox();
         adminPanel = new javax.swing.JCheckBox();
         controlItems = new javax.swing.JCheckBox();
         dispAddAdmin = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        statInLog = new javax.swing.JCheckBox();
         strefaCzasowa = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         WelcomeCheck = new javax.swing.JCheckBox();
@@ -108,9 +112,16 @@ public class Gui extends javax.swing.JFrame {
         longChat = new javax.swing.JButton();
         longLog = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        changes = new javax.swing.JButton();
+        sktk = new javax.swing.JCheckBox();
+        nicks = new javax.swing.JCheckBox();
+        denidedNicksList = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        softTime = new javax.swing.JLabel();
+        mRunTime = new javax.swing.JLabel();
+        remainItem = new javax.swing.JLabel();
+        remainingItems = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mautorun by Mario PL");
@@ -612,7 +623,7 @@ public class Gui extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(800, 630));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        Censors.setText("Censors");
+        Censors.setText("Censorship control");
         Censors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CensorsActionPerformed(evt);
@@ -620,39 +631,25 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(Censors, gridBagConstraints);
-
-        readLog.setText("Analyze log");
-        readLog.setToolTipText("analyze log");
-        readLog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                readLogActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
-        jPanel2.add(readLog, gridBagConstraints);
 
         adminPanel.setText("Admin panel");
         adminPanel.setToolTipText("Chat panel admins");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(adminPanel, gridBagConstraints);
 
-        controlItems.setText("Control items");
+        controlItems.setText("Items control");
         controlItems.setToolTipText("Control items ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(controlItems, gridBagConstraints);
@@ -661,7 +658,7 @@ public class Gui extends javax.swing.JFrame {
         dispAddAdmin.setToolTipText("Display adding admin");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(dispAddAdmin, gridBagConstraints);
@@ -674,15 +671,6 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(jLabel1, gridBagConstraints);
-
-        statInLog.setText("Stats from log");
-        statInLog.setToolTipText("Read statistic from log");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
-        jPanel2.add(statInLog, gridBagConstraints);
 
         strefaCzasowa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "GMT-11:00", "GMT-10:00", "GMT-9:00", "GMT-8:00", "GMT-7:00", "GMT-6:00", "GMT-5:00", "GMT-4:00", "GMT-3:00", "GMT-2:00", "GMT-1:00", "GMT0:00", "GMT+1:00", "GMT+2:00", "GMT+3:00", "GMT+4:00", "GMT+5:00", "GMT+6:00", "GMT+7:00", "GMT+8:00", "GMT+9:00", "GMT+10:00", "GMT+11:00", "GMT+12:00" }));
         strefaCzasowa.addActionListener(new java.awt.event.ActionListener() {
@@ -712,7 +700,6 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(WelcomeCheck, gridBagConstraints);
@@ -774,11 +761,8 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 38;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         jPanel2.add(nameexe, gridBagConstraints);
 
         warnings.setValue(2);
@@ -817,7 +801,7 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel2.add(welcomePlayers, gridBagConstraints);
 
@@ -844,7 +828,7 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(resetVisit, gridBagConstraints);
 
@@ -863,7 +847,7 @@ public class Gui extends javax.swing.JFrame {
         longChat.setText("Open long chat");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(longChat, gridBagConstraints);
 
@@ -886,23 +870,56 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         jPanel2.add(jSeparator1, gridBagConstraints);
 
-        jButton1.setText("Changes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        changes.setText("Changes");
+        changes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                changesActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel2.add(jButton1, gridBagConstraints);
+        jPanel2.add(changes, gridBagConstraints);
+
+        sktk.setText("SK/TK control");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel2.add(sktk, gridBagConstraints);
+
+        nicks.setText("Nicks control");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel2.add(nicks, gridBagConstraints);
+
+        denidedNicksList.setText("List of denided nicks");
+        denidedNicksList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                denidedNicksListActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 5;
+        jPanel2.add(denidedNicksList, gridBagConstraints);
 
         jTabbedPane2.addTab("Settings", jPanel2);
 
         jLabel4.setText("By Mario PL 2016");
 
         jLabel8.setText("version 1.0.0");
+
+        softTime.setText("Soft uptime:");
+
+        mRunTime.setText("0h 0min");
+
+        remainItem.setText("Remaining items:");
+
+        remainingItems.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -918,9 +935,17 @@ public class Gui extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(softTime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mRunTime, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(remainItem)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(remainingItems, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addGap(32, 32, 32))
+                .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -928,10 +953,15 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8)))
+                    .addComponent(softTime)
+                    .addComponent(mRunTime)
+                    .addComponent(remainItem)
+                    .addComponent(remainingItems))
+                .addContainerGap())
         );
 
         getAccessibleContext().setAccessibleDescription("Program to control dedicated server IGI2.");
@@ -1002,10 +1032,6 @@ public class Gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_announceFieldActionPerformed
 
-    private void readLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readLogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_readLogActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Main.conf.setDefMask(defMask.getSelectedIndex());
         Main.conf.setMaxMask(maxMask.getSelectedIndex());
@@ -1016,6 +1042,10 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
         Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
         Main.conf.setCensors(Censors.isSelected());
+        Main.conf.setAdminPanel(adminPanel.isSelected());
+        Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
+        Main.conf.setItems(controlItems.isSelected());
+        Main.conf.setSktk(sktk.isSelected());
         Main.conf.setClassFile(Main.conf);
     }//GEN-LAST:event_formWindowClosing
 
@@ -1029,6 +1059,10 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
         Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
         Main.conf.setCensors(Censors.isSelected());
+        Main.conf.setAdminPanel(adminPanel.isSelected());
+        Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
+        Main.conf.setItems(controlItems.isSelected());
+        Main.conf.setSktk(sktk.isSelected());
         Main.conf.setClassFile(Main.conf);
         
     }//GEN-LAST:event_saveSettingsActionPerformed
@@ -1055,9 +1089,33 @@ public class Gui extends javax.swing.JFrame {
         
     }//GEN-LAST:event_CensorsActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Changes changes = new Changes();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void changesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changesActionPerformed
+        AreaText changes = new AreaText();
+        changes.getChanges().setText(Main.changes);
+        changes.getChanges().setEditable(false);
+        changes.setVisible(true);
+    }//GEN-LAST:event_changesActionPerformed
+
+    private void denidedNicksListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_denidedNicksListActionPerformed
+        try {
+            AreaText changes = new AreaText();
+            File nicks = new File(Main.path + "nicks.txt");
+            if (!nicks.exists()) {
+                JOptionPane.showMessageDialog(gui, "File nicks.txt not found!");
+                return;
+            }
+            changes.getChanges().setText("");
+            Scanner scan = new Scanner(nicks);
+            while (scan.hasNextLine()) {
+                changes.getChanges().append(scan.nextLine()+"\n");
+            }
+            scan.close();
+            changes.getChanges().setVisible(true);
+        } catch (FileNotFoundException ex) {
+            Loggs.loguj("Gui-denidedNicksPerformed", ex);
+        }
+        
+    }//GEN-LAST:event_denidedNicksListActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
@@ -1139,6 +1197,10 @@ public class Gui extends javax.swing.JFrame {
         welcomeCombo.setSelectedIndex(Main.conf.getWelcomeCombo());
         WelcomeCheck.setSelected(Main.conf.isWelcomeCheck());
         Censors.setSelected(Main.conf.isCensors());
+        adminPanel.setSelected(Main.conf.isAdminPanel());
+        dispAddAdmin.setSelected(Main.conf.isDispAddAdmin());
+        sktk.setSelected(Main.conf.isSktk());
+        controlItems.setSelected(Main.conf.isItems());
         igiTab.setComponentPopupMenu(popupMenu);
         igiTab.addMouseListener(new TableMouseListener(igiTab));
         consTab.setComponentPopupMenu(popupMenu);
@@ -1214,6 +1276,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox adminPanel;
     private javax.swing.JButton announceButt;
     private javax.swing.JTextField announceField;
+    private javax.swing.JButton changes;
     private javax.swing.JTextPane chat;
     private javax.swing.JButton clearChat;
     private javax.swing.JButton clearLog;
@@ -1226,9 +1289,9 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JProgressBar crashbar;
     private javax.swing.JLabel current_players;
     private javax.swing.JComboBox defMask;
+    private javax.swing.JButton denidedNicksList;
     private javax.swing.JCheckBox dispAddAdmin;
     private javax.swing.JTable igiTab;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1248,6 +1311,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JTextPane logServer;
     private javax.swing.JButton longChat;
     private javax.swing.JButton longLog;
+    private javax.swing.JLabel mRunTime;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JComboBox map_button;
     private javax.swing.JComboBox maxMask;
@@ -1255,15 +1319,18 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel name_;
     private javax.swing.JLabel name_server;
     private javax.swing.JTextField nameexe;
+    private javax.swing.JCheckBox nicks;
     private javax.swing.JLabel passwdVal;
     private javax.swing.JLabel password;
     private javax.swing.JLabel players;
-    private javax.swing.JCheckBox readLog;
+    private javax.swing.JLabel remainItem;
+    private javax.swing.JLabel remainingItems;
     private javax.swing.JButton resetCrash;
     private javax.swing.JButton resetVisit;
     private javax.swing.JButton saveSettings;
+    private javax.swing.JCheckBox sktk;
+    private javax.swing.JLabel softTime;
     private javax.swing.JToggleButton startSrvTogg;
-    private javax.swing.JCheckBox statInLog;
     private javax.swing.JComboBox strefaCzasowa;
     private javax.swing.JLabel time;
     private javax.swing.JButton time_button;
@@ -1688,28 +1755,12 @@ public class Gui extends javax.swing.JFrame {
         this.players = players;
     }
 
-    public JCheckBox getReadLog() {
-        return readLog;
-    }
-
-    public void setReadLog(JCheckBox readLog) {
-        this.readLog = readLog;
-    }
-
     public JToggleButton getStartSrvTogg() {
         return startSrvTogg;
     }
 
     public void setStartSrvTogg(JToggleButton startSrvTogg) {
         this.startSrvTogg = startSrvTogg;
-    }
-
-    public JCheckBox getStatInLog() {
-        return statInLog;
-    }
-
-    public void setStatInLog(JCheckBox statInLog) {
-        this.statInLog = statInLog;
     }
 
     public JComboBox getStrefaCzasowa() {
@@ -1800,4 +1851,28 @@ public class Gui extends javax.swing.JFrame {
         this.jLabel8 = jLabel8;
     }
 
+    public JCheckBox getSktk() {
+        return sktk;
+    }
+
+    public void setSktk(JCheckBox sktk) {
+        this.sktk = sktk;
+    }
+
+    public JLabel getmRunTime() {
+        return mRunTime;
+    }
+
+    public void setmRunTime(JLabel mRunTime) {
+        this.mRunTime = mRunTime;
+    }
+
+    public JLabel getRemainingItems() {
+        return remainingItems;
+    }
+
+    public void setRemainingItems(JLabel remainingItems) {
+        this.remainingItems = remainingItems;
+    }
+    
 }

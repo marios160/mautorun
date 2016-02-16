@@ -38,95 +38,96 @@ public class Cmd extends Thread {
     public void run() {
 
         try {
-            if (linia.indexOf(": /ban ") > -1) {
-                ban();
-            } else if (linia.indexOf(": /tban ") > -1) {
-                tban();
-            } else if (linia.indexOf(": /leftlist") > -1) {
-                leftlist();
-            } else if (linia.indexOf(": /leftban ") > -1) {
-                leftban();
-            } else if (linia.indexOf(": /banlist") > -1) {
-                banlist();
-            } else if (linia.indexOf(": /unban ") > -1) {
-                unban();
-            } else if (linia.indexOf(": /kick ") > -1) {
-                kick();
-            } else if (linia.indexOf(": /kickall") > -1) {
-                kickall(1);
-            } else if (linia.indexOf(": /restart") > -1) {
-                restart(1);
-            } else if (linia.indexOf(": /aadmin ") > -1) {
-                aadmin();
-            } else if (linia.indexOf(": /ajadmin") > -1) {
-                ajadmin();
-            } else if (linia.indexOf(": /whois") > -1) {
-                whois();
-            } else if (linia.indexOf(": /time") > -1) {
-                time();
-            } else if (linia.indexOf(": /map ") > -1) {
-                map();
-            } else if (linia.indexOf(": /help") > -1) {
-                if (linia.length() < linia.indexOf(": /help") + 8) {
-                    help();
-                } else if (linia.indexOf(": /help ban") > -1) {
-                    announce("/ban <ID>[/mask] t[tm] - ban ID");
-                    announce("mask is range of ban e.g /ban 1/24");
-                    announce("tm is time(min) ban e.q /ban 1/24 t30");
-                    announce("mask and tm is not necessary");
-                    announce("e.g /ban 1 or /ban 1/24 or /ban 1 t30");
-                } else if (linia.indexOf(": /help tban") > -1) {
-                    announce("/tban <ID>[/mask] <tm> - time ban ID");
-                    announce("mask is range of ban, tm is time ban");
-                    announce("default tm value is minutes");
-                    announce("tm can be: h - hours, d - days");
-                    announce("w - weeks, m - months, y - years");
-                    Thread.sleep(5000);
-                    announce("e.g /tban 1/24 2h - ban for 2 hours");
-                    announce("/tban 1 30 - ban for 30 minutes");
-                    announce("/tban 1 3m - ban for 3 months");
-                    announce("mask is not necessary");
-                } else if (linia.indexOf(": /help leftban") > -1) {
-                    announce("/leftban <ID>[/mask] t[tm] - ban ID");
-                    announce("from leftlist");
-                    announce("mask is range of ban e.g /ban 1/24");
-                    announce("tm is time(min) ban e.q /ban 1/24 t30");
-                    announce("mask and tm is not necessary");
-                    announce("e.g /ban 1 or /ban 1/24 or /ban 1 t30");
-                } else if (linia.indexOf(": /help leftlist") > -1) {
-                    announce("/leftlist - show list players who ");
-                    announce("left from server");
-                    announce("use /leftban to ban player from list");
-                } else if (linia.indexOf(": /help banlist") > -1) {
-                    announce("/banlist - show 3 last banned players");
-                    announce("use /unban to unban player from list");
-                } else if (linia.indexOf(": /help unban") > -1) {
-                    announce("/unban <ID> - unban player from banlist");
-                    announce("e.g /unban 1");
-                } else if (linia.indexOf(": /help kick") > -1) {
-                    announce("/kick <ID> - kick player with ID");
-                    announce("e.g /kick 1");
-                } else if (linia.indexOf(": /help kickall") > -1) {
-                    announce("/kickall - kick all players on server");
-                } else if (linia.indexOf(": /help restart") > -1) {
-                    announce("/restart - restartmap");
-                } else if (linia.indexOf(": /help aadmin") > -1) {
-                    announce("/aadmin <ID> - add admin");
-                    announce("e.g aadmin 1");
-                } else if (linia.indexOf(": /help ajadmin") > -1) {
-                    announce("/ajadmin <ID> - add junior admin");
-                    announce("e.g ajadmin 1");
-                } else if (linia.indexOf(": /help whois") > -1) {
-                    announce("/whois <ID> - show nicks linked with ID");
-                    announce("e.g /whois 1");
-                } else if (linia.indexOf(": /help time") > -1) {
-                    announce("/time - show current time");
-                } else if (linia.indexOf(": /help map") > -1) {
-                    announce("/map <ID> - change map");
-                    announce("to show ID maps enter to console: ");
-                    announce("sv listmaps");
+            if (conf.isAdminPanel() && this.player.getAccess() > 0) {
+                if (linia.indexOf(": /ban ") > -1) {
+                    ban();
+                } else if (linia.indexOf(": /tban ") > -1) {
+                    tban();
+                } else if (linia.indexOf(": /leftlist") > -1) {
+                    leftlist();
+                } else if (linia.indexOf(": /leftban ") > -1) {
+                    leftban();
+                } else if (linia.indexOf(": /banlist") > -1) {
+                    banlist();
+                } else if (linia.indexOf(": /unban ") > -1) {
+                    unban();
+                } else if (linia.indexOf(": /kick ") > -1) {
+                    kick();
+                } else if (linia.indexOf(": /kickall") > -1) {
+                    kickall(1);
+                } else if (linia.indexOf(": /restart") > -1) {
+                    restart(1);
+                } else if (linia.indexOf(": /aadmin ") > -1) {
+                    aadmin();
+                } else if (linia.indexOf(": /ajadmin") > -1) {
+                    ajadmin();
+                } else if (linia.indexOf(": /whois") > -1) {
+                    whois();
+                } else if (linia.indexOf(": /time") > -1) {
+                    time();
+                } else if (linia.indexOf(": /map ") > -1) {
+                    map();
+                } else if (linia.indexOf(": /help") > -1) {
+                    if (linia.length() < linia.indexOf(": /help") + 8) {
+                        help();
+                    } else if (linia.indexOf(": /help ban") > -1) {
+                        announce("/ban <ID>[/mask] t[tm] - ban ID");
+                        announce("mask is range of ban e.g /ban 1/24");
+                        announce("tm is time(min) ban e.q /ban 1/24 t30");
+                        announce("mask and tm is not necessary");
+                        announce("e.g /ban 1 or /ban 1/24 or /ban 1 t30");
+                    } else if (linia.indexOf(": /help tban") > -1) {
+                        announce("/tban <ID>[/mask] <tm> - time ban ID");
+                        announce("mask is range of ban, tm is time ban");
+                        announce("default tm value is minutes");
+                        announce("tm can be: h - hours, d - days");
+                        announce("w - weeks, m - months, y - years");
+                        Thread.sleep(5000);
+                        announce("e.g /tban 1/24 2h - ban for 2 hours");
+                        announce("/tban 1 30 - ban for 30 minutes");
+                        announce("/tban 1 3m - ban for 3 months");
+                        announce("mask is not necessary");
+                    } else if (linia.indexOf(": /help leftban") > -1) {
+                        announce("/leftban <ID>[/mask] t[tm] - ban ID");
+                        announce("from leftlist");
+                        announce("mask is range of ban e.g /ban 1/24");
+                        announce("tm is time(min) ban e.q /ban 1/24 t30");
+                        announce("mask and tm is not necessary");
+                        announce("e.g /ban 1 or /ban 1/24 or /ban 1 t30");
+                    } else if (linia.indexOf(": /help leftlist") > -1) {
+                        announce("/leftlist - show list players who ");
+                        announce("left from server");
+                        announce("use /leftban to ban player from list");
+                    } else if (linia.indexOf(": /help banlist") > -1) {
+                        announce("/banlist - show 3 last banned players");
+                        announce("use /unban to unban player from list");
+                    } else if (linia.indexOf(": /help unban") > -1) {
+                        announce("/unban <ID> - unban player from banlist");
+                        announce("e.g /unban 1");
+                    } else if (linia.indexOf(": /help kick") > -1) {
+                        announce("/kick <ID> - kick player with ID");
+                        announce("e.g /kick 1");
+                    } else if (linia.indexOf(": /help kickall") > -1) {
+                        announce("/kickall - kick all players on server");
+                    } else if (linia.indexOf(": /help restart") > -1) {
+                        announce("/restart - restartmap");
+                    } else if (linia.indexOf(": /help aadmin") > -1) {
+                        announce("/aadmin <ID> - add admin");
+                        announce("e.g aadmin 1");
+                    } else if (linia.indexOf(": /help ajadmin") > -1) {
+                        announce("/ajadmin <ID> - add junior admin");
+                        announce("e.g ajadmin 1");
+                    } else if (linia.indexOf(": /help whois") > -1) {
+                        announce("/whois <ID> - show nicks linked with ID");
+                        announce("e.g /whois 1");
+                    } else if (linia.indexOf(": /help time") > -1) {
+                        announce("/time - show current time");
+                    } else if (linia.indexOf(": /help map") > -1) {
+                        announce("/map <ID> - change map");
+                        announce("to show ID maps enter to console: ");
+                        announce("sv listmaps");
+                    }
                 }
-
             } else {
                 File words = new File(Main.path + "words.txt");
                 if (!words.exists()) {
@@ -136,7 +137,7 @@ public class Cmd extends Thread {
                 Scanner censors = new Scanner(words);
                 while (censors.hasNextLine()) {
                     if (linia.toLowerCase().indexOf(censors.nextLine()) > -1) {
-                        if (!Main.conf.isCensors()) {
+                        if (!Main.conf.isCensors() || srv.getPlayer(pid).getAccess() > 1) {
                             return;
                         }
                         if (srv.getPlayer(pid).addWarrnings()) {
@@ -167,8 +168,8 @@ public class Cmd extends Thread {
         Player p;
 
         // /ban 3/24 t3
-        int maxMask = Integer.parseInt(gui.getMaxMask().getSelectedItem().toString().substring(1)) + 1;
-        int defMask = Integer.parseInt(gui.getDefMask().getSelectedItem().toString().substring(1)) + 1;
+        int maxMask = Integer.parseInt(gui.getMaxMask().getSelectedItem().toString().substring(1));
+        int defMask = Integer.parseInt(gui.getDefMask().getSelectedItem().toString().substring(1));
         mask = Integer.toString(defMask);
 
         if (!admin(1)) {
@@ -202,7 +203,8 @@ public class Cmd extends Thread {
             announce("ID " + id + " not exist!");
             return;
         }
-        if (Integer.parseInt(mask.substring(1)) < maxMask || Integer.parseInt(mask.substring(1)) > 30) {
+        System.out.println(mask);
+        if (Integer.parseInt(mask) < maxMask || Integer.parseInt(mask) > 30) {
             announce("Mask must be between " + maxMask + " and 30");
             return;
         }
@@ -218,13 +220,13 @@ public class Cmd extends Thread {
 
         try {
             if (conf.getSystem().equals("lin")) {
-                cmd = "/sbin/iptables -I INPUT -s " + ip + mask + " -j DROP";
+                cmd = "/sbin/iptables -I INPUT -s " + ip +"/"+ mask + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + ip + mask;
+                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + ip +"/"+ mask;
             }
-            announce(ip + mask + " was banned" + czas);
+            announce(ip +"/"+ mask + " was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog(ip + mask + " was banned" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(ip +"/"+ mask + " was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -456,9 +458,11 @@ public class Cmd extends Thread {
             }
             srv.getPlayer(Integer.parseInt(id)).setAccess(2);
             gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " (" + nick + ")\n", gui.mag);
-            announce("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            if (conf.isDispAddAdmin()) {
+                announce("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            }
         } catch (BadLocationException ex) {
-            Loggs.loguj("Cmd-kick", ex);
+            Loggs.loguj("Cmd-aadmin", ex);
         }
 
     }
@@ -480,9 +484,11 @@ public class Cmd extends Thread {
             }
             srv.getPlayer(Integer.parseInt(id)).setAccess(1);
             gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " (" + nick + ")\n", gui.mag);
-            announce("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            if (conf.isDispAddAdmin()) {
+                announce("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            }
         } catch (BadLocationException ex) {
-            Loggs.loguj("Cmd-kick", ex);
+            Loggs.loguj("Cmd-ajadmin", ex);
         }
     }
 

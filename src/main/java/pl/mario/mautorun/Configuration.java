@@ -23,7 +23,7 @@ public class Configuration implements Serializable{
     private  SimpleDateFormat time;
     private  String exe;
     private int visitors;
-    private int mrunTime;
+    private long mrunTime;
     private int crashes;
     private boolean crash;
     
@@ -165,6 +165,7 @@ public class Configuration implements Serializable{
         return warnings;
     }
 
+
     public void setWarnings(int warnings) {
         this.warnings = warnings;
     }
@@ -184,8 +185,6 @@ public class Configuration implements Serializable{
     public void setMaxMask(int maxMask) {
         this.maxMask = maxMask;
     }
-
- 
 
     public String getJuniorRcon() {
         return juniorRcon;
@@ -240,11 +239,11 @@ public class Configuration implements Serializable{
         this.visitors = visitors;
     }
 
-    public int getMrunTime() {
+    public long getMrunTime() {
         return mrunTime;
     }
 
-    public void setMrunTime(int mrunTime) {
+    public void setMrunTime(long mrunTime) {
         this.mrunTime = mrunTime;
     }
 
