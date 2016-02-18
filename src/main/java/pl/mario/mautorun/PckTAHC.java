@@ -2,7 +2,6 @@ package pl.mario.mautorun;
 
 import java.util.Queue;
 import org.jnetpcap.packet.PcapPacket;
-import org.jnetpcap.packet.format.FormatUtils;
 import static pl.mario.mautorun.Main.*;
 
 public class PckTAHC extends Packet {

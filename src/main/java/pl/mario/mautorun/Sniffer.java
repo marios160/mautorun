@@ -36,6 +36,7 @@ public class Sniffer extends Thread {
     private String TSIL = "TSIL"; //commands
     private String PORD = "PORD"; //commands
     private String KCIP = "KCIP"; //commands
+    private String ITCA = "ITCA"; //commands
     private String NRTM = "NRTM"; //Mautorun commands
 
     public Sniffer(PcapIf device, String ip, StartSniffer sniff) {
@@ -140,6 +141,9 @@ public class Sniffer extends Thread {
                     } else if (data.contains(HTUA)) {
                         synchronized(sniff.htua){
                         sniff.htua.add(packet);}
+                    } else if (data.contains(ITCA)) {
+                        synchronized(sniff.itca){
+                        sniff.itca.add(packet);}
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
                         System.out.println(cmd);

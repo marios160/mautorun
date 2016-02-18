@@ -109,8 +109,10 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.7";
+    static String version = "1.4.8";
     static String changes = ""
+            + "v1.4.8\n"
+            + "     - Ban for MapMod Crash"
             + "v1.4.7\n"
             + "     - Items control\n"
             + "     - soft uptime\n"

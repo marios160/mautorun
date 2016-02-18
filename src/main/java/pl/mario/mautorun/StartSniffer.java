@@ -26,6 +26,7 @@ public class StartSniffer extends Thread {
     Queue<PcapPacket> tsil = new LinkedList<>();
     Queue<PcapPacket> pord = new LinkedList<>();
     Queue<PcapPacket> kcip = new LinkedList<>();
+    Queue<PcapPacket> itca = new LinkedList<>();
 
     public void run() {
         List<PcapIf> alldevs = new ArrayList<PcapIf>();
@@ -69,6 +70,8 @@ public class StartSniffer extends Thread {
         pckPORD.start();
         PckKCIP pckKCIP = new PckKCIP(kcip);
         pckKCIP.start();
+        PckITCA pckITCA = new PckITCA(itca);
+        pckITCA.start();
     }
 
     public void closeSniffers() {

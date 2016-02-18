@@ -817,7 +817,7 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel2.add(welcome2, gridBagConstraints);
 
         resetVisit.setText("Reset visit");
@@ -938,7 +938,7 @@ public class Gui extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(softTime)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mRunTime, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mRunTime, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(remainItem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

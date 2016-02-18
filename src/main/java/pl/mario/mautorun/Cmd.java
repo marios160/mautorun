@@ -446,7 +446,6 @@ public class Cmd extends Thread {
             if (!admin(2)) {
                 return;
             }
-            String nick = linia.substring(11, linia.indexOf(": /"));
             String id = linia.substring(linia.indexOf("/aadmin") + 8);
             if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
                 announce("ID " + id + " not exist!");
@@ -457,7 +456,7 @@ public class Cmd extends Thread {
                 return;
             }
             srv.getPlayer(Integer.parseInt(id)).setAccess(2);
-            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " (" + nick + ")\n", gui.mag);
+            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " by " + pnick + "\n", gui.mag);
             if (conf.isDispAddAdmin()) {
                 announce("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
             }
@@ -472,7 +471,6 @@ public class Cmd extends Thread {
             if (!admin(2)) {
                 return;
             }
-            String nick = linia.substring(11, linia.indexOf(": /"));
             String id = linia.substring(linia.indexOf("/ajadmin") + 9);
             if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
                 announce("ID " + id + " not exist!");
@@ -483,7 +481,7 @@ public class Cmd extends Thread {
                 return;
             }
             srv.getPlayer(Integer.parseInt(id)).setAccess(1);
-            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " (" + nick + ")\n", gui.mag);
+            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " by " + pnick + "\n", gui.mag);
             if (conf.isDispAddAdmin()) {
                 announce("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
             }
@@ -507,11 +505,17 @@ public class Cmd extends Thread {
     }
 
     void map() {
-        if (!admin(2)) {
-            return;
+        try {
+            if (!admin(2)) {
+                return;
+            }
+            String id = linia.substring(linia.indexOf("/map") + 5);
+            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Changed map to id " + id + " by " + pnick + "\n", gui.mag);
+            
+            srv.sendPck("/sv gotomap " + id);
+        } catch (BadLocationException ex) {
+            Loggs.loguj("Cmd-map", ex);
         }
-        String id = linia.substring(linia.indexOf("/map") + 5);
-        srv.sendPck("/sv gotomap " + id);
 
     }
 
