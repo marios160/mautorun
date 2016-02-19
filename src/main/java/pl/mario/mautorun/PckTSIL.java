@@ -36,6 +36,21 @@ public class PckTSIL extends Packet {
                         Cmd.message("Added Junior Admin " + nick);
                     }
                 }
+            } else {
+                gui.dodajLog("Incorrect rcon: " + "[" + id + "] " + nick + " (" + ips + ")", gui.pink);
+            }
+        } else {
+            for (String cmd : ServerCommands.commands) {
+
+                if ((poz = data.indexOf(cmd)) > -1) {
+                    String id = Integer.toString(byteData[36]);
+                    String pck = packet.getData();
+                    String ips = srv.getPlayer(id).getIp();
+                    String nick = srv.getPlayer(id).getNick();
+                    String cmds = pck.substring(poz,pck.indexOf(0,poz));
+                    gui.dodajLog("[" + id + "] " + nick + " used command: "+cmds, gui.blue);
+                    return;
+                }
             }
         }
     }

@@ -9,8 +9,6 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import static pl.mario.mautorun.Main.*;
@@ -30,6 +28,7 @@ public class Cmd extends Thread {
     public Cmd(int id, String linia) {
         this.linia = linia;
         this.pid = id;
+
         this.player = srv.getPlayer(id);
         this.pnick = player.getNick();
         this.pip = player.getIp();
@@ -222,11 +221,11 @@ public class Cmd extends Thread {
             if (conf.getSystem().equals("lin")) {
                 cmd = "/sbin/iptables -I INPUT -s " + ip +"/"+ mask + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + ip +"/"+ mask;
+                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip +"/"+ mask;
             }
-            announce(ip +"/"+ mask + " was banned" + czas);
+            announce(p.getNick()+" was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog(ip +"/"+ mask + " was banned" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(p.getNick()+"("+ip +"/"+ mask + ") was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -291,7 +290,7 @@ public class Cmd extends Thread {
             id = ln.substring(0, ln.indexOf(" t"));
             czas += ln.substring(ln.indexOf("t") + 1) + " min";
         }
-        if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
+        if (Integer.parseInt(id) < 0 || Integer.parseInt(id) > 4) {
             announce("ID " + id + " not exist!");
             return;
         }
@@ -306,7 +305,6 @@ public class Cmd extends Thread {
             announce("Player " + id + " not found");
             return;
         }
-        String nick = srv.getPlayer(this.pid).getNick();
         p = srv.getOldPlayer(Integer.parseInt(id));
         String cmd = "";
 
@@ -314,11 +312,11 @@ public class Cmd extends Thread {
             if (conf.getSystem().equals("lin")) {
                 cmd = "/sbin/iptables -I INPUT -s " + ip + mask + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + ip + mask;
+                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip + mask;
             }
-            announce(ip + mask + " was banned" + czas);
+            announce(p.getNick()+" was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog(ip + mask + " was banned" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(p.getNick()+" ("+ip + mask + ") was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -354,23 +352,23 @@ public class Cmd extends Thread {
             announce("ID " + id + " not exist!");
             return;
         }
-        String ip = srv.getBanPlayer(Integer.parseInt(id)).getIp();
-        String nick = srv.getPlayer(this.pid).getNick();
+        Player p = srv.getBanPlayer(Integer.parseInt(id));
         try {
+            String cmd = "";
             if (conf.getSystem().equals("lin")) {
-                String cmd = "/sbin/iptables -D INPUT -s " + ip + " -j DROP";
-                gui.dodajLog("Unbanned " + ip + " by " + nick + "\n", gui.blue);
-                announce("Unbanned " + ip);
-                Runtime.getRuntime().exec(cmd);
+                cmd = "/sbin/iptables -D INPUT -s " + p.getIp() + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Remove ONLY from banlist " + ip + " (" + nick + ")\n", gui.green);
-                announce("Remove from banlist " + ip);
+                cmd = "netsh advfirewall firewall delete rule name=all remoteip="+p.getIp();
             }
+                Runtime.getRuntime().exec(cmd);
+                announce("Unbanned " +p.getNick()+" ("+ p.getIp() + ")");
+                gui.dodajLog("Unbanned "+p.getNick()+" ("+p.getIp()+ ") by " + pnick, gui.blue);
+
             Scanner in = new Scanner(Paths.get("banlist.txt"));
             PrintWriter bany = new PrintWriter(new FileWriter("tmp.txt", true));
             while (in.hasNextLine()) {
                 ln = in.nextLine();
-                if (ln.indexOf(ip) < 0) {
+                if (ln.indexOf(p.getIp()) < 0) {
                     bany.append(ln);
                 }
             }
@@ -381,8 +379,6 @@ public class Cmd extends Thread {
             File file2 = new File("tmp.txt");
             file2.renameTo(file);
         } catch (IOException ex) {
-            Loggs.loguj("Cmd-unban", ex);
-        } catch (BadLocationException ex) {
             Loggs.loguj("Cmd-unban", ex);
         }
     }

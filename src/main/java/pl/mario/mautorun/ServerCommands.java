@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -76,6 +78,8 @@ public class ServerCommands {
     static public String allowsniperrifles;
     static public String objtime;
     static public String clport;
+
+    static public List<String> commands;
 
     public static void getCommands() {
         try {
@@ -165,6 +169,73 @@ public class ServerCommands {
 
             } while (line != null);
             bufferedReader.close();
+
+            commands = new ArrayList<>();
+            commands.add(rcon);
+            commands.add(rconpass);
+            commands.add(finger);
+            commands.add(kick);
+            commands.add(votekick);
+            commands.add(ban);
+            commands.add(listban);
+            commands.add(unban);
+            commands.add(suicide);
+            commands.add(restartmap);
+            commands.add(listmaps);
+            commands.add(activatemap);
+            commands.add(deactivatemap);
+            commands.add(gotonext);
+            commands.add(gotomap);
+            commands.add(votemap);
+            commands.add(votenext);
+            commands.add(showvotes);
+            commands.add(addmoney);
+            commands.add(accounts);
+            commands.add(monitor);
+            commands.add(ploss);
+            commands.add(timeout);
+            commands.add(bandwidth);
+            commands.add(choke);
+            commands.add(fillpercent);
+            commands.add(smooth);
+            commands.add(svname);
+            commands.add(svpassword);
+            commands.add(svport);
+            commands.add(svinterface);
+            commands.add(maxplayers);
+            commands.add(specmode);
+            commands.add(spawncost);
+            commands.add(spawntimer);
+            commands.add(teamdamage);
+            commands.add(warmup);
+            commands.add(publicc);
+            commands.add(bombtime);
+            commands.add(autobalance);
+            commands.add(autokick);
+            commands.add(announce);
+            commands.add(forcefirstspec);
+            commands.add(bombrepostime);
+            commands.add(pingmax);
+            commands.add(plossmax);
+            commands.add(idlemax);
+            commands.add(goutmax);
+            commands.add(moneystart);
+            commands.add(moneycap);
+            commands.add(moneykill);
+            commands.add(moneyteamkill);
+            commands.add(moneyplayerobjwin);
+            commands.add(moneyteamobjwin);
+            commands.add(moneyteamobjlost);
+            commands.add(moneymissionwin);
+            commands.add(moneymissionlost);
+            commands.add(maprounds);
+            commands.add(maptime);
+            commands.add(mapteamscore);
+            commands.add(playername);
+            commands.add(spawnsafetimer);
+            commands.add(allowsniperrifles);
+            commands.add(objtime);
+            commands.add(clport);
 
         } catch (FileNotFoundException ex) {
             Loggs.loguj("Komendy-wyciagnij", ex);

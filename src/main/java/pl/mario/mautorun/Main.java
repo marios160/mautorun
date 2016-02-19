@@ -109,10 +109,21 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.8";
+    static String version = "1.4.9";
     static String changes = ""
+            + "v1.4.9\n"
+            + "     - fix null in getPlayer\n"
+            + "     - fix ban for crash by id 65535\n"
+            + "     - improved message of ban\n"
+            + "     - showing using commands in console\n"
+            + "     - ban on windows\n"
+            + "     - fix leftban\n"
+            + "     - message: balance teams\n"
+            + "     - marked not spawned players\n"
+            + "     - separate chat after crash\n"
+            + "     - fix lost connection EX (updatePing)\n"
             + "v1.4.8\n"
-            + "     - Ban for MapMod Crash"
+            + "     - Ban for MapMod Crash\n"
             + "v1.4.7\n"
             + "     - Items control\n"
             + "     - soft uptime\n"

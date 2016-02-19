@@ -47,6 +47,8 @@ public class Server extends Thread {
     Player nullPlayer;
     private int items;
     private int itemstime;
+    private int numPlIgi;
+    private int numPlCons;
 
     public Server() {
 
@@ -72,6 +74,8 @@ public class Server extends Thread {
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
         itemstime = 1;
         this.objtime = 0;
+        this.numPlIgi = 0;
+        this.numPlCons = 0;
     }
 
     public Server(Server serv) {
@@ -99,6 +103,8 @@ public class Server extends Thread {
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
         this.itemstime = 1;
         this.objtime = 0;
+        this.numPlIgi = 0;
+        this.numPlCons = 0;
     }
 
     public void run() {
@@ -145,7 +151,9 @@ public class Server extends Thread {
             gui.setAlwaysOnTop(true);
             gui.setAlwaysOnTop(false);
             String pom = null;
-            while (pom == null) pom = sendPck("/sv " + ServerCommands.objtime);
+            while (pom == null) {
+                pom = sendPck("/sv " + ServerCommands.objtime);
+            }
             this.objtime = Integer.parseInt(pom.substring(10));
 
             do {
@@ -165,6 +173,7 @@ public class Server extends Thread {
             } while (!conf.isCrash());
 
             gui.dodajLog("CRASH!", gui.boom);
+            gui.dodajChat("=========CRASH===========", gui.boom);
             closeServer();
             saveLog();
             conf.setCrashes(conf.getCrashes() + 1);
@@ -445,6 +454,7 @@ public class Server extends Thread {
         Player player = srv.getPlayer(id);
         String ip = player.getIp();
         String nick = player.getNick();
+        int team = player.getTeam();
         if (numPl > 4) {
             numPl = 0;
         }
@@ -465,6 +475,10 @@ public class Server extends Thread {
                 break;
         }
         numPl++;
+        if(team == 0)
+            subNumPlIgi();
+        else
+            subNumPlCons();
     }
 
     public void welcomePlayer(Player player) {
@@ -532,7 +546,7 @@ public class Server extends Thread {
         for (Player zm : players) {
             if (zm != null) {
                 if (status.indexOf("\\" + zm.getNick() + "\\") < 0) {
-                    srv.delPlayers(Integer.parseInt(zm.getId()), 3);
+                    //srv.delPlayers(Integer.parseInt(zm.getId()), 3);
                     continue;
                 }
                 try {
@@ -564,16 +578,22 @@ public class Server extends Thread {
         }
         for (Player zm : players) {
             if (zm != null) {
-                if (zm.getTeam() == 0) {
+                if (zm.getTeam() == 0 || zm.getTeam() == -1) {
                     gui.getIgiTab().setValueAt(zm.getId(), igi, 0);
-                    gui.getIgiTab().setValueAt(zm.getNick(), igi, 1);
+                    if(zm.isSpawned())
+                        gui.getIgiTab().setValueAt(zm.getNick(), igi, 1);
+                    else
+                        gui.getIgiTab().setValueAt("(S) "+zm.getNick(), igi, 1); 
                     gui.getIgiTab().setValueAt(zm.getFrags() + "/" + zm.getDeaths(), igi, 2);
                     gui.getIgiTab().setValueAt(zm.getIp(), igi, 3);
                     gui.getIgiTab().setValueAt(zm.getPing(), igi, 4);
                     igi++;
                 } else {
                     gui.getConsTab().setValueAt(zm.getId(), cons, 0);
-                    gui.getConsTab().setValueAt(zm.getNick(), cons, 1);
+                    if(zm.isSpawned())
+                        gui.getConsTab().setValueAt(zm.getNick(), cons, 1);
+                    else
+                        gui.getConsTab().setValueAt("(S) "+zm.getNick(), cons, 1);
                     gui.getConsTab().setValueAt(zm.getFrags() + "/" + zm.getDeaths(), cons, 2);
                     gui.getConsTab().setValueAt(zm.getIp(), cons, 3);
                     gui.getConsTab().setValueAt(zm.getPing(), cons, 4);
@@ -804,12 +824,12 @@ public class Server extends Thread {
             }
             switch (reason) {
                 case 1:
-                    Cmd.message(p.getIp() + mask + " was banned for crash");
-                    gui.dodajLog(p.getIp() + mask + " was banned for crash", gui.pink);
+                    Cmd.message(p.getNick() + " was banned for crash");
+                    gui.dodajLog(p.getNick() + " (" + p.getIp() + mask + ") was banned for crash", gui.pink);
                     break;
                 case 2:
-                    Cmd.message(p.getIp() + mask + " was banned");
-                    gui.dodajLog(p.getIp() + mask + " was banned (REMOTELY)", gui.pink);
+                    Cmd.message(p.getNick() + " was banned");
+                    gui.dodajLog(p.getNick() + " (" + p.getIp() + mask + ") was banned (REMOTELY)", gui.pink);
                     break;
             }
             Runtime.getRuntime().exec(cmd);
@@ -834,6 +854,7 @@ public class Server extends Thread {
             Loggs.loguj("Server-banPlayer", ex);
         }
     }
+
     void banPlayer(String id, String mask, int reason, String msg) {
         try {
             String cmd = "";
@@ -845,12 +866,12 @@ public class Server extends Thread {
             }
             switch (reason) {
                 case 1:
-                    Cmd.message(p.getIp() + mask + " was banned for crash");
-                    gui.dodajLog(p.getIp() + mask + " was banned for crash "+msg, gui.pink);
+                    Cmd.message(p.getNick() + " was banned for crash");
+                    gui.dodajLog(p.getNick() + " (" + p.getIp() + mask + ") was banned for crash " + msg, gui.pink);
                     break;
                 case 2:
-                    Cmd.message(p.getIp() + mask + " was banned");
-                    gui.dodajLog(p.getIp() + mask + " was banned (REMOTELY) "+msg, gui.pink);
+                    Cmd.message(p.getNick() + " was banned");
+                    gui.dodajLog(p.getNick() + " (" + p.getIp() + mask + ") was banned (REMOTELY) " + msg, gui.pink);
                     break;
             }
             Runtime.getRuntime().exec(cmd);
@@ -993,8 +1014,14 @@ public class Server extends Thread {
     }
 
     public synchronized Player getPlayer(int id) {
-//        if(players[id] == null)
-//            return nullPlayer;
+        if (players[id] == null) {
+            return getOldPlayerId(id);
+        } else {
+            return players[id];
+        }
+    }
+
+    public synchronized Player getNullPlayer(int id) {
         return players[id];
     }
 
@@ -1012,6 +1039,15 @@ public class Server extends Thread {
 
     public synchronized Player getOldPlayer(int id) {
         return oldPlayers[id];
+    }
+
+    public synchronized Player getOldPlayerId(int id) {
+        for (Player oldPlayer : oldPlayers) {
+            if (oldPlayer.getId() == Integer.toString(id)) {
+                return oldPlayer;
+            }
+        }
+        return null;
     }
 
     public synchronized void setOldPlayers(Player[] oldPlayers) {
@@ -1095,15 +1131,49 @@ public class Server extends Thread {
     }
 
     public synchronized void addItems() {
-        if(!conf.isItems())
+        if (!conf.isItems()) {
             return;
+        }
         this.items++;
         gui.getRemainingItems().setText(this.items + "");
     }
 
+    public int getNumPlIgi() {
+        return numPlIgi;
+    }
+
+    public void setNumPlIgi(int numPlIgi) {
+        this.numPlIgi = numPlIgi;
+    }
+
+    public void addNumPlIgi() {
+        this.numPlIgi++;
+    }
+
+    public void subNumPlIgi() {
+        this.numPlIgi--;
+    }
+
+    public int getNumPlCons() {
+        return numPlCons;
+    }
+
+    public void setNumPlCons(int numPlCons) {
+        this.numPlCons = numPlCons;
+    }
+
+    public void addNumPlCons() {
+        this.numPlCons++;
+    }
+
+    public void subNumPlCons() {
+        this.numPlCons--;
+    }
+
     public synchronized void subItems() {
-        if(!conf.isItems())
+        if (!conf.isItems()) {
             return;
+        }
         this.items--;
         if (this.items == 30) {
             Cmd.message("Remained 30 weapons to drop");

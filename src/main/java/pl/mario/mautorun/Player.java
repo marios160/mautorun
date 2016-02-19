@@ -21,6 +21,7 @@ public class Player {
     private int[] gotVot;   //od kogo dostal vota
     private int nrVot;      //ile votow dostal
     private int ping;
+    private boolean spawned;
 
     
     String sfrag = "frags_";
@@ -33,7 +34,7 @@ public class Player {
         this.id = "";
         this.nick = "";
         this.ip = "";
-        this.team = 0;
+        this.team = -1;
         this.access = 0;
         this.warrnings = 0;
         this.votes = 0;
@@ -43,6 +44,7 @@ public class Player {
         this.gotVot = new int[5];
         this.nrVot = 0;
         this.ping = 0;
+        this.spawned = false;
     }
     
     
@@ -52,11 +54,13 @@ public class Player {
         this.ip = ip;
         this.port = port;
         this.access = 0;
+        this.team = -1;
         this.warrnings = 0;
         this.votes = 0;
         this.givVot = new int[2];
         this.gotVot = new int[5];
         this.nrVot = 0;
+        this.spawned = false;
         
         this.splayer+=this.id+"\\";
         this.sfrag+=this.id+"\\";
@@ -71,6 +75,7 @@ public class Player {
         this.id = id;
         this.ip = ip;
         this.port = port;
+        this.spawned = false;
 
 
     }
@@ -175,6 +180,7 @@ public class Player {
  
     public void addDeaths() {
         this.deaths++;
+        setSpawned(false);
     }
     
     public void subDeaths() {
@@ -252,6 +258,16 @@ public class Player {
     public void setSplayer(String splayer) {
         this.splayer = splayer;
     }
+
+    public boolean isSpawned() {
+        return spawned;
+    }
+
+    public void setSpawned(boolean spawned) {
+        this.spawned = spawned;
+    }
+    
+    
     
     /**
      * Ustawianie reszty parametrow gracza czyli wyniku pingu i druzyny

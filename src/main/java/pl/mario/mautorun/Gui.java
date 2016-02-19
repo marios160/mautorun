@@ -492,9 +492,15 @@ public class Gui extends javax.swing.JFrame {
         }
 
         jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane2MouseWheelMoved(evt);
+            }
+        });
 
         chat.setEditable(false);
         chat.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
+        chat.setAutoscrolls(false);
         chat.setMaximumSize(new java.awt.Dimension(400, 270));
         chat.setMinimumSize(new java.awt.Dimension(400, 100));
         chat.setName(""); // NOI18N
@@ -813,6 +819,8 @@ public class Gui extends javax.swing.JFrame {
         jPanel2.add(welcomeCombo, gridBagConstraints);
 
         welcome2.setText("on server!");
+        welcome2.setMaximumSize(new java.awt.Dimension(100, 20));
+        welcome2.setMinimumSize(new java.awt.Dimension(100, 20));
         welcome2.setPreferredSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -1064,7 +1072,7 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setItems(controlItems.isSelected());
         Main.conf.setSktk(sktk.isSelected());
         Main.conf.setClassFile(Main.conf);
-        
+
     }//GEN-LAST:event_saveSettingsActionPerformed
 
     private void welcomePlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_welcomePlayersActionPerformed
@@ -1086,7 +1094,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_defMaskActionPerformed
 
     private void CensorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CensorsActionPerformed
-        
+
     }//GEN-LAST:event_CensorsActionPerformed
 
     private void changesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changesActionPerformed
@@ -1107,20 +1115,24 @@ public class Gui extends javax.swing.JFrame {
             changes.getChanges().setText("");
             Scanner scan = new Scanner(nicks);
             while (scan.hasNextLine()) {
-                changes.getChanges().append(scan.nextLine()+"\n");
+                changes.getChanges().append(scan.nextLine() + "\n");
             }
             scan.close();
             changes.getChanges().setVisible(true);
         } catch (FileNotFoundException ex) {
             Loggs.loguj("Gui-denidedNicksPerformed", ex);
         }
-        
+
     }//GEN-LAST:event_denidedNicksListActionPerformed
+
+    private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
+
+    }//GEN-LAST:event_jScrollPane2MouseWheelMoved
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
-            chat.setCaretPosition(dchat.getLength());
+            //chat.setCaretPosition(dchat.getLength());
             PrintWriter chat = null;
             File fchat = new File(Main.path + "chat.txt");
             if (!fchat.exists()) {
@@ -1137,7 +1149,7 @@ public class Gui extends javax.swing.JFrame {
     void dodajLog(String msg, SimpleAttributeSet color) {
         try {
             dlog.insertString(dlog.getLength(), Main.conf.getTime() + msg + "\n", color);
-            logServer.setCaretPosition(dlog.getLength());
+            //logServer.setCaretPosition(dlog.getLength());
             PrintWriter chat = null;
             File fchat = new File(Main.path + "serverLog.txt");
             if (!fchat.exists()) {
@@ -1219,6 +1231,7 @@ public class Gui extends javax.swing.JFrame {
         createPopupMenu();
         getjLabel8().setText("Version " + Main.version);
         announceField.setDocument(new JTextFieldLimit(39));
+        value = 0;
         String className = UIManager.getSystemLookAndFeelClassName();
         try {
             UIManager.setLookAndFeel("GTK+");
@@ -1252,6 +1265,7 @@ public class Gui extends javax.swing.JFrame {
 
     }
 
+    private int value;
     private StyledDocument dchat;
     private StyledDocument dlog;
     SimpleAttributeSet boom;
@@ -1874,5 +1888,5 @@ public class Gui extends javax.swing.JFrame {
     public void setRemainingItems(JLabel remainingItems) {
         this.remainingItems = remainingItems;
     }
-    
+
 }
