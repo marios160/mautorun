@@ -834,6 +834,47 @@ public class Server extends Thread {
             Loggs.loguj("Server-banPlayer", ex);
         }
     }
+    void banPlayer(String id, String mask, int reason, String msg) {
+        try {
+            String cmd = "";
+            Player p = getPlayer(id);
+            if (conf.getSystem().equals("lin")) {
+                cmd = "/sbin/iptables -I INPUT -s " + p.getIp() + mask + " -j DROP";
+            } else if (conf.getSystem().equals("win")) {
+                cmd = "netsh advfirewall firewall add rule name=\"CRASHER\" dir=in protocol=udp interface=any action=block remoteip=" + p.getIp() + mask;
+            }
+            switch (reason) {
+                case 1:
+                    Cmd.message(p.getIp() + mask + " was banned for crash");
+                    gui.dodajLog(p.getIp() + mask + " was banned for crash "+msg, gui.pink);
+                    break;
+                case 2:
+                    Cmd.message(p.getIp() + mask + " was banned");
+                    gui.dodajLog(p.getIp() + mask + " was banned (REMOTELY) "+msg, gui.pink);
+                    break;
+            }
+            Runtime.getRuntime().exec(cmd);
+            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+
+            PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
+            switch (reason) {
+                case 1:
+                    cmd += "      #For Crash";
+                    break;
+                case 2:
+                    cmd += "      #Remotely";
+                    break;
+            }
+            bany.println(cmd);
+            bany.close();
+
+            p.setIp(p.getIp() + mask);
+            srv.addBanPlayers(p);
+        } catch (IOException ex) {
+            Loggs.loguj("Server-banPlayer", ex);
+        }
+    }
 
     public String getIp() {
         return ip;

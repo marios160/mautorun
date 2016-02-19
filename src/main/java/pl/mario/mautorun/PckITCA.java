@@ -26,7 +26,7 @@ public class PckITCA extends Packet{
                 return;
             }
         }
-        srv.banPlayer(Integer.toString(id), "", 1);
+        srv.banPlayer(Integer.toString(id), "", 1, "("+objId+")");
     }
     
 }
