@@ -1,6 +1,7 @@
 package pl.mario.mautorun;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -500,7 +501,6 @@ public class Gui extends javax.swing.JFrame {
 
         chat.setEditable(false);
         chat.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
-        chat.setAutoscrolls(false);
         chat.setMaximumSize(new java.awt.Dimension(400, 270));
         chat.setMinimumSize(new java.awt.Dimension(400, 100));
         chat.setName(""); // NOI18N
@@ -508,6 +508,11 @@ public class Gui extends javax.swing.JFrame {
         jScrollPane2.setViewportView(chat);
 
         jScrollPane6.setAutoscrolls(true);
+        jScrollPane6.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jScrollPane6MouseWheelMoved(evt);
+            }
+        });
 
         logServer.setEditable(false);
         logServer.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
@@ -618,7 +623,7 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(announceButt)
                     .addComponent(clearLog)
                     .addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(commandButt))
+                    .addComponent(commandButt, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39))
         );
 
@@ -1014,21 +1019,40 @@ public class Gui extends javax.swing.JFrame {
 
     private void announceButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_announceButtActionPerformed
         Main.srv.sendAnnounce(announceField.getText());
+        annNum = Main.anns.size();
     }//GEN-LAST:event_announceButtActionPerformed
 
     private void commandButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandButtActionPerformed
         Main.srv.sendCommand(commandField.getText());
+        cmdNum = Main.cmds.size();
     }//GEN-LAST:event_commandButtActionPerformed
 
     private void commandFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_commandFieldKeyPressed
         if (evt.getKeyCode() == 10) {
             commandButtActionPerformed(null);
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            if (cmdNum > 0) {
+                commandField.setText(Main.cmds.get(--cmdNum));
+            }
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (cmdNum < Main.cmds.size()-1) {
+                commandField.setText(Main.cmds.get(++cmdNum));
+            }
         }
+
     }//GEN-LAST:event_commandFieldKeyPressed
 
     private void announceFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_announceFieldKeyPressed
         if (evt.getKeyCode() == 10) {
             announceButtActionPerformed(null);
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            if (annNum > 0) {
+                announceField.setText(Main.anns.get(--annNum));
+            }
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (annNum < Main.anns.size()-1) {
+                announceField.setText(Main.anns.get(++annNum));
+            }
         }
     }//GEN-LAST:event_announceFieldKeyPressed
 
@@ -1055,6 +1079,7 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setItems(controlItems.isSelected());
         Main.conf.setSktk(sktk.isSelected());
         Main.conf.setClassFile(Main.conf);
+        Main.srv.closeServer();
     }//GEN-LAST:event_formWindowClosing
 
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
@@ -1126,13 +1151,31 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_denidedNicksListActionPerformed
 
     private void jScrollPane2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane2MouseWheelMoved
-
+        if ((jScrollPane2.getVerticalScrollBar().getMaximum()
+                - jScrollPane2.getVerticalScrollBar().getVisibleAmount())
+                > jScrollPane2.getVerticalScrollBar().getValue()) {
+            chatauto = false;
+        } else {
+            chatauto = true;
+        }
     }//GEN-LAST:event_jScrollPane2MouseWheelMoved
+
+    private void jScrollPane6MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jScrollPane6MouseWheelMoved
+        if ((jScrollPane6.getVerticalScrollBar().getMaximum()
+                - jScrollPane6.getVerticalScrollBar().getVisibleAmount())
+                > jScrollPane6.getVerticalScrollBar().getValue()) {
+            logauto = false;
+        } else {
+            logauto = true;
+        }
+    }//GEN-LAST:event_jScrollPane6MouseWheelMoved
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
-            //chat.setCaretPosition(dchat.getLength());
+            if (chatauto) {
+                chat.setCaretPosition(dchat.getLength());
+            }
             PrintWriter chat = null;
             File fchat = new File(Main.path + "chat.txt");
             if (!fchat.exists()) {
@@ -1149,7 +1192,9 @@ public class Gui extends javax.swing.JFrame {
     void dodajLog(String msg, SimpleAttributeSet color) {
         try {
             dlog.insertString(dlog.getLength(), Main.conf.getTime() + msg + "\n", color);
-            //logServer.setCaretPosition(dlog.getLength());
+            if (logauto) {
+                logServer.setCaretPosition(dlog.getLength());
+            }
             PrintWriter chat = null;
             File fchat = new File(Main.path + "serverLog.txt");
             if (!fchat.exists()) {
@@ -1231,7 +1276,8 @@ public class Gui extends javax.swing.JFrame {
         createPopupMenu();
         getjLabel8().setText("Version " + Main.version);
         announceField.setDocument(new JTextFieldLimit(39));
-        value = 0;
+        cmdNum = 0;
+        annNum = 0;
         String className = UIManager.getSystemLookAndFeelClassName();
         try {
             UIManager.setLookAndFeel("GTK+");
@@ -1265,7 +1311,10 @@ public class Gui extends javax.swing.JFrame {
 
     }
 
-    private int value;
+    private int cmdNum;
+    private int annNum;
+    private boolean chatauto = true;
+    private boolean logauto = true;
     private StyledDocument dchat;
     private StyledDocument dlog;
     SimpleAttributeSet boom;
@@ -1360,6 +1409,22 @@ public class Gui extends javax.swing.JFrame {
     private TableModel igitabmod;
     private TableModel constabmod;
     private JPopupMenu popupMenu;
+
+    public int getAnnNum() {
+        return annNum;
+    }
+
+    public void setAnnNum(int annNum) {
+        this.annNum = annNum;
+    }
+
+    public int getCmdNum() {
+        return cmdNum;
+    }
+
+    public void setCmdNum(int cmdNum) {
+        this.cmdNum = cmdNum;
+    }
 
     public JCheckBox getWelcomeCheck() {
         return WelcomeCheck;

@@ -59,6 +59,9 @@ public class PacketData {
     }
 
     public byte[] getByteData() {
+        if (byteData == null) {
+            System.out.println("\n\n-------FLOOD-------\n");
+        }
         return byteData;
     }
 

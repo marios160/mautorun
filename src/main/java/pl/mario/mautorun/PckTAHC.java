@@ -14,7 +14,9 @@ public class PckTAHC extends Packet {
         byte[] byteData = packet.getByteData();
         String data = packet.getData();
         String id = Integer.toString(byteData[20]);
-        String nick = srv.getPlayer(byteData[20]).getNick();
+        if (byteData[20] == 0)
+            return;
+        String nick = srv.getPlayer(id).getNick();
         String message = data.substring(data.indexOf(nick) + nick.length(), data.indexOf("\n", data.indexOf(nick) + nick.length()));
         gui.dodajChat(" [" + id + "] " + nick + message, gui.black);
         if(message.contains("%n"))

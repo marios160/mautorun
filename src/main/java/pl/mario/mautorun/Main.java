@@ -13,6 +13,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -34,7 +36,8 @@ public class Main extends Thread {
     static String path;
     StartSniffer sniffer;
     static long time;
-
+    static List<String> cmds;
+    static List<String> anns;
     public Main() {
 
     }
@@ -56,6 +59,10 @@ public class Main extends Thread {
         conf = new Configuration();
 
         //sett.setVisible(false);
+        cmds = new ArrayList<>();
+        cmds.add("");
+        anns = new ArrayList<>();
+        anns.add("");
         gui = new Gui();
         time = System.currentTimeMillis();
         while (true) {
@@ -101,7 +108,7 @@ public class Main extends Thread {
             stopMainLoop = true;
             Main.stopServerLoop = true;
             gui.dodajLog("Stops server...", gui.red);
-            Server.closeServer();
+            srv.closeServer();
             gui.getStartSrvTogg().setText("Enable Server");
         } else {
             gui.getStartSrvTogg().setSelected(true);
@@ -109,8 +116,15 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.9";
+    static String version = "1.4.10";
     static String changes = ""
+            + "v1.4.10\n"
+            + "     - chat and logserver controll autoscroll\n"
+            + "     - fix lped null\n"
+            + "     - save log when close program\n"
+            + "     - commands and announce like terminal\n"
+            + "     - loop announce chat\n"
+            + "     - fix nulls\n"
             + "v1.4.9\n"
             + "     - fix null in getPlayer\n"
             + "     - fix ban for crash by id 65535\n"

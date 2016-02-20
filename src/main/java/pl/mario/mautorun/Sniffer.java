@@ -1,18 +1,14 @@
 package pl.mario.mautorun;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import javax.swing.JOptionPane;
 import org.jnetpcap.*;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
-import org.jnetpcap.packet.format.FormatUtils;
 import org.jnetpcap.protocol.lan.Ethernet;
 import org.jnetpcap.protocol.lan.SLL;
 import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Udp;
-import static pl.mario.mautorun.Main.*;
 
 /**
  *
@@ -38,6 +34,7 @@ public class Sniffer extends Thread {
     private String KCIP = "KCIP"; //commands
     private String ITCA = "ITCA"; //commands
     private String WSQR = "WSQR"; //commands
+    private String IUQE = "IUQE"; //commands
     private String NRTM = "NRTM"; //Mautorun commands
 
     public Sniffer(PcapIf device, String ip, StartSniffer sniff) {

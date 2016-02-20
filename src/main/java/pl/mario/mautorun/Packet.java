@@ -1,8 +1,6 @@
 package pl.mario.mautorun;
 
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jnetpcap.packet.PcapPacket;
 
 /**
@@ -34,9 +32,10 @@ public abstract class Packet extends Thread {
                     continue;
                 }
                 try {
-                    action(packet);
+                    action(packet);                
                 } catch (Exception ex) {
                     Loggs.loguj("Packet-run", ex);
+                    showHexPck(packet);
                 }
 
             }
@@ -60,5 +59,42 @@ public abstract class Packet extends Thread {
     }
 
     abstract void action(PacketData packet) throws Exception;
+
+    public void showHexPck(PacketData packet) {
+        int i = 0, k = 0, l = 0, n = 0;
+            System.out.println("----------------------------------------------");
+        for (byte b : packet.getByteData()) {
+            String bytes = Integer.toHexString(b);
+            if (bytes.length() > 2) {
+                bytes = bytes.substring(bytes.length() - 2);
+            } else if (bytes.length() < 2) {
+                bytes = "0" + bytes;
+            }
+
+            System.out.print(bytes + " ");
+            i++;
+            if (i > 7)
+                System.out.print(" ");
+            if (i > 15) {
+                l = l+16;
+                for (k = l-16, n = 0; k < l; k++, n++) {
+                    if(n == 7)
+                        System.out.print(" ");
+                    char x = packet.getData().charAt(k);
+                    if ((int) x < 32) {
+                        System.out.print(".");
+                    } else if ((int)x > 127){
+                        System.out.print(".");
+                    } else {
+                        System.out.print(x);
+                    }
+                }
+                
+                System.out.println("");
+                i = 0;
+            }
+        }
+        System.out.println("");
+    }
 
 }

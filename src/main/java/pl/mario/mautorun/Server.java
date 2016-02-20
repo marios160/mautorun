@@ -13,6 +13,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.List;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -159,7 +161,6 @@ public class Server extends Thread {
             do {
                 try {
                     updateInfo();
-
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Loggs.loguj("Server-Run", ex);
@@ -175,7 +176,6 @@ public class Server extends Thread {
             gui.dodajLog("CRASH!", gui.boom);
             gui.dodajChat("=========CRASH===========", gui.boom);
             closeServer();
-            saveLog();
             conf.setCrashes(conf.getCrashes() + 1);
             gui.getCrashVal().setText(conf.getCrashes() + "");
 
@@ -361,7 +361,7 @@ public class Server extends Thread {
         }
 
     }*/
-    static void closeServer() {
+    void closeServer() {
         try {
             if (conf.getSystem().equals("win")) {
                 Runtime.getRuntime().exec("taskkill /F /IM " + conf.getExe() + "*");
@@ -369,6 +369,7 @@ public class Server extends Thread {
                 Runtime.getRuntime().exec("pkill " + conf.getExe());
             }
             Thread.sleep(1000);
+            saveLog();
 
         } catch (IOException ex) {
             Loggs.loguj("Server-CloseServer", ex);
@@ -475,10 +476,11 @@ public class Server extends Thread {
                 break;
         }
         numPl++;
-        if(team == 0)
+        if (team == 0) {
             subNumPlIgi();
-        else
+        } else {
             subNumPlCons();
+        }
     }
 
     public void welcomePlayer(Player player) {
@@ -580,20 +582,22 @@ public class Server extends Thread {
             if (zm != null) {
                 if (zm.getTeam() == 0 || zm.getTeam() == -1) {
                     gui.getIgiTab().setValueAt(zm.getId(), igi, 0);
-                    if(zm.isSpawned())
+                    if (zm.isSpawned()) {
                         gui.getIgiTab().setValueAt(zm.getNick(), igi, 1);
-                    else
-                        gui.getIgiTab().setValueAt("(S) "+zm.getNick(), igi, 1); 
+                    } else {
+                        gui.getIgiTab().setValueAt("(S) " + zm.getNick(), igi, 1);
+                    }
                     gui.getIgiTab().setValueAt(zm.getFrags() + "/" + zm.getDeaths(), igi, 2);
                     gui.getIgiTab().setValueAt(zm.getIp(), igi, 3);
                     gui.getIgiTab().setValueAt(zm.getPing(), igi, 4);
                     igi++;
                 } else {
                     gui.getConsTab().setValueAt(zm.getId(), cons, 0);
-                    if(zm.isSpawned())
+                    if (zm.isSpawned()) {
                         gui.getConsTab().setValueAt(zm.getNick(), cons, 1);
-                    else
-                        gui.getConsTab().setValueAt("(S) "+zm.getNick(), cons, 1);
+                    } else {
+                        gui.getConsTab().setValueAt("(S) " + zm.getNick(), cons, 1);
+                    }
                     gui.getConsTab().setValueAt(zm.getFrags() + "/" + zm.getDeaths(), cons, 2);
                     gui.getConsTab().setValueAt(zm.getIp(), cons, 3);
                     gui.getConsTab().setValueAt(zm.getPing(), cons, 4);
@@ -612,7 +616,7 @@ public class Server extends Thread {
             byte buf[] = msg.getBytes();
             byte buff[];
             DatagramSocket socket = new DatagramSocket();
-            socket.setSoTimeout(3000);
+            socket.setSoTimeout(2000);
             socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
             buff = new byte[4096];
             DatagramPacket prcon = new DatagramPacket(buff, buff.length);
@@ -641,7 +645,7 @@ public class Server extends Thread {
         byte buf[] = msg.getBytes();
         byte buff[];
         DatagramSocket socket = new DatagramSocket();
-        socket.setSoTimeout(3000);
+        socket.setSoTimeout(2000);
 
         socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
         buff = new byte[4096];
@@ -681,7 +685,7 @@ public class Server extends Thread {
             byte buf[] = msg.getBytes();
             byte buff[];
             DatagramSocket socket = new DatagramSocket();
-            socket.setSoTimeout(3000);
+            socket.setSoTimeout(2000);
             socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
             buff = new byte[4096];
             DatagramPacket prcon = new DatagramPacket(buff, buff.length);
@@ -746,17 +750,31 @@ public class Server extends Thread {
             if (odp.isEmpty()) {
                 odp = "No answer, wrong command";
             }
+
             gui.dodajLog(cmd, gui.gray);
             gui.dodajLog(odp.trim(), gui.gray);
+            if (!Main.cmds.get(Main.cmds.size()-1).equals(cmd)) {
+                Main.cmds.add(cmd);
+                if (Main.cmds.size() > 20) {
+                    Main.cmds.remove(0);
+                }
+            }
             gui.getCommandField().setText(null);
         }
     }
 
     void sendAnnounce(String ann) {
         if (!ann.isEmpty()) {
-            String m = sendPck("/lo " + ServerCommands.announce + " (\"" + ann + "\")");
+            String m = "";
+            while((m = sendPck("/lo " + ServerCommands.announce + " (\"" + ann + "\")")).isEmpty());
             if (!m.isEmpty()) {
                 gui.dodajChat("YOU > " + ann, gui.black);
+            } 
+            if (!Main.anns.get(Main.anns.size()-1).equals(ann)) {
+                Main.anns.add(ann);
+                if (Main.anns.size() > 20) {
+                    Main.anns.remove(0);
+                }
             }
             gui.getAnnounceField().setText(null);
         }
@@ -1043,8 +1061,10 @@ public class Server extends Thread {
 
     public synchronized Player getOldPlayerId(int id) {
         for (Player oldPlayer : oldPlayers) {
-            if (oldPlayer.getId() == Integer.toString(id)) {
-                return oldPlayer;
+            if (oldPlayer != null) {
+                if (oldPlayer.getId().equals(Integer.toString(id))) {
+                    return oldPlayer;
+                }
             }
         }
         return null;

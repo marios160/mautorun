@@ -1,4 +1,3 @@
-
 package pl.mario.mautorun;
 
 /**
@@ -6,12 +5,12 @@ package pl.mario.mautorun;
  * @author Mateusz
  */
 public class Player {
-    
+
     private String id;
     private String nick;
     private String ip;
     private int port;
-    private int team;
+    private int team = -1;
     private int access;
     private int warrnings;
     private int votes;
@@ -21,9 +20,8 @@ public class Player {
     private int[] gotVot;   //od kogo dostal vota
     private int nrVot;      //ile votow dostal
     private int ping;
-    private boolean spawned;
+    private boolean spawned = false;
 
-    
     String sfrag = "frags_";
     String sdeath = "deaths_";
     String sping = "ping_";
@@ -46,8 +44,7 @@ public class Player {
         this.ping = 0;
         this.spawned = false;
     }
-    
-    
+
     public Player(String id, String ip, String nick, int port) {
         this.id = id;
         this.nick = nick;
@@ -57,29 +54,17 @@ public class Player {
         this.team = -1;
         this.warrnings = 0;
         this.votes = 0;
-        this.givVot = new int[2];
+        this.givVot = new int[3];
         this.gotVot = new int[5];
         this.nrVot = 0;
         this.spawned = false;
-        
-        this.splayer+=this.id+"\\";
-        this.sfrag+=this.id+"\\";
-        this.sdeath+=this.id+"\\";
-        this.sping+=this.id+"\\";
-        this.steam+=this.id+"\\";
 
-        
+        this.splayer += this.id + "\\";
+        this.sfrag += this.id + "\\";
+        this.sdeath += this.id + "\\";
+        this.sping += this.id + "\\";
+        this.steam += this.id + "\\";
     }
-    
-    public Player(String id, String ip, int port) {
-        this.id = id;
-        this.ip = ip;
-        this.port = port;
-        this.spawned = false;
-
-
-    }
-
 
     public String getId() {
         return id;
@@ -136,14 +121,15 @@ public class Player {
     public void setWarrnings(int warrnings) {
         this.warrnings = warrnings;
     }
-    
+
     public boolean addWarrnings() {
-        
+
         this.warrnings++;
-        if((int)Main.gui.getWarnings().getValue() > this.warrnings)
+        if ((int) Main.gui.getWarnings().getValue() > this.warrnings) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     public int getVotes() {
@@ -161,11 +147,11 @@ public class Player {
     public void setFrags(int frags) {
         this.frags = frags;
     }
-    
+
     public void addFrags() {
         this.frags++;
     }
-    
+
     public void subFrags() {
         this.frags--;
     }
@@ -177,12 +163,12 @@ public class Player {
     public void setDeaths(int deaths) {
         this.deaths = deaths;
     }
- 
+
     public void addDeaths() {
         this.deaths++;
         setSpawned(false);
     }
-    
+
     public void subDeaths() {
         this.deaths--;
     }
@@ -266,9 +252,7 @@ public class Player {
     public void setSpawned(boolean spawned) {
         this.spawned = spawned;
     }
-    
-    
-    
+
     /**
      * Ustawianie reszty parametrow gracza czyli wyniku pingu i druzyny
      */
@@ -292,6 +276,4 @@ public class Player {
         setTeam(Integer.parseInt(pom));
         Info.players[Integer.parseInt(this.id)] = this;
     }*/
-
-    
 }
