@@ -116,8 +116,10 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.10";
+    static String version = "1.4.11";
     static String changes = ""
+            + "v1.4.11\n"
+            + "     - fix null KILL\n"
             + "v1.4.10\n"
             + "     - chat and logserver controll autoscroll\n"
             + "     - fix lped null\n"

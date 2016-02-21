@@ -19,8 +19,12 @@ public class PckLLIK extends Packet {
         int type = byteData[48];
         int weapon = byteData[52];
         int spawn = byteData[56];
-        
-        Player pl1 = srv.getPlayer(id1);
+        Player pl1 = null;
+
+        if (id1 != -1) {
+            pl1 = srv.getPlayer(id1);
+        }
+
         Player pl2 = srv.getPlayer(id2);
 
         if (id1 == -1 || id1 == id2 || weapon == -1) //miny,dzialko, zabity przez komputer;
