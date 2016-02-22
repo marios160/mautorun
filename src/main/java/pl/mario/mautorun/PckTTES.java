@@ -12,18 +12,20 @@ public class PckTTES extends Packet {
 
     void action(PacketData packet) {
         Player p = srv.getPlayer(packet.getByteData()[36]);
-        int t = p.getTeam();
         p.setTeam(packet.getByteData()[40]);
-        if (p.getTeam() == 0) {
-            srv.addNumPlIgi();
-            if(t > -1)
-                srv.subNumPlCons();
-        } else {
-            srv.addNumPlCons();
-            if(t > -1)
-                srv.subNumPlIgi();
+        int igi = 0, cons = 0;
+        for (Player zm : Main.srv.getPlayers()) {
+            if (zm != null) {
+                if (zm.getTeam() == 0) {
+                    igi++;
+                } else {
+                    cons++;
+                }
+                Main.srv.setNumPlIgi(igi);
+                Main.srv.setNumPlCons(cons);
+            }
         }
-        if (Math.abs(srv.getNumPlIgi() - srv.getNumPlCons())>=2) {
+        if (Math.abs(Main.srv.getNumPlIgi() - Main.srv.getNumPlCons()) >= 2) {
             Cmd.message("Please balance teams!");
         }
     }

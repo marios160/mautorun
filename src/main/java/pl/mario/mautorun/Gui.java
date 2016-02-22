@@ -1,7 +1,10 @@
 package pl.mario.mautorun;
 
+import com.sun.javafx.stage.WindowCloseRequestHandler;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
@@ -124,7 +128,7 @@ public class Gui extends javax.swing.JFrame {
         remainItem = new javax.swing.JLabel();
         remainingItems = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Mautorun by Mario PL");
         setMaximumSize(new java.awt.Dimension(850, 630));
         setMinimumSize(new java.awt.Dimension(850, 630));
@@ -617,13 +621,14 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clearChat)
-                    .addComponent(announceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(announceButt)
-                    .addComponent(clearLog)
-                    .addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(commandButt, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(commandButt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(clearChat)
+                        .addComponent(announceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(announceButt)
+                        .addComponent(clearLog)
+                        .addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39))
         );
 
@@ -1035,7 +1040,7 @@ public class Gui extends javax.swing.JFrame {
                 commandField.setText(Main.cmds.get(--cmdNum));
             }
         } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (cmdNum < Main.cmds.size()-1) {
+            if (cmdNum < Main.cmds.size() - 1) {
                 commandField.setText(Main.cmds.get(++cmdNum));
             }
         }
@@ -1050,7 +1055,7 @@ public class Gui extends javax.swing.JFrame {
                 announceField.setText(Main.anns.get(--annNum));
             }
         } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (annNum < Main.anns.size()-1) {
+            if (annNum < Main.anns.size() - 1) {
                 announceField.setText(Main.anns.get(++annNum));
             }
         }
@@ -1063,24 +1068,6 @@ public class Gui extends javax.swing.JFrame {
     private void announceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_announceFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_announceFieldActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Main.conf.setDefMask(defMask.getSelectedIndex());
-        Main.conf.setMaxMask(maxMask.getSelectedIndex());
-        Main.conf.setWarnings((int) warnings.getValue());
-        Main.conf.setExe(nameexe.getText());
-        Main.conf.setWelcome1(welcomePlayers.getText());
-        Main.conf.setWelcome2(welcome2.getText());
-        Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
-        Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
-        Main.conf.setCensors(Censors.isSelected());
-        Main.conf.setAdminPanel(adminPanel.isSelected());
-        Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
-        Main.conf.setItems(controlItems.isSelected());
-        Main.conf.setSktk(sktk.isSelected());
-        Main.conf.setClassFile(Main.conf);
-        Main.srv.closeServer();
-    }//GEN-LAST:event_formWindowClosing
 
     private void saveSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsActionPerformed
         Main.conf.setDefMask(defMask.getSelectedIndex());
@@ -1169,6 +1156,28 @@ public class Gui extends javax.swing.JFrame {
             logauto = true;
         }
     }//GEN-LAST:event_jScrollPane6MouseWheelMoved
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int x = JOptionPane.showConfirmDialog(null, "Are you sure you want to disable server?", "Close Server", YES_NO_OPTION);
+        if (x == 0) {
+            Main.conf.setDefMask(defMask.getSelectedIndex());
+            Main.conf.setMaxMask(maxMask.getSelectedIndex());
+            Main.conf.setWarnings((int) warnings.getValue());
+            Main.conf.setExe(nameexe.getText());
+            Main.conf.setWelcome1(welcomePlayers.getText());
+            Main.conf.setWelcome2(welcome2.getText());
+            Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
+            Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
+            Main.conf.setCensors(Censors.isSelected());
+            Main.conf.setAdminPanel(adminPanel.isSelected());
+            Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
+            Main.conf.setItems(controlItems.isSelected());
+            Main.conf.setSktk(sktk.isSelected());
+            Main.conf.setClassFile(Main.conf);
+            Main.srv.closeServer();
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
@@ -1264,6 +1273,7 @@ public class Gui extends javax.swing.JFrame {
         consTab.addMouseListener(new TableMouseListener(consTab));
     }
 
+    
     void createPopupMenu() {
         igiTab.addMouseListener(new TableMouseListener(igiTab));
         consTab.addMouseListener(new TableMouseListener(consTab));

@@ -13,8 +13,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.util.ArrayList;
-import java.util.List;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -548,12 +546,11 @@ public class Server extends Thread {
         for (Player zm : players) {
             if (zm != null) {
                 if (status.indexOf("\\" + zm.getNick() + "\\") < 0) {
-                    //srv.delPlayers(Integer.parseInt(zm.getId()), 3);
                     continue;
                 }
                 try {
                     pom = status.substring(status.indexOf(zm.sping) + zm.sping.length(), status.indexOf(zm.steam) - 1);
-                    zm.setPing(Integer.parseInt(pom));
+                    zm.setPing(Integer.parseInt(pom));         
                 } catch (StringIndexOutOfBoundsException ex) {
                     Loggs.loguj("Server-updatePings", ex);
                     return;
@@ -753,7 +750,7 @@ public class Server extends Thread {
 
             gui.dodajLog(cmd, gui.gray);
             gui.dodajLog(odp.trim(), gui.gray);
-            if (!Main.cmds.get(Main.cmds.size()-1).equals(cmd)) {
+            if (!Main.cmds.get(Main.cmds.size() - 1).equals(cmd)) {
                 Main.cmds.add(cmd);
                 if (Main.cmds.size() > 20) {
                     Main.cmds.remove(0);
@@ -766,11 +763,11 @@ public class Server extends Thread {
     void sendAnnounce(String ann) {
         if (!ann.isEmpty()) {
             String m = "";
-            while((m = sendPck("/lo " + ServerCommands.announce + " (\"" + ann + "\")")).isEmpty());
+            while ((m = sendPck("/lo " + ServerCommands.announce + " (\"" + ann + "\")")).isEmpty());
             if (!m.isEmpty()) {
                 gui.dodajChat("YOU > " + ann, gui.black);
-            } 
-            if (!Main.anns.get(Main.anns.size()-1).equals(ann)) {
+            }
+            if (!Main.anns.get(Main.anns.size() - 1).equals(ann)) {
                 Main.anns.add(ann);
                 if (Main.anns.size() > 20) {
                     Main.anns.remove(0);
@@ -1162,11 +1159,11 @@ public class Server extends Thread {
         gui.getRemainingItems().setText(this.items + "");
     }
 
-    public int getNumPlIgi() {
+    public synchronized int getNumPlIgi() {
         return numPlIgi;
     }
 
-    public void setNumPlIgi(int numPlIgi) {
+    public synchronized void setNumPlIgi(int numPlIgi) {
         this.numPlIgi = numPlIgi;
     }
 
@@ -1178,11 +1175,11 @@ public class Server extends Thread {
         this.numPlIgi--;
     }
 
-    public int getNumPlCons() {
+    public synchronized int getNumPlCons() {
         return numPlCons;
     }
 
-    public void setNumPlCons(int numPlCons) {
+    public synchronized void setNumPlCons(int numPlCons) {
         this.numPlCons = numPlCons;
     }
 

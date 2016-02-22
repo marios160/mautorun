@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import static pl.mario.mautorun.Main.*;
 
 public class TableActionListener implements ActionListener {
 
@@ -17,6 +18,8 @@ public class TableActionListener implements ActionListener {
     static JMenuItem menuBanMax;
     static JMenuItem menuIP;
     static JMenuItem menuNick;
+    static JMenuItem menuAdmin;
+    static JMenuItem menuJAdmin;
     String id;
     String ip;
     String nick;
@@ -38,10 +41,12 @@ public class TableActionListener implements ActionListener {
         }
         menuKick = new JMenuItem("Kick " + table.getValueAt(row, 1));
         menuBan = new JMenuItem("Ban " + table.getValueAt(row, 3));
-        menuBanDef = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getDefMask()+1));
-        menuBanMax = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getMaxMask()+1));
+        menuBanDef = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getDefMask() + 1));
+        menuBanMax = new JMenuItem("Ban " + table.getValueAt(row, 3) + "/" + (Main.conf.getMaxMask() + 1));
         menuIP = new JMenuItem("Copy IP: " + table.getValueAt(row, 3));
         menuNick = new JMenuItem("Copy Nick: " + table.getValueAt(row, 1));
+        menuAdmin = new JMenuItem("Add Admin: [" + table.getValueAt(row, 0) + "] " + table.getValueAt(row, 1));
+        menuJAdmin = new JMenuItem("Add Junior Admin: [" + table.getValueAt(row, 0) + "] " + table.getValueAt(row, 1));
         id = (String) table.getValueAt(row, 0);
         ip = (String) table.getValueAt(row, 3);
         nick = (String) table.getValueAt(row, 1);
@@ -51,6 +56,8 @@ public class TableActionListener implements ActionListener {
         menuBanMax.addActionListener(this);
         menuIP.addActionListener(this);
         menuNick.addActionListener(this);
+        menuAdmin.addActionListener(this);
+        menuJAdmin.addActionListener(this);
 
         popupMenu.add(menuKick);
         popupMenu.add(menuBan);
@@ -58,6 +65,8 @@ public class TableActionListener implements ActionListener {
         popupMenu.add(menuBanMax);
         popupMenu.add(menuIP);
         popupMenu.add(menuNick);
+        popupMenu.add(menuAdmin);
+        popupMenu.add(menuJAdmin);
 
         return popupMenu;
     }
@@ -71,11 +80,11 @@ public class TableActionListener implements ActionListener {
         if (menu == menuKick) {
             Main.srv.kickPlayer(id);
         } else if (menu == menuBan) {
-            Main.srv.banPlayer(id, "",2);
+            Main.srv.banPlayer(id, "", 2);
         } else if (menu == menuBanDef) {
-            Main.srv.banPlayer(id, "/" + (Main.conf.getDefMask()+1),2);
+            Main.srv.banPlayer(id, "/" + (Main.conf.getDefMask() + 1), 2);
         } else if (menu == menuBanMax) {
-            Main.srv.banPlayer(id, "/" + (Main.conf.getMaxMask()+1),2);
+            Main.srv.banPlayer(id, "/" + (Main.conf.getMaxMask() + 1), 2);
         } else if (menu == menuIP) {
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
@@ -86,7 +95,18 @@ public class TableActionListener implements ActionListener {
             Clipboard clipboard = toolkit.getSystemClipboard();
             StringSelection strSel = new StringSelection(nick);
             clipboard.setContents(strSel, null);
-
+        } else if (menu == menuAdmin) {
+            srv.getPlayer(id).setAccess(2);
+            gui.dodajLog("Added Admin: " + "[" + id + "] " + nick + " (" + srv.getPlayer(id).getIp() + ") (REMOTELY)", gui.green);
+            if (conf.isDispAddAdmin()) {
+                Cmd.message("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            }
+        } else if (menu == menuJAdmin) {
+            Main.srv.getPlayer(id).setAccess(1);
+            gui.dodajLog("Added Junior Admin: " + "[" + id + "] " + nick + " (" + srv.getPlayer(id).getIp() + ") (REMOTELY)", gui.green);
+            if (conf.isDispAddAdmin()) {
+                Cmd.message("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
+            }
         }
     }
 

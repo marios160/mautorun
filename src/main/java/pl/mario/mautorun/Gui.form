@@ -2,7 +2,7 @@
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="title" type="java.lang.String" value="Mautorun by Mario PL"/>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[850, 630]"/>
@@ -552,13 +552,15 @@
                           <Component id="jScrollPane6" pref="244" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="clearChat" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="announceField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="announceButt" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="clearLog" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="commandField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="commandButt" alignment="1" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="clearChat" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="announceField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="announceButt" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="clearLog" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="commandField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>

@@ -219,13 +219,13 @@ public class Cmd extends Thread {
 
         try {
             if (conf.getSystem().equals("lin")) {
-                cmd = "/sbin/iptables -I INPUT -s " + ip +"/"+ mask + " -j DROP";
+                cmd = "/sbin/iptables -I INPUT -s " + ip + "/" + mask + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip +"/"+ mask;
+                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip + "/" + mask;
             }
-            announce(p.getNick()+" was banned" + czas);
+            announce(p.getNick() + " was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog(p.getNick()+"("+ip +"/"+ mask + ") was banned" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(p.getNick() + "(" + ip + "/" + mask + ") was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -314,9 +314,9 @@ public class Cmd extends Thread {
             } else if (conf.getSystem().equals("win")) {
                 cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip + mask;
             }
-            announce(p.getNick()+" was banned" + czas);
+            announce(p.getNick() + " was banned" + czas);
             Runtime.getRuntime().exec(cmd);
-            gui.dodajLog(p.getNick()+" ("+ip + mask + ") was banned" + czas + " by " + pnick, gui.blue);
+            gui.dodajLog(p.getNick() + " (" + ip + mask + ") was banned" + czas + " by " + pnick, gui.blue);
 
             PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
             bany.println(cmd);
@@ -358,11 +358,11 @@ public class Cmd extends Thread {
             if (conf.getSystem().equals("lin")) {
                 cmd = "/sbin/iptables -D INPUT -s " + p.getIp() + " -j DROP";
             } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall delete rule name=all remoteip="+p.getIp();
+                cmd = "netsh advfirewall firewall delete rule name=all remoteip=" + p.getIp();
             }
-                Runtime.getRuntime().exec(cmd);
-                announce("Unbanned " +p.getNick()+" ("+ p.getIp() + ")");
-                gui.dodajLog("Unbanned "+p.getNick()+" ("+p.getIp()+ ") by " + pnick, gui.blue);
+            Runtime.getRuntime().exec(cmd);
+            announce("Unbanned " + p.getNick() + " (" + p.getIp() + ")");
+            gui.dodajLog("Unbanned " + p.getNick() + " (" + p.getIp() + ") by " + pnick, gui.blue);
 
             Scanner in = new Scanner(Paths.get("banlist.txt"));
             PrintWriter bany = new PrintWriter(new FileWriter("tmp.txt", true));
@@ -438,51 +438,43 @@ public class Cmd extends Thread {
     }
 
     void aadmin() {
-        try {
-            if (!admin(2)) {
-                return;
-            }
-            String id = linia.substring(linia.indexOf("/aadmin") + 8);
-            if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
-                announce("ID " + id + " not exist!");
-                return;
-            }
-            if (srv.getPlayer(Integer.parseInt(id)) == null) {
-                announce("Player " + id + " not found");
-                return;
-            }
-            srv.getPlayer(Integer.parseInt(id)).setAccess(2);
-            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " by " + pnick + "\n", gui.mag);
-            if (conf.isDispAddAdmin()) {
-                announce("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
-            }
-        } catch (BadLocationException ex) {
-            Loggs.loguj("Cmd-aadmin", ex);
+        if (!admin(2)) {
+            return;
+        }
+        String id = linia.substring(linia.indexOf("/aadmin") + 8);
+        if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
+            announce("ID " + id + " not exist!");
+            return;
+        }
+        if (srv.getPlayer(Integer.parseInt(id)) == null) {
+            announce("Player " + id + " not found");
+            return;
+        }
+        srv.getPlayer(Integer.parseInt(id)).setAccess(2);
+        gui.dodajLog("Added Admin: " + "[" + pid + "] " + pnick + " (" + pip + ")", gui.green);
+        if (conf.isDispAddAdmin()) {
+            announce("Added Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
         }
 
     }
 
     void ajadmin() {
-        try {
-            if (!admin(2)) {
-                return;
-            }
-            String id = linia.substring(linia.indexOf("/ajadmin") + 9);
-            if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
-                announce("ID " + id + " not exist!");
-                return;
-            }
-            if (srv.getPlayer(Integer.parseInt(id)) == null) {
-                announce("Player " + id + " not found");
-                return;
-            }
-            srv.getPlayer(Integer.parseInt(id)).setAccess(1);
-            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick() + " by " + pnick + "\n", gui.mag);
-            if (conf.isDispAddAdmin()) {
-                announce("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
-            }
-        } catch (BadLocationException ex) {
-            Loggs.loguj("Cmd-ajadmin", ex);
+        if (!admin(2)) {
+            return;
+        }
+        String id = linia.substring(linia.indexOf("/ajadmin") + 9);
+        if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
+            announce("ID " + id + " not exist!");
+            return;
+        }
+        if (srv.getPlayer(Integer.parseInt(id)) == null) {
+            announce("Player " + id + " not found");
+            return;
+        }
+        srv.getPlayer(Integer.parseInt(id)).setAccess(1);
+        gui.dodajLog("Added Junior Admin: " + "[" + pid + "] " + pnick + " (" + pip + ")", gui.green);
+        if (conf.isDispAddAdmin()) {
+            announce("Added Junior Admin " + srv.getPlayer(Integer.parseInt(id)).getNick());
         }
     }
 
@@ -507,7 +499,7 @@ public class Cmd extends Thread {
             }
             String id = linia.substring(linia.indexOf("/map") + 5);
             gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Changed map to id " + id + " by " + pnick + "\n", gui.mag);
-            
+
             srv.sendPck("/sv gotomap " + id);
         } catch (BadLocationException ex) {
             Loggs.loguj("Cmd-map", ex);
