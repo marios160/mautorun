@@ -247,10 +247,10 @@ public class Cmd extends Thread {
         if (!admin(1)) {
             return;
         }
-        for (int i = 0; i < 5; i++) {
-            if (srv.getOldPlayer(i).getIp() != "") {
-                announce(i + " " + srv.getOldPlayer(i).getIp() + " " + srv.getOldPlayer(i).getNick());
-            }
+        int i = 0;
+        for (Player player : srv.getOldPlayers()) {
+            announce(i + " " + srv.getOldPlayer(i).getIp() + " " + srv.getOldPlayer(i).getNick());
+            i++;
         }
     }
 
@@ -332,11 +332,10 @@ public class Cmd extends Thread {
         if (!admin(2)) {
             return;
         }
-        for (int i = 0; i < 3; i++) {
-            if (srv.getBanPlayer(i).getIp() != "") {
-                announce(i + " " + srv.getBanPlayer(i).getIp() + " " + srv.getBanPlayer(i).getNick());
-            }
-
+        int i = 0;
+        for (Player player : srv.getBanPlayers()) {
+           announce(i + " " + srv.getBanPlayer(i).getIp() + " " + srv.getBanPlayer(i).getNick());
+           i++;
         }
     }
 

@@ -126,6 +126,7 @@ public class Main extends Thread {
             + "     - fixed balance team\n"
             + "     - warning before close Mautorun\n"
             + "     - added popup menu - add admins option\n"
+            + "     - change left list and ban list to List (not array)\n"
             + "v1.4.10\n"
             + "     - chat and logserver controll autoscroll\n"
             + "     - fix lped null\n"

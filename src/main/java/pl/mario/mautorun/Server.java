@@ -13,6 +13,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.List;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -39,8 +41,8 @@ public class Server extends Thread {
     private int scoreIGI;
     private int scoreCons;
     private Player[] players;
-    private Player[] oldPlayers;
-    private Player[] banPlayers;
+    private List<Player> oldPlayers;
+    private List<Player> banPlayers;
     private int numPl, numBan;
     private String[] listMaps;
     private String[] listIdMaps;
@@ -67,8 +69,8 @@ public class Server extends Thread {
         this.scoreCons = 0;
 
         players = new Player[35];
-        oldPlayers = new Player[5];
-        banPlayers = new Player[3];
+        oldPlayers = new ArrayList<Player>();
+        banPlayers = new ArrayList<Player>();
         this.numPl = 0;
         this.numBan = 0;
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
@@ -96,8 +98,8 @@ public class Server extends Thread {
         this.scoreCons = 0;
         //35 el
         players = new Player[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null};
-        oldPlayers = new Player[5];
-        banPlayers = new Player[3];
+        oldPlayers = new ArrayList<Player>();
+        banPlayers = new ArrayList<Player>();
         this.numPl = 0;
         this.numBan = 0;
         nullPlayer = new Player("0", "0.0.0.0", "NullPlayer", 26015);
@@ -442,11 +444,10 @@ public class Server extends Thread {
     }
 
     public void addBanPlayers(Player p) {
-        if (numBan > 2) {
-            numBan = 0;
+        if (banPlayers.size() == 3) {
+            banPlayers.remove(0);
         }
-        banPlayers[numBan] = p;
-        numBan++;
+        banPlayers.add(p);
     }
 
     public void delPlayers(int id, int type) {
@@ -454,10 +455,10 @@ public class Server extends Thread {
         String ip = player.getIp();
         String nick = player.getNick();
         int team = player.getTeam();
-        if (numPl > 4) {
-            numPl = 0;
+        if (oldPlayers.size() == 5) {
+            oldPlayers.remove(0);
         }
-        oldPlayers[numPl] = players[id];
+        oldPlayers.add(player);
         players[id] = null;
         switch (type) {
             case 0:
@@ -1052,12 +1053,12 @@ public class Server extends Thread {
         this.players = players;
     }
 
-    public synchronized Player[] getOldPlayers() {
+    public synchronized List<Player> getOldPlayers() {
         return oldPlayers;
     }
 
     public synchronized Player getOldPlayer(int id) {
-        return oldPlayers[id];
+        return oldPlayers.get(id);
     }
 
     public synchronized Player getOldPlayerId(int id) {
@@ -1071,20 +1072,13 @@ public class Server extends Thread {
         return null;
     }
 
-    public synchronized void setOldPlayers(Player[] oldPlayers) {
-        this.oldPlayers = oldPlayers;
-    }
 
-    public synchronized Player[] getBanPlayers() {
+    public synchronized List<Player> getBanPlayers() {
         return banPlayers;
     }
 
     public synchronized Player getBanPlayer(int id) {
-        return banPlayers[id];
-    }
-
-    public synchronized void setBanPlayers(Player[] banPlayers) {
-        this.banPlayers = banPlayers;
+        return banPlayers.get(id);
     }
 
     public int getLicz() {
