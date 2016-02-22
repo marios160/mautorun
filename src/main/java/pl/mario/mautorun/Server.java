@@ -293,18 +293,18 @@ public class Server extends Thread {
                 return;
             }
             itemstime = sec;
-            if (mapname.equals(Items.Sandstorm)) {
-                this.items = Items.sand;
-            } else if (mapname.equals(Items.Redstone)) {
-                this.items = Items.red;
-            } else if (mapname.equals(Items.Timberland)) {
-                this.items = Items.timb;
-            } else if (mapname.equals(Items.Forestraid)) {
-                this.items = Items.forest;
-            } else if (mapname.equals(Items.ChineseTemple)) {
-                this.items = Items.china;
-            } else if (mapname.equals(Items.AimMap)) {
-                this.items = Items.aim;
+            if (mapname.equals(Variables.Sandstorm)) {
+                this.items = Variables.sand;
+            } else if (mapname.equals(Variables.Redstone)) {
+                this.items = Variables.red;
+            } else if (mapname.equals(Variables.Timberland)) {
+                this.items = Variables.timb;
+            } else if (mapname.equals(Variables.Forestraid)) {
+                this.items = Variables.forest;
+            } else if (mapname.equals(Variables.ChineseTemple)) {
+                this.items = Variables.china;
+            } else if (mapname.equals(Variables.AimMap)) {
+                this.items = Variables.aim;
             }
         }
     }

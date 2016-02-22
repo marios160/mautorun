@@ -121,6 +121,7 @@ public class Gui extends javax.swing.JFrame {
         sktk = new javax.swing.JCheckBox();
         nicks = new javax.swing.JCheckBox();
         denidedNicksList = new javax.swing.JButton();
+        killLog = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         softTime = new javax.swing.JLabel();
@@ -925,6 +926,16 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 5;
         jPanel2.add(denidedNicksList, gridBagConstraints);
 
+        killLog.setText("Kill Log");
+        killLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                killLogActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(killLog, gridBagConstraints);
+
         jTabbedPane2.addTab("Settings", jPanel2);
 
         jLabel4.setText("By Mario PL 2016");
@@ -1174,10 +1185,16 @@ public class Gui extends javax.swing.JFrame {
             Main.conf.setItems(controlItems.isSelected());
             Main.conf.setSktk(sktk.isSelected());
             Main.conf.setClassFile(Main.conf);
-            Main.srv.closeServer();
+            if (Main.srv != null) {
+                Main.srv.closeServer();
+            }
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void killLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_killLogActionPerformed
+        Main.kill.setVisible(true);
+    }//GEN-LAST:event_killLogActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
@@ -1273,7 +1290,6 @@ public class Gui extends javax.swing.JFrame {
         consTab.addMouseListener(new TableMouseListener(consTab));
     }
 
-    
     void createPopupMenu() {
         igiTab.addMouseListener(new TableMouseListener(igiTab));
         consTab.addMouseListener(new TableMouseListener(consTab));
@@ -1381,6 +1397,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton kickAllButt;
+    private javax.swing.JButton killLog;
     private javax.swing.JTextPane logServer;
     private javax.swing.JButton longChat;
     private javax.swing.JButton longLog;
