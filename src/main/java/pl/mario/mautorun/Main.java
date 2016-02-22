@@ -117,7 +117,7 @@ public class Main extends Thread {
             + "     - added popup menu - add admins option\n"
             + "     - change left list and ban list to List (not array)\n"
             + "     - Kill Log\n"
-            + "     - fixed nick with char \"\\\""
+            + "     - fixed nick with chars \"\\\""
             + "v1.4.10\n"
             + "     - chat and logserver controll autoscroll\n"
             + "     - fix lped null\n"
