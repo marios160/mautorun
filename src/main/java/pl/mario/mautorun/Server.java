@@ -547,6 +547,9 @@ public class Server extends Thread {
         for (Player zm : players) {
             if (zm != null) {
                 if (status.indexOf("\\" + zm.getNick() + "\\") < 0) {
+                    zm.addLostconn();
+                    if(zm.getLostconn() == 5)
+                        srv.delPlayers(Integer.parseInt(zm.getId()), 3);
                     continue;
                 }
                 try {

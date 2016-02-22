@@ -21,6 +21,7 @@ public class Player {
     private int nrVot;      //ile votow dostal
     private int ping;
     private boolean spawned = false;
+    private int lostconn;
 
     String sfrag = "frags_";
     String sdeath = "deaths_";
@@ -43,6 +44,7 @@ public class Player {
         this.nrVot = 0;
         this.ping = 0;
         this.spawned = false;
+        this.lostconn = 0;
     }
 
     public Player(String id, String ip, String nick, int port) {
@@ -58,6 +60,7 @@ public class Player {
         this.gotVot = new int[5];
         this.nrVot = 0;
         this.spawned = false;
+        this.lostconn = 0;
 
         this.splayer += this.id + "\\";
         this.sfrag += this.id + "\\";
@@ -171,6 +174,22 @@ public class Player {
 
     public void subDeaths() {
         this.deaths--;
+    }
+    
+    public void addLostconn() {
+        this.lostconn++;
+    }
+
+    public void subLostconn() {
+        this.lostconn--;
+    }
+
+    public int getLostconn() {
+        return lostconn;
+    }
+
+    public void setLostconn(int lostconn) {
+        this.lostconn = lostconn;
     }
 
     public int[] getGivVot() {
