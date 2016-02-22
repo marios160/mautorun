@@ -17,18 +17,13 @@ public class PckLPRC extends Packet {
         String nick = packet.getData().substring(172, packet.getData().indexOf(0, 172));
 
         if (Main.srv.getNullPlayer(packet.getByteData()[36]) == null) {
-            try {
-                Player player = new Player(id, packet.getIpS(), nick, packet.getPort());
-                Main.srv.addPlayer(player);
-                Main.conf.addVisitors();
-                Main.gui.dodajChat(" [" + id + "](" + packet.getIpS() + ") " + nick + " has joined", Main.gui.green);
-                Main.srv.addBaseIP(packet.getIpS(), nick);
-                Thread.sleep(5000);
-                if(Main.conf.isWelcomeCheck())
-                    Main.srv.welcomePlayer(player);
-            } catch (InterruptedException ex) {
-                Loggs.loguj("Packet-LPRC", ex);
-            }
+            Player player = new Player(id, packet.getIpS(), nick, packet.getPort());
+            Main.srv.addPlayer(player);
+            Main.conf.addVisitors();
+            Main.gui.dodajChat(" [" + id + "](" + packet.getIpS() + ") " + nick + " has joined", Main.gui.green);
+            Main.srv.addBaseIP(packet.getIpS(), nick);
+            WelcomePlayers pl = new WelcomePlayers(player);
+            pl.start();
         }
     }
 }
