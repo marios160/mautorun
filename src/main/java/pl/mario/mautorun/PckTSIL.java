@@ -37,7 +37,7 @@ public class PckTSIL extends Packet {
                     }
                 }
             } else {
-                gui.dodajLog("Incorrect rcon: " + "[" + id + "] " + nick + " (" + ips + ")", gui.pink);
+                gui.dodajLog("Incorrect rcon: " + rcon + " by [" + id + "] " + nick + " (" + ips + ")", gui.pink);
             }
         } else {
             for (String cmd : ServerCommands.commands) {

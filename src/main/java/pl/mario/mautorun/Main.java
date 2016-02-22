@@ -120,6 +120,8 @@ public class Main extends Thread {
     static String changes = ""
             + "v1.4.11\n"
             + "     - fix null KILL\n"
+            + "     - fix null SETT \n"
+            + "     - show incorrect rcon\n"
             + "v1.4.10\n"
             + "     - chat and logserver controll autoscroll\n"
             + "     - fix lped null\n"

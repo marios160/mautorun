@@ -1044,7 +1044,11 @@ public class Server extends Thread {
     }
 
     public synchronized Player getPlayer(String id) {
-        return players[Integer.parseInt(id)];
+        if (players[Integer.parseInt(id)] == null) {
+            return getOldPlayerId(Integer.parseInt(id));
+        } else {
+            return players[Integer.parseInt(id)];
+        }
     }
 
     public synchronized void setPlayers(Player[] players) {

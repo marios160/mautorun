@@ -11,7 +11,7 @@ public class PckLPED extends Packet {
     }
 
     void action(PacketData packet) {
-        if (srv.getPlayer(packet.getByteData()[36]) != null) {
+        if (srv.getNullPlayer(packet.getByteData()[36]) != null) {
             srv.delPlayers(packet.getByteData()[36], packet.getByteData()[40]);
         }
     }
