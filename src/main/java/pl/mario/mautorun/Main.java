@@ -122,6 +122,7 @@ public class Main extends Thread {
             + "         admin panel on/off\n"
             + "         set default ban mask\n"
             + "         set maximal ban mask\n"
+            + "     - killlog vertical resizability\n"
             + "v1.4.11\n"
             + "     - fixed null KILL\n"
             + "     - fixed null SETT \n"
