@@ -1097,7 +1097,23 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setClassFile(Main.conf);
 
     }//GEN-LAST:event_saveSettingsActionPerformed
+    void saveSettings() {
+        Main.conf.setDefMask(defMask.getSelectedIndex());
+        Main.conf.setMaxMask(maxMask.getSelectedIndex());
+        Main.conf.setWarnings((int) warnings.getValue());
+        Main.conf.setExe(nameexe.getText());
+        Main.conf.setWelcome1(welcomePlayers.getText());
+        Main.conf.setWelcome2(welcome2.getText());
+        Main.conf.setWelcomeCombo(welcomeCombo.getSelectedIndex());
+        Main.conf.setWelcomeCheck(WelcomeCheck.isSelected());
+        Main.conf.setCensors(Censors.isSelected());
+        Main.conf.setAdminPanel(adminPanel.isSelected());
+        Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
+        Main.conf.setItems(controlItems.isSelected());
+        Main.conf.setSktk(sktk.isSelected());
+        Main.conf.setClassFile(Main.conf);
 
+    }
     private void welcomePlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_welcomePlayersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_welcomePlayersActionPerformed

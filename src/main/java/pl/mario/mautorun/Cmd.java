@@ -26,7 +26,7 @@ public class Cmd extends Thread {
     Player player;
 
     public Cmd(int id, String linia) {
-        this.linia = linia;
+        this.linia = linia.toLowerCase();
         this.pid = id;
 
         this.player = srv.getPlayer(id);
@@ -37,6 +37,10 @@ public class Cmd extends Thread {
     public void run() {
 
         try {
+            if (linia.indexOf(": /apanel") > -1) {
+                adminPanel();
+            }
+
             if (conf.isAdminPanel() && this.player.getAccess() > 0) {
                 if (linia.indexOf(": /ban ") > -1) {
                     ban();
@@ -66,6 +70,24 @@ public class Cmd extends Thread {
                     time();
                 } else if (linia.indexOf(": /map ") > -1) {
                     map();
+                } else if (linia.indexOf(": /censor") > -1) {
+                    censor();
+                } else if (linia.indexOf(": /sktk") > -1) {
+                    sktk();
+                } else if (linia.indexOf(": /welcome") > -1) {
+                    welcome();
+                } else if (linia.indexOf(": /wmess") > -1) {
+                    welcomeMessage();
+                } else if (linia.indexOf(": /warnings") > -1) {
+                    warnings();
+                } else if (linia.indexOf(": /items") > -1) {
+                    items();
+                } else if (linia.indexOf(": /adisp") > -1) {
+                    dispAdmin();
+                } else if (linia.indexOf(": /maxmask") > -1) {
+                    maxMask();
+                } else if (linia.indexOf(": /defmask") > -1) {
+                    defMask();
                 } else if (linia.indexOf(": /help") > -1) {
                     if (linia.length() < linia.indexOf(": /help") + 8) {
                         help();
@@ -202,7 +224,6 @@ public class Cmd extends Thread {
             announce("ID " + id + " not exist!");
             return;
         }
-        System.out.println(mask);
         if (Integer.parseInt(mask) < maxMask || Integer.parseInt(mask) > 30) {
             announce("Mask must be between " + maxMask + " and 30");
             return;
@@ -334,8 +355,8 @@ public class Cmd extends Thread {
         }
         int i = 0;
         for (Player player : srv.getBanPlayers()) {
-           announce(i + " " + srv.getBanPlayer(i).getIp() + " " + srv.getBanPlayer(i).getNick());
-           i++;
+            announce(i + " " + srv.getBanPlayer(i).getIp() + " " + srv.getBanPlayer(i).getNick());
+            i++;
         }
     }
 
@@ -550,6 +571,232 @@ public class Cmd extends Thread {
         } else {
             return true;
         }
+    }
+
+    void censor() {
+
+        if (!admin(1)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /censor") + 9).equals("")) {
+            if (gui.getCensors().isSelected()) {
+                announce("Censorship control is ON");
+            } else {
+                announce("Censorship control is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /censor") + 9).equals(" on")) {
+            gui.getCensors().setSelected(true);
+            announce("Censorship control is ON");
+        } else if (linia.substring(linia.indexOf(": /censor") + 9).equals(" off")) {
+            gui.getCensors().setSelected(false);
+            announce("Censorship control is OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void sktk() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /sktk") + 7).equals("")) {
+            if (gui.getSktk().isSelected()) {
+                announce("Sk/Tk control is ON");
+            } else {
+                announce("Sk/Tk control is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /sktk") + 7).equals(" on")) {
+            gui.getSktk().setSelected(true);
+            announce("Sk/Tk control is ON");
+        } else if (linia.substring(linia.indexOf(": /sktk") + 7).equals(" off")) {
+            gui.getSktk().setSelected(false);
+            announce("Sk/Tk control is OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void warnings() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /warnings") + 11).equals("")) {
+
+            announce("After " + gui.getWarnings().getValue() + " warnings kick");
+
+        } else if (linia.indexOf(": /warnings ") > -1) {
+            String vl = linia.substring(linia.indexOf(": /warnings ") + 12);
+            gui.getWarnings().setValue(Integer.parseInt(vl));
+            announce("After " + gui.getWarnings().getValue() + " warnings kick");
+        }
+        gui.saveSettings();
+    }
+
+    void welcome() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /welcome") + 10).equals("")) {
+            if (gui.getWelcomeCheck().isSelected()) {
+                announce("Welcome players is ON");
+            } else {
+                announce("Welcome players is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /welcome") + 10).equals(" on")) {
+            gui.getWelcomeCheck().setSelected(true);
+            announce("Welcome players is ON");
+        } else if (linia.substring(linia.indexOf(": /welcome") + 10).equals(" off")) {
+            gui.getWelcomeCheck().setSelected(false);
+            announce("Welcome players is OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void welcomeMessage() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /wmess") + 8).equals("")) {
+            announce(gui.getWelcomePlayers().getText() + " " + gui.getWelcomeCombo().getSelectedItem() + " "
+                    + gui.getWelcome2().getText());
+
+        } else if (linia.indexOf(": /wmess ") > -1) {
+            int poz = linia.indexOf(": /wmess ") + 8;
+            int poz2 = linia.indexOf("+", poz) + 1;
+            int poz3 = -1;
+            String w1 = "", wc = "", w2 = "";
+            if (poz2 - 1 < 0) {
+                announce("Too few parameters!");
+                announce("Use: \"msg+$var+msg\"");
+                announce("e.g: Welcome+$nick+on Server");
+                return;
+            }
+            poz3 = linia.indexOf("+", poz2) + 1;
+            if (poz3 - 1 < 0) {
+                announce("Too few parameters!");
+                announce("Use: \"msg+$var+msg\"");
+                announce("e.g: Welcome+$nick+on Server");
+                return;
+            }
+            w1 = linia.substring(poz, poz2 - 1);
+            wc = linia.substring(poz2, poz3 - 1);
+            w2 = linia.substring(poz3);
+
+            gui.getWelcomePlayers().setText(w1);
+            gui.getWelcome2().setText(w2);
+
+            if (wc.equals("$none")) {
+                gui.getWelcomeCombo().setSelectedIndex(0);
+            } else if (wc.equals("$id")) {
+                gui.getWelcomeCombo().setSelectedIndex(2);
+            } else if (wc.equals("$ip")) {
+                gui.getWelcomeCombo().setSelectedIndex(3);
+            } else {
+                gui.getWelcomeCombo().setSelectedIndex(1);
+            }
+
+            announce(gui.getWelcomePlayers().getText() + " " + gui.getWelcomeCombo().getSelectedItem() + " "
+                    + gui.getWelcome2().getText());
+
+        }
+
+        gui.saveSettings();
+    }
+
+    void adminPanel() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /apanel") + 9).equals("")) {
+            if (gui.getAdminPanel().isSelected()) {
+                announce("Admin panel is ON");
+            } else {
+                announce("Admin panel is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /apanel") + 9).equals(" on")) {
+            gui.getAdminPanel().setSelected(true);
+            announce("Admin panel is ON");
+        } else if (linia.substring(linia.indexOf(": /apanel") + 9).equals(" off")) {
+            gui.getAdminPanel().setSelected(false);
+            announce("Admin panel is OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void items() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /items") + 8).equals("")) {
+            if (gui.getControlItems().isSelected()) {
+                announce("Item control is ON");
+            } else {
+                announce("Item control is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /items") + 8).equals(" on")) {
+            gui.getControlItems().setSelected(true);
+            announce("Item control is ON");
+        } else if (linia.substring(linia.indexOf(": /items") + 8).equals(" off")) {
+            gui.getControlItems().setSelected(false);
+            announce("Item control OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void dispAdmin() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /adisp") + 8).equals("")) {
+            if (gui.getDispAddAdmin().isSelected()) {
+                announce("Display add admin is ON");
+            } else {
+                announce("Display add admin is OFF");
+            }
+
+        } else if (linia.substring(linia.indexOf(": /adisp") + 8).equals(" on")) {
+            gui.getDispAddAdmin().setSelected(true);
+            announce("Display add admin is ON");
+        } else if (linia.substring(linia.indexOf(": /adisp") + 8).equals(" off")) {
+            gui.getDispAddAdmin().setSelected(false);
+            announce("Display add admin OFF");
+        }
+        gui.saveSettings();
+    }
+
+    void defMask() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /defmask") + 10).equals("")) {
+            String vl = gui.getDefMask().getSelectedItem().toString();
+            announce("Default ban mask is " + vl);
+
+        } else if (linia.indexOf(": /defmask ") + 11 > -1) {
+            String vl = linia.substring(linia.indexOf(": /defmask ") + 11);
+            gui.getDefMask().setSelectedIndex(Integer.parseInt(vl) - 1);
+            announce("Default ban mask is " + gui.getDefMask().getSelectedItem());
+        }
+        gui.saveSettings();
+    }
+
+    void maxMask() {
+        if (!admin(2)) {
+            return;
+        }
+        if (linia.substring(linia.indexOf(": /maxmask") + 10).equals("")) {
+            String vl = gui.getMaxMask().getSelectedItem().toString();
+            announce("Maximal ban mask is " + vl);
+
+        } else if (linia.indexOf(": /maxmask ") + 11 > -1) {
+            String vl = linia.substring(linia.indexOf(": /maxmask ") + 11);
+            gui.getMaxMask().setSelectedIndex(Integer.parseInt(vl) - 1);
+            announce("Maximal ban mask is " + gui.getMaxMask().getSelectedItem());
+        }
+        gui.saveSettings();
     }
 
 }

@@ -31,6 +31,7 @@ public class Main extends Thread {
     }
 
     public static void main(String args[]) throws IOException {
+        
         File file = new File("networkconfig.cfg");
         if (!file.exists()) {
             JOptionPane.showMessageDialog(null, "File " + file.getName() + " not found!\nPlace Mautorun in PC");
@@ -52,6 +53,8 @@ public class Main extends Thread {
         anns = new ArrayList<>();
         anns.add("");
         gui = new Gui();
+        gui.getWelcomeCombo().setSelectedItem("asdd");
+        System.out.println(gui.getWelcomeCombo().getSelectedItem());
         kill = new KillLog();
         time = System.currentTimeMillis();
         while (true) {
@@ -105,8 +108,20 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.11";
+    static String version = "1.4.12";
     static String changes = ""
+            + "v1.4.12\n"
+            + "     - new commands:\n"
+            + "         sktk on/off\n"
+            + "         warnings\n"
+            + "         censorship on/off\n"
+            + "         items on/off\n"
+            + "         display add admin on/off\n"
+            + "         welcome players on/off\n"
+            + "         set welcome message\n"
+            + "         admin panel on/off\n"
+            + "         set default ban mask\n"
+            + "         set maximal ban mask\n"
             + "v1.4.11\n"
             + "     - fixed null KILL\n"
             + "     - fixed null SETT \n"
