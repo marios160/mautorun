@@ -114,15 +114,16 @@ public class Gui extends javax.swing.JFrame {
         welcome2 = new javax.swing.JTextField();
         resetVisit = new javax.swing.JButton();
         resetCrash = new javax.swing.JButton();
-        longChat = new javax.swing.JButton();
-        longLog = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
         changes = new javax.swing.JButton();
         sktk = new javax.swing.JCheckBox();
         nicks = new javax.swing.JCheckBox();
-        denidedNicksList = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         killLog = new javax.swing.JButton();
+        longLog = new javax.swing.JButton();
+        longChat = new javax.swing.JButton();
+        denidedNicksList = new javax.swing.JButton();
         optimization = new javax.swing.JButton();
+        whois = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         softTime = new javax.swing.JLabel();
@@ -802,10 +803,10 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         jPanel2.add(saveSettings, gridBagConstraints);
 
@@ -847,8 +848,8 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(resetVisit, gridBagConstraints);
 
@@ -859,36 +860,10 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(resetCrash, gridBagConstraints);
-
-        longChat.setText("Open long chat");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel2.add(longChat, gridBagConstraints);
-
-        longLog.setText("Open long log");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel2.add(longLog, gridBagConstraints);
-
-        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.RELATIVE;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 50;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        jPanel2.add(jSeparator1, gridBagConstraints);
 
         changes.setText("Changes");
         changes.addActionListener(new java.awt.event.ActionListener() {
@@ -897,8 +872,8 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(changes, gridBagConstraints);
 
@@ -916,16 +891,9 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(nicks, gridBagConstraints);
 
-        denidedNicksList.setText("List of denided nicks");
-        denidedNicksList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                denidedNicksListActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 5;
-        jPanel2.add(denidedNicksList, gridBagConstraints);
+        jTabbedPane2.addTab("Settings", jPanel2);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         killLog.setText("Kill Log");
         killLog.addActionListener(new java.awt.event.ActionListener() {
@@ -935,7 +903,42 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel2.add(killLog, gridBagConstraints);
+        jPanel1.add(killLog, gridBagConstraints);
+
+        longLog.setText("Open long log");
+        longLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                longLogActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(longLog, gridBagConstraints);
+
+        longChat.setText("Open long chat");
+        longChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                longChatActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(longChat, gridBagConstraints);
+
+        denidedNicksList.setText("List of denided nicks");
+        denidedNicksList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                denidedNicksListActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(denidedNicksList, gridBagConstraints);
 
         optimization.setText("Optimize bases");
         optimization.addActionListener(new java.awt.event.ActionListener() {
@@ -944,12 +947,15 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel2.add(optimization, gridBagConstraints);
+        jPanel1.add(optimization, gridBagConstraints);
 
-        jTabbedPane2.addTab("Settings", jPanel2);
+        whois.setText("Player finder");
+        jPanel1.add(whois, new java.awt.GridBagConstraints());
+
+        jTabbedPane2.addTab("Tools", jPanel1);
 
         jLabel4.setText("By Mario PL 2016");
 
@@ -1232,6 +1238,14 @@ public class Gui extends javax.swing.JFrame {
         opCD.start();
     }//GEN-LAST:event_optimizationActionPerformed
 
+    private void longLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longLogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_longLogActionPerformed
+
+    private void longChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longChatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_longChatActionPerformed
+
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
@@ -1424,13 +1438,13 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton kickAllButt;
     private javax.swing.JButton killLog;
@@ -1469,6 +1483,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JTextField welcome2;
     private javax.swing.JComboBox welcomeCombo;
     private javax.swing.JTextField welcomePlayers;
+    private javax.swing.JButton whois;
     // End of variables declaration//GEN-END:variables
     private TableModel igitabmod;
     private TableModel constabmod;

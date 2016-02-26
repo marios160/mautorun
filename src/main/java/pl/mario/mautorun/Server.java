@@ -315,13 +315,18 @@ public class Server extends Thread {
     void addBaseIP(String ip, String nick) {
 
         try {
+            String line = ip;
+            while(line.length()<20){
+                line.concat(" ");
+            }
+            line.concat(nick+"\n");
             PrintWriter base = null;
             File fbase = new File(Main.path + "baseIP.txt");
             if (!fbase.exists()) {
                 fbase.createNewFile();
             }
             base = new PrintWriter(new FileWriter(fbase, true));
-            base.append(ip + "   " + nick + "\n");
+            base.append(line);
             base.close();
         } catch (Exception ex) {
             Loggs.loguj("Server-addBaseIP", ex);
