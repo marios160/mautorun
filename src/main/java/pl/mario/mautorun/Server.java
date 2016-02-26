@@ -316,10 +316,10 @@ public class Server extends Thread {
 
         try {
             String line = ip;
-            while(line.length()<20){
-                line.concat(" ");
+            while(line.length()<17){
+                line = line.concat(" ");
             }
-            line.concat(nick+"\n");
+            line = line.concat(nick+"\n");
             PrintWriter base = null;
             File fbase = new File(Main.path + "baseIP.txt");
             if (!fbase.exists()) {

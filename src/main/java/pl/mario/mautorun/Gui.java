@@ -1,18 +1,13 @@
 package pl.mario.mautorun;
 
-import com.sun.javafx.stage.WindowCloseRequestHandler;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -953,6 +948,11 @@ public class Gui extends javax.swing.JFrame {
         jPanel1.add(optimization, gridBagConstraints);
 
         whois.setText("Player finder");
+        whois.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                whoisActionPerformed(evt);
+            }
+        });
         jPanel1.add(whois, new java.awt.GridBagConstraints());
 
         jTabbedPane2.addTab("Tools", jPanel1);
@@ -1245,6 +1245,10 @@ public class Gui extends javax.swing.JFrame {
     private void longChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longChatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_longChatActionPerformed
+
+    private void whoisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_whoisActionPerformed
+        Finder f = new Finder();
+    }//GEN-LAST:event_whoisActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {

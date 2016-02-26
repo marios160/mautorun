@@ -56,74 +56,132 @@ public class FinderPlayer extends Thread {
     }
 
     void findIP() {
+        int num = checkIP(value);
+        if (num == 0) {
+            found.add("");
+            return;
+        }
+        String ip = value;
+        if (num == 4) {
+            ip = value.substring(0, value.lastIndexOf("."));
+        }
 
-        value = value.substring(type);
-        for (String r : list) {
-            if (r.indexOf(value) > -1) {
-                found.add(r);
-                list.remove(r);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).indexOf(ip) == 0) {
+                found.add(list.get(i));
+                list.remove(i);
+                i--;
             }
         }
         List<String> found2 = new ArrayList<>();
-        for (String r : found) {
-            String rc = r.substring(0, r.indexOf(" "));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+        for (int i = 0; i < found.size(); i++) {
+            String rc = found.get(i).substring(17);
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) > -1) {
+                    found2.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
+        }
 
-            rc = rc.substring(0, r.lastIndexOf("."));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+        List<String> found3 = new ArrayList<>();
+        for (int i = 0; i < found2.size(); i++) {
+            
+            String rc = null;
+            try {
+                
+            rc = found2.get(i).substring(0, found2.get(i).indexOf(" "));
+            } catch (Exception e) {
+                System.out.println(found2.get(i));
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found3.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
-
-            rc = rc.substring(0, r.lastIndexOf("."));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+            if (num == 2 || num == 1) {
+                return;
+            }
+            rc = rc.substring(0, rc.lastIndexOf("."));
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found3.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
+                }
+            }
+            if (num == 3) {
+                return;
+            }
+            rc = rc.substring(0, rc.lastIndexOf("."));
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found3.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
         }
         found.addAll(found2);
+        found.addAll(found3);
 
     }
 
     void findNick() {
-        for (String r : list) {
-            if (r.indexOf(value) > -1) {
-                found.add(r);
-                list.remove(r);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).indexOf(value) > -1) {
+                found.add(list.get(i));
+                list.remove(i);
+                i--;
             }
         }
+
         List<String> found2 = new ArrayList<>();
-        for (String r : found) {
-            String rc = r.substring(0, r.indexOf(" "));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+        String rc = null;
+        for (int i = 0; i < found.size(); i++) {
+            try {
+                
+            rc = found.get(i).substring(0, found.get(i).indexOf(" "));
+            } catch (Exception e) {
+                System.out.println(found.get(i));
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found2.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
+            try {
 
-            rc = rc.substring(0, r.lastIndexOf("."));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+                rc = rc.substring(0, rc.lastIndexOf("."));
+
+            } catch (Exception ex) {
+                //Loggs.loguj("FinderPlayer-fundNick", ex);
+                System.out.println(rc);
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found2.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
+            try {
 
-            rc = rc.substring(0, r.lastIndexOf("."));
-            for (String s : list) {
-                if (s.indexOf(rc) > -1) {
-                    found2.add(s);
-                    list.remove(s);
+                rc = rc.substring(0, rc.lastIndexOf("."));
+            } catch (Exception ex) {
+                System.out.println(rc);
+                //Loggs.loguj("FinderPlayer-fundNick", ex);
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).indexOf(rc) == 0) {
+                    found2.add(list.get(j));
+                    list.remove(list.get(j));
+                    j--;
                 }
             }
         }
@@ -167,7 +225,7 @@ public class FinderPlayer extends Thread {
             case 3:
                 ip1 = ip.substring(0, ip.indexOf("."));
                 ip2 = ip.substring(ip.indexOf(".") + 1, ip.indexOf(".", 4));
-                ip3 = ip.substring(ip.indexOf(".", ip1.length() + ip2.length() + 2), ip.lastIndexOf("."));
+                ip3 = ip.substring(ip.indexOf(".", ip1.length() + 1) + 1, ip.lastIndexOf("."));
                 num = 3;
                 if (ip.length() > ip1.length() + ip2.length() + ip3.length() + 3) {
                     ip4 = ip.substring(ip.lastIndexOf(".") + 1);

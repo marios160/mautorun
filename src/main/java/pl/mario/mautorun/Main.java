@@ -123,6 +123,7 @@ public class Main extends Thread {
             + "     - Ban mapmod crashers on maps red, forest, timb, china\n"
             + "     - Optimization bases\n"
             + "     - better view of baseIP\n"
+            + "     - Finder of players\n"
             + "v1.4.11\n"
             + "     - fixed null KILL\n"
             + "     - fixed null SETT \n"
