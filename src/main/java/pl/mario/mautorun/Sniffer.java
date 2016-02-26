@@ -45,42 +45,47 @@ public class Sniffer extends Thread {
     }
 
     public void run() {
-        StringBuilder errbuf = new StringBuilder();
-        int snaplen = 64 * 1024;
-        int flags = Pcap.MODE_PROMISCUOUS;
-        int timeout = 10 * 1000;
-        String pomip = deviceIP;
-        final String localip = pomip.substring(0, pomip.length() - 1);
+        try {
 
-        final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
-        if (pcap == null) {
-            JOptionPane.showMessageDialog(null, "Error while opening device for capture: "
-                    + errbuf.toString());
-            return;
-        }
+            StringBuilder errbuf = new StringBuilder();
+            int snaplen = 64 * 1024;
+            int flags = Pcap.MODE_PROMISCUOUS;
+            int timeout = 10 * 1000;
+            String pomip = deviceIP;
+            final String localip = pomip.substring(0, pomip.length() - 1);
 
-        PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
-            Udp udp = new Udp();
-            Ip4 ip = new Ip4();
-
-            public void nextPacket(PcapPacket packet, String user) {
-                if (packet.hasHeader(udp)) {
-
-                    if (interrupt) {
-                        return;
-                    }
-                    analyze(packet);
-                }
-                if (Thread.currentThread().isInterrupted() || Main.stopSnifferLoop) {
-                    Main.stopSnifferLoop = false;
-                    pcap.breakloop();
-                    return;
-                }
+            final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
+            if (pcap == null) {
+                JOptionPane.showMessageDialog(null, "Error while opening device for capture: "
+                        + errbuf.toString());
+                return;
             }
 
-        };
-        pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, null);
-        pcap.close();
+            PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
+                Udp udp = new Udp();
+                Ip4 ip = new Ip4();
+
+                public void nextPacket(PcapPacket packet, String user) {
+                    if (packet.hasHeader(udp)) {
+
+                        if (interrupt) {
+                            return;
+                        }
+                        analyze(packet);
+                    }
+                    if (Thread.currentThread().isInterrupted() || Main.stopSnifferLoop) {
+                        Main.stopSnifferLoop = false;
+                        pcap.breakloop();
+                        return;
+                    }
+                }
+
+            };
+            pcap.loop(Pcap.LOOP_INFINITE, jpacketHandler, null);
+            pcap.close();
+        } catch (Exception ex) {
+            Loggs.loguj("Sniffer-run", ex);
+        }
     }
 
     public void analyze(PcapPacket packet) {
@@ -108,43 +113,54 @@ public class Sniffer extends Thread {
                 if (udp.source() == (Main.srv.getPort())) {
 
                     if (data.contains(LPED)) {
-                        synchronized(sniff.lped){
-                        sniff.lped.add(packet);}
+                        synchronized (sniff.lped) {
+                            sniff.lped.add(packet);
+                        }
                     } else if (data.contains(LLIK)) {
-                        synchronized(sniff.llik){
-                        sniff.llik.add(packet);}
-                    
+                        synchronized (sniff.llik) {
+                            sniff.llik.add(packet);
+                        }
+
                     } else if (data.contains(PORD)) {
-                        synchronized(sniff.pord){
-                        sniff.pord.add(packet);}
-                    
+                        synchronized (sniff.pord) {
+                            sniff.pord.add(packet);
+                        }
+
                     } else if (data.contains(KCIP)) {
-                        synchronized(sniff.kcip){
-                        sniff.kcip.add(packet);}
+                        synchronized (sniff.kcip) {
+                            sniff.kcip.add(packet);
+                        }
                     }
                 } else if (udp.destination() == (Main.srv.getPort())) {
 
                     if (data.contains(LPRC)) {
-                        synchronized(sniff.lprc){
-                        sniff.lprc.add(packet);}
+                        synchronized (sniff.lprc) {
+                            sniff.lprc.add(packet);
+                        }
                     } else if (data.contains(TAHC)) {
-                        synchronized(sniff.tahc){
-                        sniff.tahc.add(packet);}
+                        synchronized (sniff.tahc) {
+                            sniff.tahc.add(packet);
+                        }
                     } else if (data.contains(TTES)) {
-                        synchronized(sniff.ttes){
-                        sniff.ttes.add(packet);}
+                        synchronized (sniff.ttes) {
+                            sniff.ttes.add(packet);
+                        }
                     } else if (data.contains(TSIL)) {
-                        synchronized(sniff.tsil){
-                        sniff.tsil.add(packet);}
+                        synchronized (sniff.tsil) {
+                            sniff.tsil.add(packet);
+                        }
                     } else if (data.contains(HTUA)) {
-                        synchronized(sniff.htua){
-                        sniff.htua.add(packet);}
+                        synchronized (sniff.htua) {
+                            sniff.htua.add(packet);
+                        }
                     } else if (data.contains(ITCA)) {
-                        synchronized(sniff.itca){
-                        sniff.itca.add(packet);}
+                        synchronized (sniff.itca) {
+                            sniff.itca.add(packet);
+                        }
                     } else if (data.contains(WSQR)) {
-                        synchronized(sniff.wsqr){
-                        sniff.wsqr.add(packet);}
+                        synchronized (sniff.wsqr) {
+                            sniff.wsqr.add(packet);
+                        }
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
                         System.out.println(cmd);

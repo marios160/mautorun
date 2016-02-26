@@ -81,7 +81,7 @@ public class PckLLIK extends Packet {
             }
             if (pl1.addWarrnings()) {
                 Cmd.message("[" + id1 + "] was kicked for warnings");
-                gui.dodajLog("[" + id1 + "] " + pl1.getNick() + " was kicked by for warnings", gui.red);
+                gui.dodajLog("[" + id1 + "] " + pl1.getNick() + " was kicked for warnings", gui.red);
                 srv.sendPck("/sv " + ServerCommands.kick + " " + id1);
                 srv.sendPck("/sv " + ServerCommands.kick + " " + id1);
             } else {

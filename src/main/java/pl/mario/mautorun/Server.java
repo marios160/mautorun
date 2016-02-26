@@ -11,10 +11,13 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -639,24 +642,26 @@ public class Server extends Thread {
         return message;
     }
 
-    public String sendPckUnanswered(String msg) throws IOException {
-        String message = "";
-        String rcon = "/" + this.rcon;
-        InetAddress servAddr = InetAddress.getByName(ip);
-        byte buf[] = msg.getBytes();
-        byte buff[];
-        DatagramSocket socket = new DatagramSocket();
-        socket.setSoTimeout(2000);
-
-        socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
-        buff = new byte[4096];
-        DatagramPacket prcon = new DatagramPacket(buff, buff.length);
-        socket.receive(prcon);  //odbieramy komende
-
-        socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
-        socket.close();
-
-        return message;
+    public void sendPckUnanswered(String msg) {
+        try {
+            String message = "";
+            String rcon = "/" + this.rcon;
+            InetAddress servAddr = InetAddress.getByName(ip);
+            byte buf[] = msg.getBytes();
+            byte buff[];
+            DatagramSocket socket = new DatagramSocket();
+            socket.setSoTimeout(2000);
+            
+            socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
+            buff = new byte[4096];
+            DatagramPacket prcon = new DatagramPacket(buff, buff.length);
+            socket.receive(prcon);  //odbieramy komende
+            
+            socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
+            socket.close();
+        } catch (Exception ex) {
+            Loggs.loguj("Server-sendPckUnanswered", ex);
+        }
     }
 
     public String sendStatus() throws IOException {
@@ -792,13 +797,9 @@ public class Server extends Thread {
         }
         if (idMap != id) {
 
-            try {
-                gui.dodajLog("Changing map to " + gui.getMap_button().getSelectedItem(), gui.pink);
-                sendPckUnanswered("/sv " + ServerCommands.gotomap + " " + listIdMaps[id]);
-                idMap = id;
-            } catch (IOException ex) {
-                Loggs.loguj("Server-ChangeMap", ex);
-            }
+            gui.dodajLog("Changing map to " + gui.getMap_button().getSelectedItem(), gui.pink);
+            sendPckUnanswered("/sv " + ServerCommands.gotomap + " " + listIdMaps[id]);
+            idMap = id;
         }
     }
 
@@ -819,6 +820,7 @@ public class Server extends Thread {
 
         try {
             Files.copy(afile.toPath(), bfile.toPath(), REPLACE_EXISTING);
+            Files.deleteIfExists(afile.toPath());
         } catch (IOException ex) {
             Loggs.loguj("Server-saveLog", ex);
         }

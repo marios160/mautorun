@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
@@ -88,6 +90,11 @@ public class Cmd extends Thread {
                     maxMask();
                 } else if (linia.indexOf(": /defmask") > -1) {
                     defMask();
+                } else if (linia.indexOf(": /announce ") > -1) {
+                    announce();
+                } else if (linia.indexOf(": /whoami ") > -1) {
+                    whoami();
+                } else if (commands()) {
                 } else if (linia.indexOf(": /help") > -1) {
                     if (linia.length() < linia.indexOf(": /help") + 8) {
                         help();
@@ -513,17 +520,12 @@ public class Cmd extends Thread {
     }
 
     void map() {
-        try {
-            if (!admin(2)) {
-                return;
-            }
-            String id = linia.substring(linia.indexOf("/map") + 5);
-            gui.getDlog().insertString(gui.getDlog().getLength(), conf.getTime() + "Changed map to id " + id + " by " + pnick + "\n", gui.mag);
-
-            srv.sendPck("/sv gotomap " + id);
-        } catch (BadLocationException ex) {
-            Loggs.loguj("Cmd-map", ex);
+        if (!admin(2)) {
+            return;
         }
+        String id = linia.substring(linia.indexOf("/map") + 5);
+        gui.dodajLog("Changed map to id " + id + " by " + pnick + "\n", gui.mag);
+        srv.sendPckUnanswered("/sv gotomap " + id);
 
     }
 
@@ -798,5 +800,55 @@ public class Cmd extends Thread {
         }
         gui.saveSettings();
     }
+
+    private void announce() {
+        if (!admin(2)) {
+            return;
+        }
+        String msg = linia.substring(linia.indexOf("/announce ") + 10);
+        if (msg.length() > 39) {
+            List<String> list = new ArrayList<>();
+            int num = msg.length() / 39;
+            if (msg.length() % 39 > 0) {
+                num++;
+            }
+            for (int i = 0; i < num; i++) {
+                String ln = msg.substring(0, 39);
+                msg = msg.substring(39);
+                list.add(ln);
+            }
+            for (String string : list) {
+                announce(string);
+            }
+        }
+
+    }
+
+    private boolean commands() {
+        if (!admin(2)) {
+            return false;
+        }
+        for (String command : ServerCommands.commands) {
+            if (linia.indexOf("/" + command) > -1) {
+                String msg = srv.sendPck("/sv " + command + linia.substring(linia.indexOf(command) + command.length()));
+                announce(msg);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void whoami() {
+        if (!admin(1)) {
+            return;
+        }
+        if(srv.getPlayer(pid).getAccess() == 1){
+            announce("Junior Admin");
+        }else if (srv.getPlayer(pid).getAccess() == 2){
+            announce("Admin");
+        }
+    }
+    
+    
 
 }

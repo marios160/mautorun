@@ -53,8 +53,6 @@ public class Main extends Thread {
         anns = new ArrayList<>();
         anns.add("");
         gui = new Gui();
-        gui.getWelcomeCombo().setSelectedItem("asdd");
-        System.out.println(gui.getWelcomeCombo().getSelectedItem());
         kill = new KillLog();
         time = System.currentTimeMillis();
         while (true) {
@@ -123,6 +121,7 @@ public class Main extends Thread {
             + "         set default ban mask\n"
             + "         set maximal ban mask\n"
             + "     - killlog vertical resizability\n"
+            + "     - Ban mapmod crashers on maps red, forest, timb, china\n"
             + "v1.4.11\n"
             + "     - fixed null KILL\n"
             + "     - fixed null SETT \n"
