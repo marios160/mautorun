@@ -122,6 +122,7 @@ public class Gui extends javax.swing.JFrame {
         nicks = new javax.swing.JCheckBox();
         denidedNicksList = new javax.swing.JButton();
         killLog = new javax.swing.JButton();
+        optimization = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         softTime = new javax.swing.JLabel();
@@ -936,6 +937,18 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel2.add(killLog, gridBagConstraints);
 
+        optimization.setText("Optimize bases");
+        optimization.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optimizationActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(optimization, gridBagConstraints);
+
         jTabbedPane2.addTab("Settings", jPanel2);
 
         jLabel4.setText("By Mario PL 2016");
@@ -1212,6 +1225,13 @@ public class Gui extends javax.swing.JFrame {
         Main.kill.setVisible(true);
     }//GEN-LAST:event_killLogActionPerformed
 
+    private void optimizationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optimizationActionPerformed
+        Optimization opIP = new Optimization("baseIP.txt");
+        opIP.start();
+        Optimization opCD = new Optimization("baseCDK.txt");
+        opCD.start();
+    }//GEN-LAST:event_optimizationActionPerformed
+
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
@@ -1426,6 +1446,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel name_server;
     private javax.swing.JTextField nameexe;
     private javax.swing.JCheckBox nicks;
+    private javax.swing.JButton optimization;
     private javax.swing.JLabel passwdVal;
     private javax.swing.JLabel password;
     private javax.swing.JLabel players;

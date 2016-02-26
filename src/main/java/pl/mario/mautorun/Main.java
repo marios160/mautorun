@@ -30,8 +30,7 @@ public class Main extends Thread {
 
     }
 
-    public static void main(String args[]) throws IOException {
-        
+    public static void main(String args[]) throws IOException, InterruptedException {
         File file = new File("networkconfig.cfg");
         if (!file.exists()) {
             JOptionPane.showMessageDialog(null, "File " + file.getName() + " not found!\nPlace Mautorun in PC");
@@ -122,6 +121,8 @@ public class Main extends Thread {
             + "         set maximal ban mask\n"
             + "     - killlog vertical resizability\n"
             + "     - Ban mapmod crashers on maps red, forest, timb, china\n"
+            + "     - Optimization bases\n"
+            + "     - \n"
             + "v1.4.11\n"
             + "     - fixed null KILL\n"
             + "     - fixed null SETT \n"
