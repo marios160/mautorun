@@ -156,7 +156,7 @@ public class Server extends Thread {
             gui.setAlwaysOnTop(true);
             gui.setAlwaysOnTop(false);
             String pom = null;
-            while (pom == null) {
+            while (pom == null || pom.isEmpty()) {
                 pom = sendPck("/sv " + ServerCommands.objtime);
             }
             this.objtime = Integer.parseInt(pom.substring(10));

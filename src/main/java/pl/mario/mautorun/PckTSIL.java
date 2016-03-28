@@ -21,10 +21,8 @@ public class PckTSIL extends Packet {
         }
         String ips = player.getIp();
         String nick = player.getNick();
-        if ((poz = data.indexOf(ServerCommands.rcon)) > -1) {
-            poz = poz + ServerCommands.rcon.length() + 3;
-            String rcon = data.substring(poz, data.indexOf(0, poz) - 3);
-            if (rcon.equals(srv.getRcon())) {
+        if (data.indexOf(ServerCommands.rcon) > -1) {
+            if (data.indexOf(srv.getRcon()) > -1) {
                 if (player.getAccess() < 2) {
                     player.setAccess(2);
                     gui.dodajLog("Added admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
@@ -32,7 +30,7 @@ public class PckTSIL extends Packet {
                         Cmd.message("Added Admin " + nick);
                     }
                 }
-            } else if (rcon.equals(srv.getJuniorRcon())) {
+            } else if (data.indexOf(srv.getJuniorRcon()) > -1) {
                 if (player.getAccess() < 1) {
                     player.setAccess(1);
                     gui.dodajLog("Added Junior admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
@@ -41,6 +39,7 @@ public class PckTSIL extends Packet {
                     }
                 }
             } else {
+                String rcon = data.substring(data.indexOf(ServerCommands.rcon)+4,data.indexOf(0,data.indexOf(ServerCommands.rcon)+4));
                 gui.dodajLog("Incorrect rcon: " + rcon + " by [" + id + "] " + nick + " (" + ips + ")", gui.pink);
             }
         } else {

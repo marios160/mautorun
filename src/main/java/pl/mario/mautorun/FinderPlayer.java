@@ -206,29 +206,29 @@ public class FinderPlayer extends Thread {
             case 0:
                 return 0;
             case 1:
-                ip1 = ip.substring(0, ip.indexOf("."));
+                ip1 = ip.substring(0, ip.indexOf(".")).trim();
                 num = 1;
                 if (ip.length() > ip1.length() + 1) {
-                    ip2 = ip.substring(ip.indexOf(".") + 1);
+                    ip2 = ip.substring(ip.indexOf(".") + 1).trim();
                     num++;
                 }
                 break;
             case 2:
-                ip1 = ip.substring(0, ip.indexOf("."));
-                ip2 = ip.substring(ip.indexOf(".") + 1, ip.indexOf(".", 4));
+                ip1 = ip.substring(0, ip.indexOf(".")).trim();
+                ip2 = ip.substring(ip.indexOf(".") + 1, ip.indexOf(".", 4)).trim();
                 num = 2;
                 if (ip.length() > ip1.length() + ip2.length() + 2) {
-                    ip3 = ip.substring(ip.indexOf(".", 4) + 1);
+                    ip3 = ip.substring(ip.indexOf(".", 4) + 1).trim();
                     num++;
                 }
                 break;
             case 3:
-                ip1 = ip.substring(0, ip.indexOf("."));
-                ip2 = ip.substring(ip.indexOf(".") + 1, ip.indexOf(".", 4));
-                ip3 = ip.substring(ip.indexOf(".", ip1.length() + 1) + 1, ip.lastIndexOf("."));
+                ip1 = ip.substring(0, ip.indexOf(".")).trim();
+                ip2 = ip.substring(ip.indexOf(".") + 1, ip.indexOf(".", 4)).trim();
+                ip3 = ip.substring(ip.indexOf(".", ip1.length() + 1) + 1, ip.lastIndexOf(".")).trim();
                 num = 3;
                 if (ip.length() > ip1.length() + ip2.length() + ip3.length() + 3) {
-                    ip4 = ip.substring(ip.lastIndexOf(".") + 1);
+                    ip4 = ip.substring(ip.lastIndexOf(".") + 1).trim();
                     num++;
                 }
                 break;
