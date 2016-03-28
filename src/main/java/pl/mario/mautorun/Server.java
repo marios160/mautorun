@@ -1212,7 +1212,22 @@ public class Server extends Thread {
             Cmd.message("Remained 10 weapons to drop");
             Cmd.message("Please pick up weapons from the ground!");
             gui.dodajLog("Remained 10 weapons to drop", gui.cyan);
+        } else if (this.items == 4) {
+            Cmd.restart();
+            Cmd.message("Too many weapons on the ground!");
+            Cmd.message("Next time please pick up weapons");
+            gui.dodajLog("Too many weapons on the ground!", gui.red);
+        } else if (this.items == 3) {
+            Cmd.restart();
+            Cmd.message("Too many weapons on the ground!");
+            Cmd.message("Next time please pick up weapons");
+            gui.dodajLog("Too many weapons on the ground!", gui.red);
         } else if (this.items == 2) {
+            Cmd.restart();
+            Cmd.message("Too many weapons on the ground!");
+            Cmd.message("Next time please pick up weapons");
+            gui.dodajLog("Too many weapons on the ground!", gui.red);
+        } else if (this.items == 1) {
             Cmd.restart();
             Cmd.message("Too many weapons on the ground!");
             Cmd.message("Next time please pick up weapons");

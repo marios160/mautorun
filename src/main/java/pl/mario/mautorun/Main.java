@@ -111,6 +111,8 @@ public class Main extends Thread {
             + "     - fixed packets nulls\n"
             + "     - fixed space in rcon command\n"
             + "     - fixed ban with mask\n"
+            + "     - better secure of items\n"
+            + ""
             + "v1.4.12\n"
             + "     - new commands:\n"
             + "         sktk on/off\n"
