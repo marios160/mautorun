@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-import javax.swing.text.BadLocationException;
 import static pl.mario.mautorun.Main.*;
 
 /**
@@ -212,7 +211,7 @@ public class Cmd extends Thread {
         } else if (dl < 6) {
             if (ln.indexOf("/") > -1) {
                 id = ln.substring(0, ln.indexOf("/"));
-                mask = ln.substring(ln.indexOf("/"));
+                mask = ln.substring(ln.indexOf("/") + 1);
                 czas = "";
             } else if (ln.indexOf(" t") > -1) {
                 id = ln.substring(0, ln.indexOf(" t"));
@@ -221,19 +220,25 @@ public class Cmd extends Thread {
 
         } else if (ln.indexOf("/") > -1) {
             id = ln.substring(0, ln.indexOf("/"));
-            mask = ln.substring(ln.indexOf("/"), ln.indexOf(" t"));
+            mask = ln.substring(ln.indexOf("/") + 1, ln.indexOf(" t"));
             czas += ln.substring(ln.indexOf("t") + 1) + " min";
         } else {
             id = ln.substring(0, ln.indexOf(" t"));
             czas += ln.substring(ln.indexOf("t") + 1) + " min";
         }
-        if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
-            announce("ID " + id + " not exist!");
-            return;
-        }
-        if (Integer.parseInt(mask) < maxMask || Integer.parseInt(mask) > 30) {
-            announce("Mask must be between " + maxMask + " and 30");
-            return;
+        try {
+
+            if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
+                announce("ID " + id + " not exist!");
+                return;
+            }
+            if (Integer.parseInt(mask) < maxMask || Integer.parseInt(mask) > 30) {
+                announce("Mask must be between " + maxMask + " and 30");
+                return;
+            }
+        } catch (Exception ex) {
+            announce("Incorrect syntax");
+            announce("Use: /ban <ID>[/mask]");
         }
 
         if (srv.getPlayer(id) != null) {
@@ -303,7 +308,7 @@ public class Cmd extends Thread {
         } else if (dl < 6) {
             if (ln.indexOf("/") > -1) {
                 id = ln.substring(0, ln.indexOf("/"));
-                mask = ln.substring(ln.indexOf("/"));
+                mask = ln.substring(ln.indexOf("/") + 1);
                 czas = "";
             } else if (ln.indexOf(" t") > -1) {
                 id = ln.substring(0, ln.indexOf(" t"));
@@ -312,7 +317,7 @@ public class Cmd extends Thread {
 
         } else if (ln.indexOf("/") > -1) {
             id = ln.substring(0, ln.indexOf("/"));
-            mask = ln.substring(ln.indexOf("/"), ln.indexOf(" t"));
+            mask = ln.substring(ln.indexOf("/") + 1, ln.indexOf(" t"));
             czas += ln.substring(ln.indexOf("t") + 1) + " min";
         } else {
             id = ln.substring(0, ln.indexOf(" t"));
@@ -842,13 +847,11 @@ public class Cmd extends Thread {
         if (!admin(1)) {
             return;
         }
-        if(srv.getPlayer(pid).getAccess() == 1){
+        if (srv.getPlayer(pid).getAccess() == 1) {
             announce("Junior Admin");
-        }else if (srv.getPlayer(pid).getAccess() == 2){
+        } else if (srv.getPlayer(pid).getAccess() == 2) {
             announce("Admin");
         }
     }
-    
-    
 
 }
