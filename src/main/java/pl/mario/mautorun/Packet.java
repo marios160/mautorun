@@ -32,9 +32,19 @@ public abstract class Packet extends Thread {
                     continue;
                 }
                 try {
-                    action(packet);                
+                    boolean ret = action(packet);
+                    if (!ret) {
+                        packet.addExpiry();
+                        if (packet.getExpiry() < 3) {
+                            queue.add(packet.getPacket());
+                        }
+                    }
                 } catch (Exception ex) {
                     Loggs.loguj("Packet-run", ex);
+                    packet.addExpiry();
+                    if (packet.getExpiry() < 3) {
+                        queue.add(packet.getPacket());
+                    }
                     showHexPck(packet);
                 }
 
@@ -58,11 +68,11 @@ public abstract class Packet extends Thread {
         return true;
     }
 
-    abstract void action(PacketData packet) throws Exception;
+    abstract boolean action(PacketData packet) throws Exception;
 
     public void showHexPck(PacketData packet) {
         int i = 0, k = 0, l = 0, n = 0;
-            System.out.println("----------------------------------------------");
+        System.out.println("----------------------------------------------");
         for (byte b : packet.getByteData()) {
             String bytes = Integer.toHexString(b);
             if (bytes.length() > 2) {
@@ -73,23 +83,25 @@ public abstract class Packet extends Thread {
 
             System.out.print(bytes + " ");
             i++;
-            if (i > 7)
+            if (i > 7) {
                 System.out.print(" ");
+            }
             if (i > 15) {
-                l = l+16;
-                for (k = l-16, n = 0; k < l; k++, n++) {
-                    if(n == 7)
+                l = l + 16;
+                for (k = l - 16, n = 0; k < l; k++, n++) {
+                    if (n == 7) {
                         System.out.print(" ");
+                    }
                     char x = packet.getData().charAt(k);
                     if ((int) x < 32) {
                         System.out.print(".");
-                    } else if ((int)x > 127){
+                    } else if ((int) x > 127) {
                         System.out.print(".");
                     } else {
                         System.out.print(x);
                     }
                 }
-                
+
                 System.out.println("");
                 i = 0;
             }

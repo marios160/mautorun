@@ -11,8 +11,9 @@ public class PckHTUA extends Packet {
         super(queue);
     }
 
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
         String cdk = packet.getData().substring(40, 72);
         srv.addBaseCDK(cdk, packet.getIpS());
+        return true;
     }
 }

@@ -11,8 +11,9 @@ public class PckKCIP extends Packet{
     }
 
 
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
         Main.srv.addItems();
+        return true;
     }
     
 }

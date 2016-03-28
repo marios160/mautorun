@@ -19,9 +19,11 @@ public class PacketData {
     private String data;
     private int crc;
     private PcapPacket packet;
+    private int expiry;
 
     public PacketData(PcapPacket packet) {
         this.packet = packet;
+        this.expiry = 0;
         udp = new Udp();
         packet.hasHeader(udp);
         ip = new Ip4();
@@ -40,6 +42,14 @@ public class PacketData {
         this.byteData = packet.getByteArray(offset, length);
         crc = this.byteData[13] * 256 + this.byteData[12];
         this.data = new String(byteData);
+    }
+
+    public int getExpiry() {
+        return expiry;
+    }
+    
+    public void addExpiry(){
+        this.expiry++;
     }
 
     public Udp getUdp() {

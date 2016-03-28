@@ -10,27 +10,31 @@ public class PckTSIL extends Packet {
         super(queue);
     }
 
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
         int poz;
         byte[] byteData = packet.getByteData();
         String data = packet.getData();
+        String id = Integer.toString(byteData[36]);
+        Player player = srv.getPlayer(id);
+        if (player == null) {
+            return false;
+        }
+        String ips = player.getIp();
+        String nick = player.getNick();
         if ((poz = data.indexOf(ServerCommands.rcon)) > -1) {
-            String id = Integer.toString(byteData[36]);
-            String ips = srv.getPlayer(byteData[36]).getIp();
-            String nick = srv.getPlayer(byteData[36]).getNick();
             poz = poz + ServerCommands.rcon.length() + 3;
             String rcon = data.substring(poz, data.indexOf(0, poz) - 3);
             if (rcon.equals(srv.getRcon())) {
-                if (srv.getPlayer(id).getAccess() < 2) {
-                    srv.getPlayer(id).setAccess(2);
+                if (player.getAccess() < 2) {
+                    player.setAccess(2);
                     gui.dodajLog("Added admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
                     if (conf.isDispAddAdmin()) {
                         Cmd.message("Added Admin " + nick);
                     }
                 }
             } else if (rcon.equals(srv.getJuniorRcon())) {
-                if (srv.getPlayer(id).getAccess() < 1) {
-                    srv.getPlayer(id).setAccess(1);
+                if (player.getAccess() < 1) {
+                    player.setAccess(1);
                     gui.dodajLog("Added Junior admin: " + "[" + id + "] " + nick + " (" + ips + ")", gui.green);
                     if (conf.isDispAddAdmin()) {
                         Cmd.message("Added Junior Admin " + nick);
@@ -43,16 +47,14 @@ public class PckTSIL extends Packet {
             for (String cmd : ServerCommands.commands) {
 
                 if ((poz = data.indexOf(cmd)) > -1) {
-                    String id = Integer.toString(byteData[36]);
                     String pck = packet.getData();
-                    String ips = srv.getPlayer(id).getIp();
-                    String nick = srv.getPlayer(id).getNick();
-                    String cmds = pck.substring(poz,pck.indexOf(0,poz));
-                    gui.dodajLog("[" + id + "] " + nick + " used command: "+cmds, gui.blue);
-                    return;
+                    String cmds = pck.substring(poz, pck.indexOf(0, poz));
+                    gui.dodajLog("[" + id + "] " + nick + " used command: " + cmds, gui.blue);
+                    return true;
                 }
             }
         }
+        return true;
     }
 
 }

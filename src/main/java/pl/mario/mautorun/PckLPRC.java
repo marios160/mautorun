@@ -9,10 +9,10 @@ public class PckLPRC extends Packet {
         super(queue);
     }
 
-     void action(PacketData packet) {
+     boolean action(PacketData packet) {
         String id = Integer.toString(packet.getByteData()[36]);
         if (packet.getData().indexOf(0, 172) < 0) {
-            return;
+            return true;
         }
         String nick = packet.getData().substring(172, packet.getData().indexOf(0, 172));
         char [] n = nick.toCharArray();
@@ -33,5 +33,6 @@ public class PckLPRC extends Packet {
             WelcomePlayers pl = new WelcomePlayers(player);
             pl.start();
         }
+        return true;
     }
 }

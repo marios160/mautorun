@@ -12,8 +12,9 @@ public class PckPORD extends Packet{
     }
 
 
-    void action(PacketData packet) throws Exception {
+    boolean action(PacketData packet) throws Exception {
         Main.srv.subItems();
+        return true;
     }
     
 }

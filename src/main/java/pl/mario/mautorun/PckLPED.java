@@ -10,9 +10,10 @@ public class PckLPED extends Packet {
         super(queue);
     }
 
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
         if (srv.getNullPlayer(packet.getByteData()[36]) != null) {
             srv.delPlayers(packet.getByteData()[36], packet.getByteData()[40]);
         }
+        return true;
     }
 }

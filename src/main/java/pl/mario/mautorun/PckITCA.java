@@ -11,8 +11,7 @@ public class PckITCA extends Packet {
         super(queue);
     }
 
-    @Override
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
         Integer list[] = null;
         int id = packet.getByteData()[20];
         int i1 = packet.getByteData()[41];
@@ -35,15 +34,16 @@ public class PckITCA extends Packet {
         } else if (srv.getMapname().equals(Variables.ChineseTemple)) {
             list = ObjId.china;
         } else {
-            return;
+            return true;
         }
 
         for (Integer integer : list) {
             if (objId == integer) {
-                return;
+                return true;
             }
         }
         srv.banPlayer(Integer.toString(id), "", 1, "(" + objId + ")");
+        return true;
     }
 
 }

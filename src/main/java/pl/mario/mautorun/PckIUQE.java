@@ -12,8 +12,8 @@ public class PckIUQE extends Packet{
     }
 
 
-    void action(PacketData packet) {
-        
+    boolean action(PacketData packet) {
+        return true;
     }
     
 }

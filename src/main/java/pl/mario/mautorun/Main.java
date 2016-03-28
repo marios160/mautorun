@@ -105,8 +105,11 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.4.12";
+    static String version = "1.5.0";
     static String changes = ""
+            + "v1.5.0\n"
+            + "     - fixed packets nulls\n"
+            + "     - "
             + "v1.4.12\n"
             + "     - new commands:\n"
             + "         sktk on/off\n"

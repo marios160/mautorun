@@ -10,7 +10,7 @@ public class PckLLIK extends Packet {
         super(queue);
     }
 
-    void action(PacketData packet) {
+    boolean action(PacketData packet) {
 
         byte[] byteData = packet.getByteData();
         int id1 = byteData[36];
@@ -23,9 +23,13 @@ public class PckLLIK extends Packet {
 
         if (id1 != -1) {
             pl1 = srv.getPlayer(id1);
+            if (pl1 == null)
+                return false;
         }
 
         Player pl2 = srv.getPlayer(id2);
+        if (pl2 == null)
+                return false;
 
         if (id1 == -1 || id1 == id2 || weapon == -1) //miny,dzialko, zabity przez komputer;
         {
@@ -77,7 +81,7 @@ public class PckLLIK extends Packet {
                         + pl1.getNick() + " from " + Variables.weapons[weapon], kill.red);
             }
             if (!Main.conf.isSktk() || pl1.getAccess() > 1) {
-                return;
+                return true;
             }
             if (pl1.addWarrnings()) {
                 Cmd.message("[" + id1 + "] was kicked for warnings");
@@ -108,6 +112,7 @@ public class PckLLIK extends Packet {
                         + pl1.getNick() + " from " + Variables.weapons[weapon], kill.green);
             }
         }
+        return true;
     }
 
 }
