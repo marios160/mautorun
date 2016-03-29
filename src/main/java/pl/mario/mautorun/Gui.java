@@ -112,6 +112,8 @@ public class Gui extends javax.swing.JFrame {
         changes = new javax.swing.JButton();
         sktk = new javax.swing.JCheckBox();
         nicks = new javax.swing.JCheckBox();
+        jLabel6 = new javax.swing.JLabel();
+        juniorRcon = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         killLog = new javax.swing.JButton();
         longLog = new javax.swing.JButton();
@@ -480,6 +482,7 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         consTab.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        consTab.setCellSelectionEnabled(true);
         consTab.setFocusable(false);
         consTab.setMaximumSize(new java.awt.Dimension(400, 150));
         consTab.setMinimumSize(new java.awt.Dimension(400, 100));
@@ -886,6 +889,20 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(nicks, gridBagConstraints);
 
+        jLabel6.setText("Junior Rcon:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel2.add(jLabel6, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        jPanel2.add(juniorRcon, gridBagConstraints);
+
         jTabbedPane2.addTab("Settings", jPanel2);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -1113,6 +1130,7 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
         Main.conf.setItems(controlItems.isSelected());
         Main.conf.setSktk(sktk.isSelected());
+        Main.conf.setJuniorRcon(juniorRcon.getText());
         Main.conf.setClassFile(Main.conf);
 
     }//GEN-LAST:event_saveSettingsActionPerformed
@@ -1130,6 +1148,7 @@ public class Gui extends javax.swing.JFrame {
         Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
         Main.conf.setItems(controlItems.isSelected());
         Main.conf.setSktk(sktk.isSelected());
+        Main.conf.setJuniorRcon(juniorRcon.getText());
         Main.conf.setClassFile(Main.conf);
 
     }
@@ -1219,6 +1238,7 @@ public class Gui extends javax.swing.JFrame {
             Main.conf.setDispAddAdmin(dispAddAdmin.isSelected());
             Main.conf.setItems(controlItems.isSelected());
             Main.conf.setSktk(sktk.isSelected());
+            Main.conf.setJuniorRcon(juniorRcon.getText());
             Main.conf.setClassFile(Main.conf);
             if (Main.srv != null) {
                 Main.srv.closeServer();
@@ -1337,6 +1357,7 @@ public class Gui extends javax.swing.JFrame {
         adminPanel.setSelected(Main.conf.isAdminPanel());
         dispAddAdmin.setSelected(Main.conf.isDispAddAdmin());
         sktk.setSelected(Main.conf.isSktk());
+        juniorRcon.setText(Main.conf.getJuniorRcon());
         controlItems.setSelected(Main.conf.isItems());
         igiTab.setComponentPopupMenu(popupMenu);
         igiTab.addMouseListener(new TableMouseListener(igiTab));
@@ -1440,6 +1461,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -1450,6 +1472,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextField juniorRcon;
     private javax.swing.JButton kickAllButt;
     private javax.swing.JButton killLog;
     private javax.swing.JTextPane logServer;
@@ -2035,6 +2058,14 @@ public class Gui extends javax.swing.JFrame {
 
     public void setRemainingItems(JLabel remainingItems) {
         this.remainingItems = remainingItems;
+    }
+
+    public JTextField getJuniorRcon() {
+        return juniorRcon;
+    }
+
+    public void setJuniorRcon(JTextField juniorRcon) {
+        this.juniorRcon = juniorRcon;
     }
 
 }

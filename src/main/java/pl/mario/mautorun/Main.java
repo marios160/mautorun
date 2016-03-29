@@ -112,6 +112,7 @@ public class Main extends Thread {
             + "     - fixed space in rcon command\n"
             + "     - fixed ban with mask\n"
             + "     - better secure of items\n"
+            + "     - junior rcon in settings\n"
             + ""
             + "v1.4.12\n"
             + "     - new commands:\n"
