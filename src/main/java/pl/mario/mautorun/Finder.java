@@ -1,8 +1,5 @@
 package pl.mario.mautorun;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,6 +21,20 @@ public class Finder extends javax.swing.JFrame {
                 setVisible(true);
             }
         });
+    }
+    public Finder(String value, int cases) {
+        initComponents();
+        if(cases == 0)
+            nick.setText(value);
+        else
+            ip.setText(value);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                setVisible(true);
+                
+            }
+        });
+        findActionPerformed(null);
     }
 
     @SuppressWarnings("unchecked")

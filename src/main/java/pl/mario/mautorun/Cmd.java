@@ -91,7 +91,7 @@ public class Cmd extends Thread {
                     defMask();
                 } else if (linia.indexOf(": /announce ") > -1) {
                     announce();
-                } else if (linia.indexOf(": /whoami ") > -1) {
+                } else if (linia.indexOf(": /whoami") > -1) {
                     whoami();
                 } else if (commands()) {
                 } else if (linia.indexOf(": /help") > -1) {

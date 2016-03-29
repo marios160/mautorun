@@ -18,6 +18,8 @@ import java.util.Date;
  */
 public class Configuration implements Serializable{
     
+
+    static final long serialVersionUID = 1000000L;
     private String juniorRcon;
     private  String system;
     private  SimpleDateFormat time;
