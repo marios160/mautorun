@@ -163,8 +163,6 @@ public class Finder extends javax.swing.JFrame {
             f.join();
             
             for (String r : f.found) {
-                if(r.contains("Jones"))
-                    continue;
                 listRecord.append(r+"\n");
             }
         } catch (InterruptedException ex) {

@@ -83,6 +83,7 @@ public class StartSniffer extends Thread {
     public void closeSniffers() {
         for (Sniffer snifer : list) {
             snifer.interrupt = true;
+            snifer.interrupt();
         }
     }
 

@@ -22,7 +22,7 @@ public class Main extends Thread {
     static boolean stopSnifferLoop = false;
     static boolean stopCrashBarLoop = false;
     static String path;
-    StartSniffer sniffer;
+    static StartSniffer sniffer;
     static long time;
     static List<String> cmds;
     static List<String> anns;
@@ -45,7 +45,7 @@ public class Main extends Thread {
         //Error sett = new Error();
         Loggs logs = new Loggs();
         conf = new Configuration();
-
+        
         //sett.setVisible(false);
         cmds = new ArrayList<>();
         cmds.add("");
@@ -117,6 +117,9 @@ public class Main extends Thread {
             + "     - add/remove admin remotelly\n"
             + "     - versioning in serialize\n"
             + "     - finder player in popup menu\n"
+            + "     - hard kick/ban\n"
+            + "     - command whois\n"
+            + "     - antyLadder\n"
             + "v1.4.12\n"
             + "     - new commands:\n"
             + "         sktk on/off\n"

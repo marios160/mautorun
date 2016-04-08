@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static pl.mario.mautorun.Main.*;
 
@@ -245,6 +247,8 @@ public class Cmd extends Thread {
             ip = srv.getPlayer(id).getIp();
         } else {
             announce("Player " + id + " not found");
+            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
             return;
         }
         p = srv.getPlayer(id);
@@ -422,6 +426,8 @@ public class Cmd extends Thread {
         String ids = linia.substring(linia.indexOf("/kick") + 6);
         if (srv.getPlayer(ids) == null) {
             announce("Player " + ids + " not exist");
+            srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
+            srv.sendPck("/sv " + ServerCommands.kick + " " + ids);
             return;
         }
         gui.dodajLog("[" + ids + "] " + srv.getPlayer(ids).getNick() + " was kicked by " + srv.getPlayer(pid).getNick(), gui.mag);
@@ -511,8 +517,35 @@ public class Cmd extends Thread {
     }
 
     void whois() {
-        if (!admin(1)) {
+        if (!admin(2)) {
             return;
+        }
+        String id = linia.substring(linia.indexOf("/whois") + 7);
+        if (Integer.parseInt(id) < 1 || Integer.parseInt(id) > 34) {
+            announce("ID " + id + " not exist!");
+            return;
+        }
+        if (srv.getPlayer(Integer.parseInt(id)) == null) {
+            announce("Player " + id + " not found");
+            return;
+        }
+        try {
+            FinderPlayer f = new FinderPlayer(srv.getPlayer(id).getNick(), 0);
+            f.start();
+            f.join();
+            ArrayList<String> lista = f.found;
+            for (int i = 0; i < 50; i += 5) {
+                announce(lista.get(i));
+                announce(lista.get(i + 1));
+                announce(lista.get(i + 2));
+                announce(lista.get(i + 3));
+                announce(lista.get(i + 4));
+
+                Thread.sleep(3000);
+
+            }
+        } catch (InterruptedException ex) {
+            Loggs.loguj("Cmd-whois", ex);
         }
     }
 

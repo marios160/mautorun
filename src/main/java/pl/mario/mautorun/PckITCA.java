@@ -16,6 +16,8 @@ public class PckITCA extends Packet {
         int id = packet.getByteData()[20];
         int i1 = packet.getByteData()[41];
         int i2 = packet.getByteData()[40];
+        int nr = packet.getByteData()[48];
+
         if (i1 < 0) {
             i1 += 256;
         }
@@ -25,6 +27,10 @@ public class PckITCA extends Packet {
         int objId = i1 * 256 + i2;
         if (srv.getMapname().equals(Variables.Sandstorm)) {
             list = ObjId.sand;
+            if (nr > 8) {
+                srv.banPlayer(Integer.toString(id), "", 1, "(" + objId + "-" + nr + ")");
+                return true;
+            }
         } else if (srv.getMapname().equals(Variables.Redstone)) {
             list = ObjId.red;
         } else if (srv.getMapname().equals(Variables.Timberland)) {

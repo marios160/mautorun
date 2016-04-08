@@ -370,6 +370,7 @@ public class Server extends Thread {
 
     }*/
     void closeServer() {
+        Main.sniffer.closeSniffers();
         try {
             if (conf.getSystem().equals("win")) {
                 Runtime.getRuntime().exec("taskkill /F /IM " + conf.getExe() + "*");
