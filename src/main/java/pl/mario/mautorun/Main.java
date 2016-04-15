@@ -113,7 +113,7 @@ public class Main extends Thread {
             + "     - Kick no name nick\n"
             + "     - Show reason of some crash\n"
             + "     - Kick denided nicks\n"
-            + "     -\n"
+            + "     - Finger and listmaps command reply fixed\n"
             + "     -\n"
             + "     -\n"
             + "v1.5.0\n"

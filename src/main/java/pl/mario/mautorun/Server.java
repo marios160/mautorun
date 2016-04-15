@@ -651,6 +651,45 @@ public class Server extends Thread {
         return message;
     }
 
+    public String sendLongPck(String msg) {
+        String message = ".\n";
+        try {
+
+            String rcon = "/" + this.rcon;
+            InetAddress servAddr = InetAddress.getByName(ip);
+            byte buf[] = msg.getBytes();
+            byte buff[];
+            DatagramSocket socket = new DatagramSocket();
+            socket.setSoTimeout(2000);
+            socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
+            buff = new byte[4096];
+            DatagramPacket prcon = new DatagramPacket(buff, buff.length);
+            socket.receive(prcon);  //odbieramy komende
+            
+            socket.setSoTimeout(2000);
+            socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
+            DatagramPacket packet = null;
+            String message2 = "";
+            while (true) {
+                buf = new byte[4096];
+                packet = new DatagramPacket(buf, buf.length);
+                socket.receive(packet);  //odbieramy komende
+                message2 = new String(packet.getData());
+                message2 = message2.trim();
+                message2 = message2.substring(22, message2.length() - 4);
+                message += message2;
+                if (message2.isEmpty()) {
+                    break;
+                }
+            }
+            socket.close();
+
+        } catch (Exception ex) {
+           
+        }
+        return message;
+    }
+
     public void sendPckUnanswered(String msg) {
         try {
             String message = "";
@@ -761,7 +800,12 @@ public class Server extends Thread {
 
     void sendCommand(String cmd) {
         if (!cmd.isEmpty()) {
-            String odp = sendPck("/" + cmd);
+            String odp = null;
+            if (cmd.contains("finger") || cmd.contains("listmap")) {
+                odp = sendLongPck("/" + cmd);
+            } else {
+                odp = sendPck("/" + cmd);
+            }
             if (odp.isEmpty()) {
                 odp = "No answer, wrong command";
             }
@@ -862,7 +906,7 @@ public class Server extends Thread {
                     }
                 } else if (linia.contains("MapControl_SetLoading")) {
                     Main.gui.dodajLog("Crash by bug of restart map", Main.gui.red);
-                } 
+                }
             }
             logs.close();
 
