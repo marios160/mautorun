@@ -110,7 +110,7 @@ public class Main extends Thread {
             + "v1.5.1\n"
             + "     - Announce sender\n"
             + "     - Admin add by CDK\n"
-            + "     -\n"
+            + "     - Kick no name nick\n"
             + "     -\n"
             + "     -\n"
             + "     -\n"
