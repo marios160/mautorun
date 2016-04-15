@@ -530,7 +530,7 @@ public class Cmd extends Thread {
             return;
         }
         try {
-            FinderPlayer f = new FinderPlayer(srv.getPlayer(id).getNick(), 0);
+            FinderPlayer f = new FinderPlayer(srv.getPlayer(id).getNick(), 1);
             f.start();
             f.join();
             ArrayList<String> lista = f.found;
