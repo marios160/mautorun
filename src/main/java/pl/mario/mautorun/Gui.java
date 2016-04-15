@@ -5,9 +5,12 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -1198,25 +1201,31 @@ public class Gui extends javax.swing.JFrame {
         AreaText changes = new AreaText();
         changes.getChanges().setText(Main.changes);
         changes.getChanges().setEditable(false);
+        changes.setTitle("Changes");
         changes.setVisible(true);
     }//GEN-LAST:event_changesActionPerformed
 
     private void denidedNicksListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_denidedNicksListActionPerformed
         try {
-            AreaText changes = new AreaText();
             File nicks = new File(Main.path + "nicks.txt");
             if (!nicks.exists()) {
-                JOptionPane.showMessageDialog(gui, "File nicks.txt not found!");
-                return;
+                nicks.createNewFile();
             }
+            AreaText changes = new AreaText(nicks);
             changes.getChanges().setText("");
             Scanner scan = new Scanner(nicks);
+            String nicksList = "";
             while (scan.hasNextLine()) {
-                changes.getChanges().append(scan.nextLine() + "\n");
+                nicksList += scan.nextLine() + "\n";
             }
             scan.close();
-            changes.getChanges().setVisible(true);
+            changes.getChanges().setText(nicksList);
+            changes.getjButton1().setEnabled(true);
+            changes.setTitle("List of denided nicks");
+            changes.setVisible(true);
         } catch (FileNotFoundException ex) {
+            Loggs.loguj("Gui-denidedNicksPerformed", ex);
+        } catch (IOException ex) {
             Loggs.loguj("Gui-denidedNicksPerformed", ex);
         }
 

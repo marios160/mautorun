@@ -112,7 +112,7 @@ public class Main extends Thread {
             + "     - Admin add by CDK\n"
             + "     - Kick no name nick\n"
             + "     - Show reason of some crash\n"
-            + "     -\n"
+            + "     - Kick denided nicks\n"
             + "     -\n"
             + "     -\n"
             + "     -\n"

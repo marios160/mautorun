@@ -1,6 +1,10 @@
 package pl.mario.mautorun;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Queue;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 import org.jnetpcap.packet.PcapPacket;
 import static pl.mario.mautorun.Main.gui;
 import static pl.mario.mautorun.Main.srv;
@@ -22,6 +26,30 @@ public class PckLPRC extends Packet {
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
             srv.sendPck("/sv " + ServerCommands.kick + " " + id);
             Cmd.message("[" + id + "]" + " was kicked (REMOTELY)");
+        }
+        try {
+            String path = "nicks.txt";
+            File file = new File(Main.path + path);
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(gui, "File " + path + " not found!");
+                return true;
+            }
+            Scanner read = new Scanner(file);
+            int i = 0;
+            while (read.hasNextLine()) {
+                String linia = read.nextLine();
+                if (linia.toLowerCase().matches(nick.toLowerCase())) {
+                    gui.dodajLog("[" + id + "] "+nick+" was kicked for denided nick (REMOTELY)", gui.pink);
+                    srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+                    srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+                    Cmd.message("[" + id + "]" + " was kicked (REMOTELY)");
+                    break;
+                }
+            }
+            read.close();
+
+        } catch (FileNotFoundException ex) {
+            Loggs.loguj("PckLPRC-action", ex);
         }
         char[] n = nick.toCharArray();
         nick = "";
