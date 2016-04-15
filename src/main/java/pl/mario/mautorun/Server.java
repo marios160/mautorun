@@ -8,16 +8,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -316,10 +318,10 @@ public class Server extends Thread {
 
         try {
             String line = ip;
-            while(line.length()<17){
+            while (line.length() < 17) {
                 line = line.concat(" ");
             }
-            line = line.concat(nick+"\n");
+            line = line.concat(nick + "\n");
             PrintWriter base = null;
             File fbase = new File(Main.path + "baseIP.txt");
             if (!fbase.exists()) {
@@ -557,13 +559,14 @@ public class Server extends Thread {
             if (zm != null) {
                 if (status.indexOf("\\" + zm.getNick() + "\\") < 0) {
                     zm.addLostconn();
-                    if(zm.getLostconn() == 5)
+                    if (zm.getLostconn() == 5) {
                         srv.delPlayers(Integer.parseInt(zm.getId()), 3);
+                    }
                     continue;
                 }
                 try {
                     pom = status.substring(status.indexOf(zm.sping) + zm.sping.length(), status.indexOf(zm.steam) - 1);
-                    zm.setPing(Integer.parseInt(pom));         
+                    zm.setPing(Integer.parseInt(pom));
                 } catch (StringIndexOutOfBoundsException ex) {
                     Loggs.loguj("Server-updatePings", ex);
                     return;
@@ -657,12 +660,12 @@ public class Server extends Thread {
             byte buff[];
             DatagramSocket socket = new DatagramSocket();
             socket.setSoTimeout(2000);
-            
+
             socket.send(new DatagramPacket(rcon.getBytes(), rcon.length(), servAddr, port)); //wysylamy rcon
             buff = new byte[4096];
             DatagramPacket prcon = new DatagramPacket(buff, buff.length);
             socket.receive(prcon);  //odbieramy komende
-            
+
             socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
             socket.close();
         } catch (Exception ex) {
@@ -827,6 +830,44 @@ public class Server extends Thread {
         try {
             Files.copy(afile.toPath(), bfile.toPath(), REPLACE_EXISTING);
             Files.deleteIfExists(afile.toPath());
+        } catch (IOException ex) {
+            Loggs.loguj("Server-saveLog", ex);
+        }
+
+        try {
+            String path = bfile.getAbsolutePath();
+            File file = new File(path);
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(gui, "File " + path + " not found!");
+                return;
+            }
+            RandomAccessFile logs = new RandomAccessFile(file, "r");
+            logs.seek(logs.length() - 100);
+            while (logs.getFilePointer() < logs.length()) {
+                String linia = logs.readLine();
+                if (linia.contains("Network_Send():sendto:error")) {
+                    Main.gui.dodajLog("Crash by Network Error", Main.gui.red);
+                } else if (linia.contains("Bomb disarmed")) {
+                    Main.gui.dodajLog("Crash by Map Mod (Bomb disarmed)", Main.gui.red);
+                    for (Player p : players) {
+                        if (p != null) {
+                            String team = "";
+                            if (p.getTeam() == 0) {
+                                team = "IGI";
+                            } else {
+                                team = "CONS";
+                            }
+                            Main.gui.dodajLog(" [" + p.getId() + "] " + p.getNick() + " (" + p.getIp() + ") " + team, Main.gui.red);
+                        }
+                    }
+                } else if (linia.contains("MapControl_SetLoading")) {
+                    Main.gui.dodajLog("Crash by bug of restart map", Main.gui.red);
+                } 
+            }
+            logs.close();
+
+        } catch (FileNotFoundException ex) {
+            Loggs.loguj("Server-SaveLog", ex);
         } catch (IOException ex) {
             Loggs.loguj("Server-saveLog", ex);
         }
@@ -1082,7 +1123,6 @@ public class Server extends Thread {
         }
         return null;
     }
-
 
     public synchronized List<Player> getBanPlayers() {
         return banPlayers;

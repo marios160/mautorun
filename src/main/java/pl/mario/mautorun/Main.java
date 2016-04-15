@@ -111,7 +111,7 @@ public class Main extends Thread {
             + "     - Announce sender\n"
             + "     - Admin add by CDK\n"
             + "     - Kick no name nick\n"
-            + "     -\n"
+            + "     - Show reason of some crash\n"
             + "     -\n"
             + "     -\n"
             + "     -\n"
