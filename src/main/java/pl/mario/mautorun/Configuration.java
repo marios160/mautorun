@@ -41,6 +41,8 @@ public class Configuration implements Serializable{
     private boolean adminPanel;
     private boolean dispAddAdmin;
     private boolean items;
+    private AnnounceSenderConf announceSenderConf1;
+    private AnnounceSenderConf announceSenderConf2;
     
     
 
@@ -70,6 +72,8 @@ public class Configuration implements Serializable{
         this.adminPanel = c.adminPanel;
         this.dispAddAdmin = c.dispAddAdmin;
         this.items = c.items;
+        this.announceSenderConf1 = c.announceSenderConf1;
+        this.announceSenderConf2 = c.announceSenderConf2;
     }
     
     public Configuration(int x){
@@ -97,6 +101,8 @@ public class Configuration implements Serializable{
         this.dispAddAdmin = true;
         this.adminPanel = true;
         this.items = true;
+        this.announceSenderConf1 = null;
+        this.announceSenderConf1 = null;
     }
     
     public Configuration getConfFile()
@@ -304,6 +310,22 @@ public class Configuration implements Serializable{
     public void setItems(boolean items) {
         this.items = items;
     }
+
+    public AnnounceSenderConf getAnnounceSenderConf1() {
+        return announceSenderConf1;
+    }
+
+    public void setAnnounceSenderConf1(AnnounceSenderConf announceSenderConf1) {
+        this.announceSenderConf1 = announceSenderConf1;
+    }
+    public AnnounceSenderConf getAnnounceSenderConf2() {
+        return announceSenderConf2;
+    }
+
+    public void setAnnounceSenderConf2(AnnounceSenderConf announceSenderConf2) {
+        this.announceSenderConf2 = announceSenderConf2;
+    }
+   
     
     
 

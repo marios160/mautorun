@@ -105,8 +105,17 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.0";
+    static String version = "1.5.1";
     static String changes = ""
+            + "v1.5.1\n"
+            + "     - Announce sender\n"
+            + "     -\n"
+            + "     -\n"
+            + "     -\n"
+            + "     -\n"
+            + "     -\n"
+            + "     -\n"
+            + "     -\n"
             + "v1.5.0\n"
             + "     - fixed packets nulls\n"
             + "     - fixed space in rcon command\n"

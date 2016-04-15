@@ -121,6 +121,7 @@ public class Gui extends javax.swing.JFrame {
         denidedNicksList = new javax.swing.JButton();
         optimization = new javax.swing.JButton();
         whois = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         softTime = new javax.swing.JLabel();
@@ -914,7 +915,9 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(killLog, gridBagConstraints);
 
         longLog.setText("Open long log");
@@ -925,7 +928,7 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(longLog, gridBagConstraints);
 
@@ -937,7 +940,7 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(longChat, gridBagConstraints);
 
@@ -948,8 +951,9 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(denidedNicksList, gridBagConstraints);
 
         optimization.setText("Optimize bases");
@@ -960,8 +964,8 @@ public class Gui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(optimization, gridBagConstraints);
 
         whois.setText("Player finder");
@@ -970,7 +974,23 @@ public class Gui extends javax.swing.JFrame {
                 whoisActionPerformed(evt);
             }
         });
-        jPanel1.add(whois, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(whois, gridBagConstraints);
+
+        jButton1.setText("Announce Sender");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(jButton1, gridBagConstraints);
 
         jTabbedPane2.addTab("Tools", jPanel1);
 
@@ -1270,6 +1290,10 @@ public class Gui extends javax.swing.JFrame {
         Finder f = new Finder();
     }//GEN-LAST:event_whoisActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AnnounceSender a = new AnnounceSender();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
@@ -1456,6 +1480,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JButton denidedNicksList;
     private javax.swing.JCheckBox dispAddAdmin;
     private javax.swing.JTable igiTab;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
