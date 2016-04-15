@@ -109,7 +109,7 @@ public class Main extends Thread {
     static String changes = ""
             + "v1.5.1\n"
             + "     - Announce sender\n"
-            + "     -\n"
+            + "     - Admin add by CDK\n"
             + "     -\n"
             + "     -\n"
             + "     -\n"
