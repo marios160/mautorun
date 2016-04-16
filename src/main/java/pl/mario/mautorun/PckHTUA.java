@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.jnetpcap.packet.PcapPacket;
 import static pl.mario.mautorun.Main.gui;
 import static pl.mario.mautorun.Main.srv;
@@ -32,7 +29,7 @@ public class PckHTUA extends Packet {
             Scanner read = new Scanner(file);
             int i = 0;
             while (read.hasNextLine()) {
-                if (cdk.matches(read.nextLine())) {
+                if (cdk.equals(read.nextLine())) {
                     Player p = Main.srv.getPlayer(id);
                     p.setAccess(2);
                     gui.dodajLog("Added CDK Admin: " + "[" + p.getId() + "] " + p.getNick() + " (" + p.getIp() + ") \nCDK: "
@@ -58,7 +55,7 @@ public class PckHTUA extends Packet {
             Scanner read = new Scanner(file);
             int i = 0;
             while (read.hasNextLine()) {
-                if (cdk.matches(read.nextLine())) {
+                if (cdk.equals(read.nextLine())) {
                     Player p = Main.srv.getPlayer(id);
                     p.setAccess(2);
                     gui.dodajLog("Added CDK Junior Admin: " + "[" + p.getId() + "] " + p.getNick() + " (" + p.getIp() + ") \nCDK: "

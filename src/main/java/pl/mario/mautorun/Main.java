@@ -115,6 +115,7 @@ public class Main extends Thread {
             + "     - Kick denided nicks\n"
             + "     - Finger and listmaps command reply fixed\n"
             + "     - fixed whois\n"
+            + "     - fixed regex error\n"
             + "v1.5.0\n"
             + "     - fixed packets nulls\n"
             + "     - fixed space in rcon command\n"
