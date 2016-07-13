@@ -570,6 +570,11 @@ public class Gui extends javax.swing.JFrame {
         commandField.setMaximumSize(new java.awt.Dimension(200, 20));
         commandField.setMinimumSize(new java.awt.Dimension(100, 20));
         commandField.setPreferredSize(new java.awt.Dimension(200, 20));
+        commandField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                commandFieldActionPerformed(evt);
+            }
+        });
         commandField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 commandFieldKeyPressed(evt);
@@ -1098,7 +1103,22 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_announceButtActionPerformed
 
     private void commandButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandButtActionPerformed
-        Main.srv.sendCommand(commandField.getText());
+        String cmd = commandField.getText();
+        gui.dodajLog(cmd, gui.gray);
+        if (!Main.cmds.get(Main.cmds.size() - 1).equals(cmd)) {
+            Main.cmds.add(cmd);
+            if (Main.cmds.size() > 20) {
+                Main.cmds.remove(0);
+            }
+        }
+        gui.getCommandField().setText(null);
+        
+        if (cmd.indexOf("/") == 0) {
+            Cmd cmds = new Cmd(": " + cmd);
+            cmds.start();
+        } else {
+            Main.srv.sendCommand(cmd);
+        }
         cmdNum = Main.cmds.size();
     }//GEN-LAST:event_commandButtActionPerformed
 
@@ -1302,6 +1322,10 @@ public class Gui extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         AnnounceSender a = new AnnounceSender();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void commandFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commandFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_commandFieldActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {

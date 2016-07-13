@@ -36,6 +36,69 @@ public class Cmd extends Thread {
         this.pnick = player.getNick();
         this.pip = player.getIp();
     }
+    
+    public Cmd( String linia) {
+        this.linia = linia.toLowerCase();
+        this.pid = 0;
+
+        this.player = new Player("0", "0.0.0.0", "Admin", 26001);
+        this.player.setAccess(2);
+        this.pnick = "Admin";
+        this.pip = "0.0.0.0";
+    }
+    
+    void help() {
+        if (!admin(1)) {
+            return;
+        }
+        try {
+            
+            announce("to see detailed instructions -> ");
+            announce("send /help command - e.g /help ban");
+            Thread.sleep(2000);
+            announce("/ban <ID>[/mask] t[tm] - ban ID");
+            announce("/tban <ID>[/mask] [tm] - time ban ID");
+            announce("/leftban <ID>[/mask] t[tm] ->");
+            announce("-> ban ID from leftlist");
+            announce("/leftlist - list of players who left");
+            Thread.sleep(5000);
+            announce("/banlist - list of last bans");
+            announce("/unban <ID> - unban ID from last bans");
+            announce("/kick <ID> - kick ID");
+            announce("/kickall - Kick all players");
+            announce("/restart - restart map");
+            Thread.sleep(5000);
+            announce("/aadmin <ID> - add admin");
+            announce("/ajadmin <ID> - add junior admin");
+            announce("/whois <ID> - show ip & nicks of ID ");
+            announce("/time - show current time");
+            Thread.sleep(5000);
+            announce("/map <ID> - change map");
+            announce("to show id map - sv listmaps on console");
+            announce("/help - show help");
+            announce("/censor on/off - run censorship");
+            announce("/sktk on/off - run sk and tk warnings");
+            Thread.sleep(5000);
+            announce("/welcome on/off - run welcome players");
+            announce("/wmess msg+$var+msg - set welcome msg");
+            announce("/warnings <NR> - after NR ->");
+            announce("->warnings player will be kick");
+            announce("/items on/off - run items control");
+            Thread.sleep(5000);
+            announce("/adisp on/off - displays \"Added admin\"");
+            announce("/maxmask <NR> - max mask in /ban");
+            announce("/defmask <NR> - default mask in /ban");
+            announce("/announce <MSG> - announce MSG on srv");
+            announce("/whoami - show who are you");
+            Thread.sleep(5000);
+            announce("/crash - close server");
+            announce("to see detailed instructions -> ");
+            announce("send /help command - e.g /help ban");
+       
+        } catch (InterruptedException ex) {
+            Loggs.loguj("Cmd-help", ex);
+        }
+    }
 
     public void run() {
 
@@ -44,7 +107,7 @@ public class Cmd extends Thread {
                 adminPanel();
             }
 
-            if (conf.isAdminPanel() && this.player.getAccess() > 0) {
+            if (conf.isAdminPanel() && admin(1)) {
                 if (linia.indexOf(": /ban ") > -1) {
                     ban();
                 } else if (linia.indexOf(": /tban ") > -1) {
@@ -95,6 +158,8 @@ public class Cmd extends Thread {
                     announce();
                 } else if (linia.indexOf(": /whoami") > -1) {
                     whoami();
+                } else if (linia.indexOf(": /crash") > -1) {
+                    crash();
                 } else if (commands()) {
                 } else if (linia.indexOf(": /help") > -1) {
                     if (linia.length() < linia.indexOf(": /help") + 8) {
@@ -155,6 +220,52 @@ public class Cmd extends Thread {
                         announce("/map <ID> - change map");
                         announce("to show ID maps enter to console: ");
                         announce("sv listmaps");
+                    } else if (linia.indexOf(": /help censor") > -1) {
+                        announce("/censor on/off - Censorship on or off");
+                        announce("to check status send /censor");
+                        announce("without on or off");
+                    } else if (linia.indexOf(": /help sktk") > -1) {
+                        announce("/sktk on/off - count warnings for");
+                        announce("team kill or spawn kill. Kick is");
+                        announce("dependent on warnings");
+                    } else if (linia.indexOf(": /help welcome") > -1) {
+                        announce("/welcome on/off - run welcome players");
+                        announce("to set welcome message send");
+                        announce("e.g /wmess Welcome+$nick+on Server");
+                    } else if (linia.indexOf(": /help wmess") > -1) {
+                        announce("/wmess <msg+$var+msg> - set msg");
+                        announce("you can use $nick, $ip, $id, $none");
+                        announce("e.g /wmess Welcome+$nick+on Server");
+                    } else if (linia.indexOf(": /help warnings") > -1) {
+                        announce("/warnings <NR> - after NR warnings");
+                        announce("player will be kicked");
+                        announce("e.g /warnings 3");
+                    } else if (linia.indexOf(": /help items") > -1) {
+                        announce("/items on/off - run items control");
+                    } else if (linia.indexOf(": /help adisp") > -1) {
+                        announce("/adisp on/off - if \"on\", server");
+                        announce("display \"Added admin\" when ");
+                        announce("Somebody login to admin");
+                    } else if (linia.indexOf(": /help maxmask") > -1) {
+                        announce("/maxmask <NR> - set max mask when");
+                        announce("someone use ban command. Range");
+                        announce("of masks - 0 to 32. 16 is the best");
+                        announce("max mask. Mask 0 ban all IP");
+                    } else if (linia.indexOf(": /help defmask") > -1) {
+                        announce("/defmask <NR> - set default mask");
+                        announce("when someone use ban command");
+                        announce("without mask. Range of masks ");
+                        announce("0 to 32. 24 is the best def mask");
+                    } else if (linia.indexOf(": /help announce") > -1) {
+                        announce("/announce <MSG> - announce MSG");
+                        announce("on server. e.g /announce Hello");
+                    } else if (linia.indexOf(": /help whoami") > -1) {
+                        announce("/whoami - show who are you");
+                        announce("You can be Admin or Junior Admin");
+                        announce("Normal players not show");
+                    } else if (linia.indexOf(": /help crash") > -1) {
+                        announce("/crash - close server ");
+                        announce("it make crash");
                     }
                 }
             } else {
@@ -567,35 +678,7 @@ public class Cmd extends Thread {
 
     }
 
-    void help() {
-        if (!admin(1)) {
-            return;
-        }
-        try {
-            announce("/ban <ID>[/mask] t[tm] - ban ID");
-            announce("/tban <ID>[/mask] [tm] - time ban ID");
-            announce("/leftban <ID>[/mask] t[tm] ->");
-            announce("-> ban ID from leftlist");
-            announce("/leftlist - list of players who left");
-            Thread.sleep(5000);
-            announce("/banlist - list of last bans");
-            announce("/unban <ID> - unban ID from last bans");
-            announce("/kick <ID> - kick ID");
-            announce("/kickall - Kick all players");
-            announce("/restart - restart map");
-            Thread.sleep(5000);
-            announce("/aadmin <ID> - add admin");
-            announce("/ajadmin <ID> - add junior admin");
-            announce("/whois <ID> - show ip & nicks of ID ");
-            announce("/time - show current time");
-            Thread.sleep(5000);
-            announce("/map <ID> - change map");
-            announce("to show id map - sv listmaps on console");
-            announce("/help - show help");
-        } catch (InterruptedException ex) {
-            Loggs.loguj("Cmd-help", ex);
-        }
-    }
+    
 
     void announce(String msg) {
         srv.sendPck("/lo announce (\"" + msg + "\")");
@@ -606,6 +689,8 @@ public class Cmd extends Thread {
     }
 
     boolean admin(int admin) {
+        if(pid == 0)
+            return true;
         if (srv.getPlayer(pid).getAccess() < admin) {
             return false;
         } else {
@@ -614,7 +699,7 @@ public class Cmd extends Thread {
     }
 
     void censor() {
-
+        
         if (!admin(1)) {
             return;
         }
@@ -885,6 +970,17 @@ public class Cmd extends Thread {
         } else if (srv.getPlayer(pid).getAccess() == 2) {
             announce("Admin");
         }
+    }
+
+    private void crash() {
+        if (!admin(2)) {
+            return;
+        }
+        gui.dodajLog("Server closed by [" +pid+"] "+ pnick + "\n", gui.red);
+        announce("Server closing...");
+        announce("Server closing...");
+        announce("Server closing...");
+        Main.srv.closeServer();
     }
 
 }

@@ -809,16 +809,9 @@ public class Server extends Thread {
             if (odp.isEmpty()) {
                 odp = "No answer, wrong command";
             }
-
-            gui.dodajLog(cmd, gui.gray);
             gui.dodajLog(odp.trim(), gui.gray);
-            if (!Main.cmds.get(Main.cmds.size() - 1).equals(cmd)) {
-                Main.cmds.add(cmd);
-                if (Main.cmds.size() > 20) {
-                    Main.cmds.remove(0);
-                }
-            }
-            gui.getCommandField().setText(null);
+            
+            
         }
     }
 

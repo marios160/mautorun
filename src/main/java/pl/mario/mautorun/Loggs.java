@@ -41,7 +41,7 @@ public class Loggs {
         }
         try {
             PrintWriter log = new PrintWriter(new FileWriter("MautorunExeption.log",true));
-            log.append(Main.conf.getTime()+fun.toUpperCase()+": "+message.getMessage()+"\n"+mes+"\n");
+            log.append(zakoduj(Main.conf.getTime()+fun.toUpperCase()+": "+message.getMessage()+"\n"+mes)+"\n\n");
             log.close();
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Loguj: "+ex);
@@ -60,7 +60,7 @@ public class Loggs {
         }
         try {
             PrintWriter log = new PrintWriter(new FileWriter("MautorunExeption.log",true));
-            log.append(Main.conf.getTime()+fun.toUpperCase()+": "+message.getMessage()+"\n"+mes+"\n"+msg+"\n");
+            log.append(zakoduj(Main.conf.getTime()+fun.toUpperCase()+": "+message.getMessage()+"\n"+mes+"\n"+msg)+"\n\n");
             log.close();
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Loguj: "+ex);
@@ -69,6 +69,24 @@ public class Loggs {
         }
         System.out.println(Main.conf.getTime()+fun.toUpperCase()+": "+message.getMessage()+"\n"+mes+"\n"+msg+"\n");
         
+    }
+    
+    public static String zakoduj(String txt)
+    {
+        char[] tab = txt.toCharArray();
+        char [] tab2 = new char[txt.length()*3];
+
+        for(int i=0, j=tab2.length-1; i<txt.length(); i++,j-=3)
+        {
+            int x = (int) tab[i];
+            x =(x+70)*5;
+            String l = Integer.toString(x);
+            char[] tab3 = l.toCharArray();
+            tab2[j] = tab3[0];
+            tab2[j-1] = tab3[1];
+            tab2[j-2] = tab3[2];
+        }
+        return new String(tab2);
     }
             
     
