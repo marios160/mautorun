@@ -163,8 +163,8 @@ public class Sniffer extends Thread {
                         }
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
-                        System.out.println(cmd);
-                        MPacket p = new MPacket(cmd);
+                        //System.out.println(cmd);
+                        MPacket p = new MPacket(cmd,ips,udp.source());
 
                     }
 

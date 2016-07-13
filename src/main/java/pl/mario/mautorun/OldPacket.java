@@ -293,12 +293,12 @@ public class OldPacket extends Thread {
                         String cdk = data.substring(40, 72);
                         srv.addBaseCDK(cdk, ips);
 
-                    } else if (data.contains(NRTM)) {
+                    } /*else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
                         System.out.println(cmd);
                         MPacket p = new MPacket(cmd);
 
-                    }
+                    }*/
 
                 }
             }
