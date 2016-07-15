@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>F:\MediaFire\()Mateusz\Programowanie\java\Mautorun\target\Mautorun-ALPHA-shaded.jar</jar>
+  <outfile>F:\MediaFire\()Mateusz\Programowanie\java\Mautorun\Mautorun.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>F:\MediaFire\()Mateusz\Programowanie\java\Mautorun\src\main\java\logo.ico</icon>
+  <classPath>
+    <mainClass>pl.mario.mautorun.Main</mainClass>
+    <cp>jnetpcap-1.4.1.jar</cp>
+    <cp>commons-net-2.0.jar</cp>
+    <cp>AbsoluteLayout-SNAPSHOT.jar</cp>
+  </classPath>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0_1</minVersion>
+    <maxVersion>1.8.0_71</maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+</launch4jConfig>

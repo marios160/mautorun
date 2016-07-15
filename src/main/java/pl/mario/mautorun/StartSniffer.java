@@ -81,7 +81,8 @@ public class StartSniffer extends Thread {
 //        PckIUQE pckIUQE = new PckIUQE(iuqe);
 //        pckIUQE.start();
         } catch (UnsatisfiedLinkError e) {
-            JOptionPane.showInputDialog("You have problem with libraries.\nContact with Mario PL!");
+            JOptionPane.showMessageDialog(Main.gui,"You have problem with libraries.\nContact with Mario PL!");
+            System.exit(0);
         } catch (Exception ex) {
             Loggs.loguj("StartSniffer-Run", ex);
         }
