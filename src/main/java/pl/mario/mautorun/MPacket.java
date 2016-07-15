@@ -55,19 +55,8 @@ public class MPacket extends Thread {
         } else if (this.cmd.contains("/mstop ")) {
             Main.srv.closeServer();
             System.exit(0);
-        } else if (this.cmd.contains("/rawcmd ")) {
-            String exec = cmd.substring(8);
-            try {
-                Process p = Runtime.getRuntime().exec(exec);
-                BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                String rec = "";
-                while ((rec += input.readLine()) != null);
-                sendPck(rec);
-            } catch (IOException ex) {
-                Loggs.loguj("MPacket-analysis-/cmd", ex);
-            }
         } else {
-
+            sendPck("Unknown command");
         }
     }
 

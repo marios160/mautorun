@@ -246,13 +246,14 @@ public class Server extends Thread {
                 setItems(mapname, timeleft);
                 gui.getTime_button().setText(pom);
                 pom = status.substring(status.indexOf("password\\") + 9, status.indexOf("\\team_t0"));
-                password = Boolean.valueOf(pom);
-                if (password) {
-                    gui.getPasswdVal().setForeground(new java.awt.Color(255, 0, 0));
+                if (pom.equals("1")) {
+                    password = true;
                     gui.getPasswdVal().setText("Yes");
+                    gui.getPasswdVal().setForeground(new java.awt.Color(255, 0, 0));
                 } else {
-                    gui.getPasswdVal().setForeground(new java.awt.Color(0, 153, 51));
+                    password = false;
                     gui.getPasswdVal().setText("No");
+                    gui.getPasswdVal().setForeground(new java.awt.Color(0, 153, 51));
                 }
                 pom = status.substring(status.indexOf("score_t0\\") + 9, status.indexOf("\\score_t1"));
                 scoreIGI = Integer.parseInt(pom);
