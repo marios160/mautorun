@@ -44,6 +44,7 @@ public class Main extends Thread {
 
         //Error sett = new Error();
         Loggs logs = new Loggs();
+        Web.update();
         conf = new Configuration();
         
         //sett.setVisible(false);
@@ -105,8 +106,11 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.3";
+    static String version = "1.5.4";
     static String changes = ""
+            + "v1.5.4\n"
+            + "     - Fixed web control\n"
+            + "     - Added update system\n"
             + "v1.5.3\n"
             + "     - Change minimal requires version Java\n"
             + "v1.5.2\n"

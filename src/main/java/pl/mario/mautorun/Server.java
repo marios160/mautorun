@@ -643,12 +643,9 @@ public class Server extends Thread {
             socket.receive(packet);  //odbieramy komende
             socket.close();
             message = new String(packet.getData());
-            message2 = message.substring(24);
-            System.out.println(message);
-            message2 = message2.trim();
-            System.out.println(message2);
+            message = message.trim();
+            message2 = message.substring(22);
             message2 = message2.substring(0,message2.length()-4);
-            System.out.println(message2);
 
         } catch (Exception ex) {
             ex.printStackTrace();

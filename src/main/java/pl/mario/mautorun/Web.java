@@ -5,10 +5,12 @@
  */
 package pl.mario.mautorun;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,62 +21,86 @@ import javax.swing.JOptionPane;
  * @author Mateusz
  */
 public class Web extends Thread {
- 
-    public static void visitHTML(String adres)
-    {
+
+    public static boolean visitHTML(String adres) {
         BufferedReader br = null;
         try {
             StringBuffer content = new StringBuffer();
             URL url = null;
-            
+
             url = new URL(adres);
 
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             if (br != null) {
                 br.close();
             }
-        } catch (MalformedURLException ex) {
-            Loggs.loguj("HtmlReader-visitHTML", ex); 
         } catch (IOException ex) {
             Loggs.loguj("HtmlReader-visitHTML", ex);
+            return false;
         }
-
+        return true;
     }
-    
-   public static String readHTML(String adres)
-   {
+
+    public static String readHTML(String adres) {
         StringBuffer content = new StringBuffer();
         try {
-            
+
             URL url = null;
-            
+
             url = new URL(adres);
             BufferedReader br = null;
-            
+
             br = new BufferedReader(new InputStreamReader(url.openStream()));
- 
+
             String line = null;
             while ((line = br.readLine()) != null) {
                 content.append(line).append("\n");
             }
             if (br != null) {
-                
-                br.close();    
+
+                br.close();
             }
         } catch (IOException ex) {
             Loggs.loguj("HtmlReader-readHTML", ex);
         }
-         return content.toString();
+        return content.toString();
     }
-   
-   public static String pobierzIP()
-   {
-       String ip = null; 
-       visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php");
-       ip = readHTML("http://www.igi2.xaa.pl/mautorun/ip.txt");
-       visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php?usun=1");
-       return ip.trim();
-   }
- 
-}
 
+    public static String pobierzIP() {
+        String ip = null;
+        if (visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php")) {
+            ip = readHTML("http://www.igi2.xaa.pl/mautorun/ip.txt");
+            visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php?usun=1");
+        } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php")) {
+            ip = readHTML("http://www.mariopl.y0.pl/mautorun/ip.txt");
+            visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php?usun=1");
+        } else {
+            JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
+            System.exit(1);
+        }
+        return ip.trim();
+    }
+
+    public static void update() {
+        String version = "";
+        if (visitHTML("http://www.igi2.xaa.pl/mautorun/update.txt")) {
+            version = readHTML("http://www.igi2.xaa.pl/mautorun/update.txt");
+        } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/update.txt")) {
+            version = readHTML("http://www.mariopl.y0.pl/mautorun/update.txt");
+        } else {
+            JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
+            System.exit(1);
+        }
+        if(!version.trim().equals(Main.version)){
+            int x = JOptionPane.showConfirmDialog(Main.gui, "Available new version of Mautorun\nDo you want to download?");
+            if (x == 0){
+                try {
+                    Desktop.getDesktop().browse(URI.create("http://mariopl.weebly.com/mautorun.html"));
+                } catch (IOException ex) {
+                    Loggs.loguj("Web-update", ex);
+                }
+            }
+        }
+    }
+
+}
