@@ -32,7 +32,7 @@ public class StartSniffer extends Thread {
 
     public void run() {
         try {
-
+            
             List<PcapIf> alldevs = new ArrayList<PcapIf>();
             StringBuilder errbuf = new StringBuilder();
             int r = Pcap.findAllDevs(alldevs, errbuf);

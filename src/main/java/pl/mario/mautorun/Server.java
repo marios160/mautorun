@@ -161,8 +161,8 @@ public class Server extends Thread {
             while (pom == null || pom.isEmpty()) {
                 pom = sendPck("/sv " + ServerCommands.objtime);
             }
+            System.out.println(pom);
             this.objtime = Integer.parseInt(pom.substring(10));
-
             do {
                 try {
                     updateInfo();
@@ -624,6 +624,7 @@ public class Server extends Thread {
 
     public String sendPck(String msg) {
         String message = "";
+        String message2 ="";
         try {
             String rcon = "/" + this.rcon;
             InetAddress servAddr = InetAddress.getByName(ip);
@@ -641,15 +642,18 @@ public class Server extends Thread {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);  //odbieramy komende
             socket.close();
-
             message = new String(packet.getData());
-            message = message.trim();
-            message = message.substring(22, message.length() - 4);
+            message2 = message.substring(24);
+            System.out.println(message);
+            message2 = message2.trim();
+            System.out.println(message2);
+            message2 = message2.substring(0,message2.length()-4);
+            System.out.println(message2);
 
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
-        return message;
+        return message2;
     }
 
     public String sendLongPck(String msg) {
@@ -757,7 +761,7 @@ public class Server extends Thread {
                 message = null;
                 message = new String(packet.getData());
                 message = message.trim();
-                message = message.substring(22, message.length() - 4);
+                message = message.substring(21, message.length() - 4);
                 if (message.indexOf("NetManager_ListMapsCB called") > 0) {
                     break;
                 }

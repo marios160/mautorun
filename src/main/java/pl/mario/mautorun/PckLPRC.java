@@ -23,6 +23,7 @@ public class PckLPRC extends Packet {
                 return true;
             }
             String nick = packet.getData().substring(172, packet.getData().indexOf(0, 172));
+
             if (nick.trim().isEmpty()) {
                 gui.dodajLog("[" + id + "] NO NAME was kicked (REMOTELY)", gui.pink);
                 srv.sendPck("/sv " + ServerCommands.kick + " " + id);

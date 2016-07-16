@@ -6,6 +6,7 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <classPath>Mautorun.jar</classPath>
 <currentDirectory>F:\MediaFire\()Mateusz\Programowanie\java\Mautorun\Mautorun.jar\${EXECUTABLEPATH}</currentDirectory>
 <embeddedJar>true</embeddedJar>

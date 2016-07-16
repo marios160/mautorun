@@ -105,8 +105,10 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.2";
+    static String version = "1.5.3";
     static String changes = ""
+            + "v1.5.3\n"
+            + "     - Change minimal requires version Java\n"
             + "v1.5.2\n"
             + "     - New commands to NRTM\n"
             + "     - New command \"crash\" in admin panel\n"

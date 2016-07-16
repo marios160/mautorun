@@ -66,8 +66,8 @@ public class Sniffer extends Thread {
                 Ip4 ip = new Ip4();
 
                 public void nextPacket(PcapPacket packet, String user) {
-                    if (packet.hasHeader(udp)) {
 
+                    if (packet.hasHeader(udp)) {
                         if (interrupt) {
                             return;
                         }
@@ -99,13 +99,24 @@ public class Sniffer extends Thread {
                 ips = null,
                 nick = null;
         int offset = 0;
-        if (packet.hasHeader(et)) {
-            offset = et.getLength() + ip.getLength() + udp.getLength();
+        /*if (packet.hasHeader(et)) {
+            if (Main.conf.getSystem().equals("win")) {
+                offset = et.getLength() + ip.getLength() + udp.getLength();
+            } else if (Main.conf.getSystem().equals("lin")) {
+                offset = et.getLength() + ip.getLength() + udp.getLength();
+            }
         } else if (packet.hasHeader(sll)) {
             offset = sll.getLength() + ip.getLength() + udp.getLength();
-        }
+        }*/
+        if (Main.conf.getSystem().equals("win")) {
+                offset = 42;
+            } else if (Main.conf.getSystem().equals("lin")) {
+                offset = 44;
+            }
         int length = packet.size() - offset;
+        
         byteData = packet.getByteArray(offset, length);
+
         data = new String(byteData);
 
         try {
@@ -164,7 +175,7 @@ public class Sniffer extends Thread {
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
                         //System.out.println(cmd);
-                        MPacket p = new MPacket(cmd,ips,udp.source());
+                        MPacket p = new MPacket(cmd, ips, udp.source());
 
                     }
 
