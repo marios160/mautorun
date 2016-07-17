@@ -69,11 +69,14 @@ public class Web extends Thread {
     public static String pobierzIP() {
         String ip = null;
         if (visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php")) {
-            ip = readHTML("http://www.igi2.xaa.pl/mautorun/ip.txt");
+            ip = readHTML("http://www.igi2.xaa.pl/mautorun/ip");
             visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php?usun=1");
         } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php")) {
-            ip = readHTML("http://www.mariopl.y0.pl/mautorun/ip.txt");
+            ip = readHTML("http://www.mariopl.y0.pl/mautorun/ip");
             visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php?usun=1");
+        } else if (visitHTML("http://www.mariopl.comli.com/mautorun/mautorunip.php")) {
+            ip = readHTML("http://www.mariopl.comli.com/mautorun/ip");
+            visitHTML("http://www.mariopl.comli.com/mautorun/mautorunip.php?usun=1");
         } else {
             JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
             System.exit(1);
@@ -82,24 +85,26 @@ public class Web extends Thread {
     }
 
     public static void update() {
-        String version = "";
-        if (visitHTML("http://www.igi2.xaa.pl/mautorun/update.txt")) {
-            version = readHTML("http://www.igi2.xaa.pl/mautorun/update.txt");
-        } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/update.txt")) {
-            version = readHTML("http://www.mariopl.y0.pl/mautorun/update.txt");
-        } else {
-            JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
-            System.exit(1);
-        }
-        if(!version.trim().equals(Main.version)){
-            int x = JOptionPane.showConfirmDialog(Main.gui, "Available new version of Mautorun\nDo you want to download?");
-            if (x == 0){
-                try {
+        try {
+            String version = "";
+            if (visitHTML("http://www.igi2.xaa.pl/mautorun/update")) {
+                version = readHTML("http://www.igi2.xaa.pl/mautorun/update");
+            } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/update")) {
+                version = readHTML("http://www.mariopl.y0.pl/mautorun/update");
+            } else if (visitHTML("http://www.mariopl.comli.com/mautorun/update")) {
+                version = readHTML("http://www.mariopl.comli.com/mautorun/update");
+            } else {
+                JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
+                System.exit(1);
+            }
+            if (!version.trim().equals(Main.version)) {
+                int x = JOptionPane.showConfirmDialog(Main.gui, "Available new version of Mautorun\nDo you want to download?");
+                if (x == 0) {
                     Desktop.getDesktop().browse(URI.create("http://mariopl.weebly.com/mautorun.html"));
-                } catch (IOException ex) {
-                    Loggs.loguj("Web-update", ex);
                 }
             }
+        } catch (IOException ex) {
+            Loggs.loguj("Web-update", ex);
         }
     }
 

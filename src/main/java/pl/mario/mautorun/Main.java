@@ -31,21 +31,24 @@ public class Main extends Thread {
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
+        Error error = new Error();
         File file = new File("networkconfig.cfg");
         if (!file.exists()) {
+            error.dispose();
             JOptionPane.showMessageDialog(null, "File " + file.getName() + " not found!\nPlace Mautorun in PC");
             return;
         }
         File file2 = new File("mss32.dll");
         if (!file2.exists()) {
+            error.dispose();
             JOptionPane.showMessageDialog(null, "File " + file2.getName() + " not found!\nPlace Mautorun in PC");
             return;
         }
 
         //Error sett = new Error();
         Loggs logs = new Loggs();
-        Web.update();
         conf = new Configuration();
+        Web.update();
         
         //sett.setVisible(false);
         cmds = new ArrayList<>();
@@ -53,6 +56,7 @@ public class Main extends Thread {
         anns = new ArrayList<>();
         anns.add("");
         gui = new Gui();
+        error.dispose();
         kill = new KillLog();
         time = System.currentTimeMillis();
         while (true) {
@@ -106,8 +110,11 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.4";
+    static String version = "1.5.5";
     static String changes = ""
+            + "v1.5.5\n"
+            + "     - New website to control updates\n"
+            + "     - Fixed Connect error web\n"
             + "v1.5.4\n"
             + "     - Fixed web control\n"
             + "     - Added update system\n"
