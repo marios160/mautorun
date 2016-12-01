@@ -112,6 +112,10 @@ public class Main extends Thread {
 
     static String version = "1.5.5";
     static String changes = ""
+            + "v1.6.0\n"
+            + "     - Fixed Google VPS Bug\n"
+            + "     - Added remotely ban field"
+            + "     -"
             + "v1.5.5\n"
             + "     - New website to control updates\n"
             + "     - Fixed Connect error web\n"

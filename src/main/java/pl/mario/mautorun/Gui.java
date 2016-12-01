@@ -32,6 +32,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import static pl.mario.mautorun.Main.conf;
 import static pl.mario.mautorun.Main.gui;
 
 /**
@@ -90,6 +91,8 @@ public class Gui extends javax.swing.JFrame {
         clearLog = new javax.swing.JButton();
         commandField = new javax.swing.JTextField();
         commandButt = new javax.swing.JButton();
+        banField = new javax.swing.JTextField();
+        banButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         Censors = new javax.swing.JCheckBox();
         adminPanel = new javax.swing.JCheckBox();
@@ -588,6 +591,24 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        banField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                banFieldKeyPressed(evt);
+            }
+        });
+
+        banButton.setText("Ban");
+        banButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                banButtonActionPerformed(evt);
+            }
+        });
+        banButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                banButtonKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -596,28 +617,35 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(clearChat)
+                        .addComponent(banField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(announceField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(28, 28, 28)
-                        .addComponent(announceButt)
-                        .addGap(8, 8, 8)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(banButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(clearLog)
-                        .addGap(14, 14, 14)
-                        .addComponent(commandField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(22, 22, 22)
-                        .addComponent(commandButt))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(49, 49, 49))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(clearChat)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(announceField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(28, 28, 28)
+                                .addComponent(announceButt)
+                                .addGap(8, 8, 8)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(clearLog)
+                                .addGap(14, 14, 14)
+                                .addComponent(commandField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(22, 22, 22)
+                                .addComponent(commandButt))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(49, 49, 49))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,8 +656,8 @@ public class Gui extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(commandButt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -639,7 +667,11 @@ public class Gui extends javax.swing.JFrame {
                         .addComponent(announceButt)
                         .addComponent(clearLog)
                         .addComponent(commandField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(banField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(banButton))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Main", jPanel3);
@@ -1046,7 +1078,7 @@ public class Gui extends javax.swing.JFrame {
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel4)
@@ -1112,7 +1144,7 @@ public class Gui extends javax.swing.JFrame {
             }
         }
         gui.getCommandField().setText(null);
-        
+
         if (cmd.indexOf("/") == 0) {
             Cmd cmds = new Cmd(": " + cmd);
             cmds.start();
@@ -1327,6 +1359,38 @@ public class Gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_commandFieldActionPerformed
 
+    private void banButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_banButtonActionPerformed
+        try {
+            String ip = banField.getText();
+            String cmd = "";
+            if (conf.getSystem().equals("lin")) {
+                cmd = "/sbin/iptables -I INPUT -s " + ip + " -j DROP";
+            } else if (conf.getSystem().equals("win")) {
+                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip;
+            }
+            Runtime.getRuntime().exec(cmd);
+            gui.dodajLog( "IP: " + ip + " was banned (REMOTELY)", pink);
+            PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
+            bany.println(cmd);
+            bany.close();
+        } catch (IOException ex) {
+            Loggs.loguj(Gui.class.getName() + "-BanButton", ex);
+        }
+        banField.setText(null);
+    }//GEN-LAST:event_banButtonActionPerformed
+
+    private void banFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_banFieldKeyPressed
+        if (evt.getKeyCode() == 10) {
+            banButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_banFieldKeyPressed
+
+    private void banButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_banButtonKeyPressed
+        if (evt.getKeyCode() == 10) {
+            banButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_banButtonKeyPressed
+
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
             dchat.insertString(dchat.getLength(), Main.conf.getTime() + msg + "\n", color);
@@ -1497,6 +1561,8 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox adminPanel;
     private javax.swing.JButton announceButt;
     private javax.swing.JTextField announceField;
+    private javax.swing.JButton banButton;
+    private javax.swing.JTextField banField;
     private javax.swing.JButton changes;
     private javax.swing.JTextPane chat;
     private javax.swing.JButton clearChat;

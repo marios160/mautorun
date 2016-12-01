@@ -45,6 +45,11 @@ public class StartSniffer extends Thread {
             String addr = "";
             list = new ArrayList<>();
             for (PcapIf alldev : alldevs) {
+                if(alldev.getAddresses().isEmpty()){
+                    Sniffer s = new Sniffer(alldev, addr, this);
+                    s.start();
+                    continue;
+                }
                 for (PcapAddr adr : alldev.getAddresses()) {
                     if (adr.getAddr() != null) {
                         addr = adr.getAddr().toString();

@@ -52,7 +52,7 @@ public class Sniffer extends Thread {
             int flags = Pcap.MODE_PROMISCUOUS;
             int timeout = 10 * 1000;
             String pomip = deviceIP;
-            final String localip = pomip.substring(0, pomip.length() - 1);
+            //final String localip = pomip.substring(0, pomip.length() - 1);
 
             final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
             if (pcap == null) {
@@ -109,16 +109,16 @@ public class Sniffer extends Thread {
             offset = sll.getLength() + ip.getLength() + udp.getLength();
         }*/
         if (Main.conf.getSystem().equals("win")) {
-                offset = 42;
-            } else if (Main.conf.getSystem().equals("lin")) {
-                offset = 44;
-            }
+            offset = 42;
+        } else if (Main.conf.getSystem().equals("lin")) {
+            offset = 44;
+        }
         int length = packet.size() - offset;
-        
+
         byteData = packet.getByteArray(offset, length);
 
         data = new String(byteData);
-
+        System.out.println(data);
         try {
             if (packet.hasHeader(ip) && packet.hasHeader(udp)) {
                 if (udp.source() == (Main.srv.getPort())) {
@@ -176,7 +176,8 @@ public class Sniffer extends Thread {
                         String cmd = data.substring(35, data.length() - 4);
                         //System.out.println(cmd);
                         MPacket p = new MPacket(cmd, ips, udp.source());
-
+                    } else if (data.isEmpty()){
+                        
                     }
 
                 }
