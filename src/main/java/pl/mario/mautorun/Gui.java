@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -93,6 +94,7 @@ public class Gui extends javax.swing.JFrame {
         commandButt = new javax.swing.JButton();
         banField = new javax.swing.JTextField();
         banButton = new javax.swing.JButton();
+        unbanButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         Censors = new javax.swing.JCheckBox();
         adminPanel = new javax.swing.JCheckBox();
@@ -128,6 +130,7 @@ public class Gui extends javax.swing.JFrame {
         optimization = new javax.swing.JButton();
         whois = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         softTime = new javax.swing.JLabel();
@@ -609,6 +612,18 @@ public class Gui extends javax.swing.JFrame {
             }
         });
 
+        unbanButton.setText("Unban");
+        unbanButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unbanButtonActionPerformed(evt);
+            }
+        });
+        unbanButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                unbanButtonKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -620,6 +635,8 @@ public class Gui extends javax.swing.JFrame {
                         .addComponent(banField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(banButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(unbanButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,7 +687,8 @@ public class Gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(banField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(banButton))
+                    .addComponent(banButton)
+                    .addComponent(unbanButton))
                 .addContainerGap())
         );
 
@@ -1032,6 +1050,18 @@ public class Gui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(jButton1, gridBagConstraints);
 
+        jButton2.setText("Fake Players");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel1.add(jButton2, gridBagConstraints);
+
         jTabbedPane2.addTab("Tools", jPanel1);
 
         jLabel4.setText("By Mario PL 2016");
@@ -1091,7 +1121,6 @@ public class Gui extends javax.swing.JFrame {
 
         getAccessibleContext().setAccessibleDescription("Program to control dedicated server IGI2.");
     }// </editor-fold>//GEN-END:initComponents
-
 
     private void clearChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearChatActionPerformed
         chat.setText(null);
@@ -1360,23 +1389,27 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_commandFieldActionPerformed
 
     private void banButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_banButtonActionPerformed
-        try {
-            String ip = banField.getText();
-            String cmd = "";
-            if (conf.getSystem().equals("lin")) {
-                cmd = "/sbin/iptables -I INPUT -s " + ip + " -j DROP";
-            } else if (conf.getSystem().equals("win")) {
-                cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    String ip = banField.getText();
+                    String cmd = "";
+                    if (conf.getSystem().equals("lin")) {
+                        cmd = "/sbin/iptables -I INPUT -s " + ip + " -j DROP";
+                    } else if (conf.getSystem().equals("win")) {
+                        cmd = "netsh advfirewall firewall add rule name=\"IGIBan\" dir=in protocol=udp interface=any action=block remoteip=" + ip;
+                    }
+                    Runtime.getRuntime().exec(cmd);
+                    gui.dodajLog("IP: " + ip + " was banned (REMOTELY)", pink);
+                    PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
+                    bany.println(cmd);
+                    bany.close();
+                } catch (IOException ex) {
+                    Loggs.loguj(Gui.class.getName() + "-BanButton", ex);
+                }
+                banField.setText(null);
             }
-            Runtime.getRuntime().exec(cmd);
-            gui.dodajLog( "IP: " + ip + " was banned (REMOTELY)", pink);
-            PrintWriter bany = new PrintWriter(new FileWriter("banlist.txt", true));
-            bany.println(cmd);
-            bany.close();
-        } catch (IOException ex) {
-            Loggs.loguj(Gui.class.getName() + "-BanButton", ex);
-        }
-        banField.setText(null);
+        });
     }//GEN-LAST:event_banButtonActionPerformed
 
     private void banFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_banFieldKeyPressed
@@ -1390,6 +1423,53 @@ public class Gui extends javax.swing.JFrame {
             banButtonActionPerformed(null);
         }
     }//GEN-LAST:event_banButtonKeyPressed
+
+    private void unbanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unbanButtonActionPerformed
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    String cmd = "";
+                    if (conf.getSystem().equals("lin")) {
+                        cmd = "/sbin/iptables -D INPUT -s " + banField.getText() + " -j DROP";
+                    } else if (conf.getSystem().equals("win")) {
+                        cmd = "netsh advfirewall firewall delete rule name=all remoteip=" + banField.getText();
+                    }
+                    Runtime.getRuntime().exec(cmd);
+                    gui.dodajLog("Unbanned IP: " + banField.getText() + " (REMOTELY} ", gui.blue);
+
+                    Scanner in = new Scanner(Paths.get("banlist.txt"));
+                    PrintWriter bany = new PrintWriter(new FileWriter("tmp.txt", true));
+                    String ln;
+                    while (in.hasNextLine()) {
+                        ln = in.nextLine();
+                        if (ln.indexOf(banField.getText()) < 0) {
+                            bany.append(ln);
+                        }
+                    }
+                    in.close();
+                    bany.close();
+                    File file = new File("banlist.txt");
+                    file.delete();
+                    File file2 = new File("tmp.txt");
+                    file2.renameTo(file);
+                } catch (IOException ex) {
+                    Loggs.loguj("Cmd-unban", ex);
+                }
+                banField.setText(null);
+            }
+        });
+    }//GEN-LAST:event_unbanButtonActionPerformed
+
+    private void unbanButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_unbanButtonKeyPressed
+        if (evt.getKeyCode() == 10) {
+            unbanButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_unbanButtonKeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        FakePlayersGui f = new FakePlayersGui();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     void dodajChat(String msg, SimpleAttributeSet color) {
         try {
@@ -1580,6 +1660,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JCheckBox dispAddAdmin;
     private javax.swing.JTable igiTab;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1626,6 +1707,7 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JComboBox strefaCzasowa;
     private javax.swing.JLabel time;
     private javax.swing.JButton time_button;
+    private javax.swing.JButton unbanButton;
     private javax.swing.JLabel uptime;
     private javax.swing.JLabel uptimeVal;
     private javax.swing.JLabel visit;

@@ -41,7 +41,7 @@ public class PckLPRC extends Packet {
                 int i = 0;
                 while (read.hasNextLine()) {
                     String linia = read.nextLine();
-                    
+
                     if (linia.toLowerCase().equals(nick.toLowerCase())) {
                         gui.dodajLog("[" + id + "] " + nick + " was kicked for denided nick (REMOTELY)", gui.pink);
                         srv.sendPck("/sv " + ServerCommands.kick + " " + id);

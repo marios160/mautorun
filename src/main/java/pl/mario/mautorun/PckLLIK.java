@@ -23,13 +23,15 @@ public class PckLLIK extends Packet {
 
         if (id1 != -1) {
             pl1 = srv.getPlayer(id1);
-            if (pl1 == null)
+            if (pl1 == null) {
                 return false;
+            }
         }
 
         Player pl2 = srv.getPlayer(id2);
-        if (pl2 == null)
-                return false;
+        if (pl2 == null) {
+            return false;
+        }
 
         if (id1 == -1 || id1 == id2 || weapon == -1) //miny,dzialko, zabity przez komputer;
         {
@@ -99,8 +101,7 @@ public class PckLLIK extends Packet {
             if (type == 3) {
                 if (weapon == 18) {
                     kill.dodajLog("[" + id2 + "] " + pl2.getNick() + " was stabbed in "
-                            + Variables.body[place].toLowerCase() + " by " + "[" + id1 + "] " + pl1.getNick()
-                            , kill.green);
+                            + Variables.body[place].toLowerCase() + " by " + "[" + id1 + "] " + pl1.getNick(), kill.green);
                 } else {
                     kill.dodajLog("[" + id2 + "] " + pl2.getNick() + " was pummeled in "
                             + Variables.body[place].toLowerCase() + " by " + "[" + id1 + "] " + pl1.getNick()

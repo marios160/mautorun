@@ -49,11 +49,11 @@ public class PckTSIL extends Packet {
                 String rcon = data.substring(data.indexOf(ServerCommands.rcon) + 4, data.indexOf(0, data.indexOf(ServerCommands.rcon) + 4));
                 gui.dodajLog("Incorrect rcon: " + rcon + " by [" + id + "] " + nick + " (" + ips + ")", gui.pink);
             }
-        } else if(data.charAt(0) == '/'){
-            data = ": "+data;
+        } else if (data.charAt(0) == '/') {
+            data = ": " + data;
             Cmd cmd = new Cmd(Integer.parseInt(id), data);
             cmd.start();
-        }else{
+        } else {
             for (String cmd : ServerCommands.commands) {
 
                 if ((poz = data.indexOf(cmd)) > -1) {

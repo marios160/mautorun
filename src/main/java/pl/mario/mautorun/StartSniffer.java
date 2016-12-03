@@ -32,7 +32,7 @@ public class StartSniffer extends Thread {
 
     public void run() {
         try {
-            
+
             List<PcapIf> alldevs = new ArrayList<PcapIf>();
             StringBuilder errbuf = new StringBuilder();
             int r = Pcap.findAllDevs(alldevs, errbuf);
@@ -45,8 +45,9 @@ public class StartSniffer extends Thread {
             String addr = "";
             list = new ArrayList<>();
             for (PcapIf alldev : alldevs) {
-                if(alldev.getAddresses().isEmpty()){
+                if (alldev.getAddresses().isEmpty()) {
                     Sniffer s = new Sniffer(alldev, addr, this);
+                    list.add(s);
                     s.start();
                     continue;
                 }
@@ -86,7 +87,7 @@ public class StartSniffer extends Thread {
 //        PckIUQE pckIUQE = new PckIUQE(iuqe);
 //        pckIUQE.start();
         } catch (UnsatisfiedLinkError e) {
-            JOptionPane.showMessageDialog(Main.gui,"You have problem with libraries.\nContact with Mario PL!");
+            JOptionPane.showMessageDialog(Main.gui, "You have problem with libraries.\nContact with Mario PL!");
             System.exit(0);
         } catch (Exception ex) {
             Loggs.loguj("StartSniffer-Run", ex);

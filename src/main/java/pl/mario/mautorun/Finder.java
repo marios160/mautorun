@@ -22,16 +22,18 @@ public class Finder extends javax.swing.JFrame {
             }
         });
     }
+
     public Finder(String value, int cases) {
         initComponents();
-        if(cases == 0)
+        if (cases == 0) {
             nick.setText(value);
-        else
+        } else {
             ip.setText(value);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 setVisible(true);
-                
+
             }
         });
         findActionPerformed(null);
@@ -150,25 +152,27 @@ public class Finder extends javax.swing.JFrame {
             String value = null;
             if (nick.getText().isEmpty()) {
                 value = ip.getText().trim();
-                if(value.contains("Jones"))
-                    return;  
+                if (value.contains("Jones")) {
+                    return;
+                }
                 f = new FinderPlayer(ip.getText(), 2);
             } else if (ip.getText().isEmpty()) {
                 value = nick.getText().trim();
-                if(value.contains("Jones"))
+                if (value.contains("Jones")) {
                     return;
+                }
                 f = new FinderPlayer(nick.getText(), 1);
             }
             f.start();
             f.join();
-            
+
             for (String r : f.found) {
-                listRecord.append(r+"\n");
+                listRecord.append(r + "\n");
             }
         } catch (InterruptedException ex) {
             Loggs.loguj("Finder-findActionPerformed", ex);
         }
-        
+
     }//GEN-LAST:event_findActionPerformed
 
     private void nickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nickKeyPressed
@@ -190,7 +194,6 @@ public class Finder extends javax.swing.JFrame {
     private void ipMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ipMousePressed
         nick.setText(null);
     }//GEN-LAST:event_ipMousePressed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton find;

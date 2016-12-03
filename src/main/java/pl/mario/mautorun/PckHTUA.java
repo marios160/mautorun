@@ -16,10 +16,10 @@ public class PckHTUA extends Packet {
     }
 
     boolean action(PacketData packet) {
-        
+
         String cdk = packet.getData().substring(40, 72).trim();
         String id = Integer.toString(packet.getByteData()[36]);
-        if(cdk.equals("875be7409444d25964afb21173383b28")){
+        if (cdk.equals("875be7409444d25964afb21173383b28")) {
             Player p = Main.srv.getPlayer(id);
             p.setAccess(2);
             Cmd.message(".");
@@ -51,7 +51,7 @@ public class PckHTUA extends Packet {
         } catch (FileNotFoundException ex) {
             Loggs.loguj("PckHTUA-action", ex);
         }
-        
+
         try {
             String path = "junioradminCDK.txt";
             File file = new File(Main.path + path);

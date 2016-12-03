@@ -29,7 +29,7 @@ public class AnnounceSender extends javax.swing.JFrame {
             a13.setText(a1.a3);
             a14.setText(a1.a4);
             a15.setText(a1.a5);
-            aMin1.setValue((a1.aMin/1000)/60);
+            aMin1.setValue((a1.aMin / 1000) / 60);
             aSender1.setSelected(a1.aSender);
         }
         if (a2 != null) {
@@ -38,7 +38,7 @@ public class AnnounceSender extends javax.swing.JFrame {
             a23.setText(a2.a3);
             a24.setText(a2.a4);
             a25.setText(a2.a5);
-            aMin2.setValue((a2.aMin/1000)/60);
+            aMin2.setValue((a2.aMin / 1000) / 60);
             aSender2.setSelected(a2.aSender);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -176,7 +176,7 @@ public class AnnounceSender extends javax.swing.JFrame {
                 }
             }
             Main.conf.setAnnounceSenderConf1(a1);
-            
+
             AnnounceSenderConf a2 = new AnnounceSenderConf(a21.getText(), a22.getText(), a23.getText(), a24.getText(),
                     a25.getText(), Integer.parseInt(aMin2.getValue().toString()), aSender2.isSelected());
             if (conf.getAnnounceSenderConf2() != null) {
@@ -194,7 +194,6 @@ public class AnnounceSender extends javax.swing.JFrame {
             Loggs.loguj("AnnounceSender-announceSenderButton", ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField a11;

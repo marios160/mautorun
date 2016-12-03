@@ -177,7 +177,7 @@ public class Player {
     public void subDeaths() {
         this.deaths--;
     }
-    
+
     public void addLostconn() {
         this.lostconn++;
     }
@@ -278,23 +278,23 @@ public class Player {
      * Ustawianie reszty parametrow gracza czyli wyniku pingu i druzyny
      */
     /*public void setNewPlayer()
-    {
-        Pakiety stat = new Pakiety();
-        String status = stat.sendStatus();
-        if (status.indexOf(splayer) < 0)
-            return;
-        String pom;
-        pom = status.substring(status.indexOf(splayer)+splayer.length(),status.indexOf(sfrag));
-        setNick(pom);
-        System.out.println(pom);
-        pom = status.substring(status.indexOf(sfrag)+sfrag.length(),status.indexOf(sdeath)-1);
-        setFrags(Integer.parseInt(pom));
-        pom = status.substring(status.indexOf(sdeath)+sdeath.length(),status.indexOf(sping)-1);
-        setDeaths(Integer.parseInt(pom));
-        pom = status.substring(status.indexOf(sping)+sping.length(),status.indexOf(steam)-1);
-        setPing(Integer.parseInt(pom));
-        pom = status.substring(status.indexOf(steam)+steam.length(),status.indexOf(steam)+steam.length()+1);
-        setTeam(Integer.parseInt(pom));
-        Info.players[Integer.parseInt(this.id)] = this;
-    }*/
+     {
+     Pakiety stat = new Pakiety();
+     String status = stat.sendStatus();
+     if (status.indexOf(splayer) < 0)
+     return;
+     String pom;
+     pom = status.substring(status.indexOf(splayer)+splayer.length(),status.indexOf(sfrag));
+     setNick(pom);
+     System.out.println(pom);
+     pom = status.substring(status.indexOf(sfrag)+sfrag.length(),status.indexOf(sdeath)-1);
+     setFrags(Integer.parseInt(pom));
+     pom = status.substring(status.indexOf(sdeath)+sdeath.length(),status.indexOf(sping)-1);
+     setDeaths(Integer.parseInt(pom));
+     pom = status.substring(status.indexOf(sping)+sping.length(),status.indexOf(steam)-1);
+     setPing(Integer.parseInt(pom));
+     pom = status.substring(status.indexOf(steam)+steam.length(),status.indexOf(steam)+steam.length()+1);
+     setTeam(Integer.parseInt(pom));
+     Info.players[Integer.parseInt(this.id)] = this;
+     }*/
 }

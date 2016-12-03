@@ -47,10 +47,10 @@ public class FinderPlayer extends Thread {
                     break;
                 case 2:
                     findIp(value);
-                    
+
                     break;
             }
-            
+
         } catch (Exception ex) {
             Loggs.loguj("FinderPlayer-run", ex);
         }
@@ -131,18 +131,18 @@ public class FinderPlayer extends Thread {
 //        found.addAll(found3);
 //
 //    }
-    
-    void findIp(String ip){
+    void findIp(String ip) {
         String ips;
-        if(ip.lastIndexOf(".") > 3)
-            ips = ip.substring(0,ip.lastIndexOf("."));
-        else
+        if (ip.lastIndexOf(".") > 3) {
+            ips = ip.substring(0, ip.lastIndexOf("."));
+        } else {
             return;
+        }
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).indexOf(ips) == 0) {
                 found.add(list.get(i));
                 list.remove(i);
-                i--; 
+                i--;
             }
         }
         findIp(ips);
@@ -151,15 +151,13 @@ public class FinderPlayer extends Thread {
     void findNick(String nick) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).toLowerCase().indexOf(nick.toLowerCase()) > -1) {
-                String ip = list.get(i).substring(0,list.get(i).indexOf(" ")).trim();
+                String ip = list.get(i).substring(0, list.get(i).indexOf(" ")).trim();
                 found.add(list.get(i));
                 list.remove(i);
                 i--;
                 findIp(ip);
             }
         }
-        
-        
 
 //        List<String> found2 = new ArrayList<>();
 //        String rc = null;
@@ -208,7 +206,6 @@ public class FinderPlayer extends Thread {
 //            }
 //        }
 //        found.addAll(found2);
-
     }
 
     int checkIP(String ip) {

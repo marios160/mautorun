@@ -11,8 +11,9 @@ public class PckWSQR extends Packet {
 
     boolean action(PacketData packet) {
         Player player = Main.srv.getPlayer(packet.getByteData()[20]);
-        if (player == null)
+        if (player == null) {
             return false;
+        }
         player.setSpawned(true);
         return true;
     }

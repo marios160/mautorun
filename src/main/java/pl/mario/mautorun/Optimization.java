@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 import static pl.mario.mautorun.Main.*;
 
 public class Optimization extends Thread {
-    
+
     String path;
-    
+
     public Optimization(String path) {
         this.path = path;
     }
@@ -26,7 +26,7 @@ public class Optimization extends Thread {
             List<Struct> list = new ArrayList<>();
             File base = new File(Main.path + path);
             if (!base.exists()) {
-                JOptionPane.showMessageDialog(gui, "File "+path+" not found!");
+                JOptionPane.showMessageDialog(gui, "File " + path + " not found!");
                 return;
             }
             Scanner record = new Scanner(base);
@@ -47,7 +47,7 @@ public class Optimization extends Thread {
             }
             Collections.sort(list, new Struct());
             if (!base.exists()) {
-                JOptionPane.showMessageDialog(gui, "File "+path+" not found!");
+                JOptionPane.showMessageDialog(gui, "File " + path + " not found!");
                 return;
             }
             PrintWriter nbase = new PrintWriter(base);

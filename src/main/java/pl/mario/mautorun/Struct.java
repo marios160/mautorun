@@ -1,9 +1,9 @@
-
 package pl.mario.mautorun;
 
 import java.util.Comparator;
 
-public class Struct implements Comparable<Struct>, Comparator<Struct>{
+public class Struct implements Comparable<Struct>, Comparator<Struct> {
+
     String line;
     int num;
 
@@ -15,9 +15,6 @@ public class Struct implements Comparable<Struct>, Comparator<Struct>{
     public Struct() {
     }
 
-  
-    
-
     @Override
     public int compareTo(Struct o) {
         return line.compareTo(o.line);
@@ -25,10 +22,11 @@ public class Struct implements Comparable<Struct>, Comparator<Struct>{
 
     @Override
     public int compare(Struct o1, Struct o2) {
-        if(o1.num < o2.num)   
+        if (o1.num < o2.num) {
             return -1;
-        else
+        } else {
             return 1;
+        }
     }
-    
+
 }

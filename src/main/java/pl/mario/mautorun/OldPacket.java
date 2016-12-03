@@ -166,7 +166,7 @@ public class OldPacket extends Thread {
                             srv.getPlayer(id1).addFrags();
                             srv.getPlayer(id2).addDeaths();
                         }
-                    llik = true;
+                        llik = true;
                     }
 
                 } else if (udp.destination() == (Main.srv.getPort())) {
@@ -195,7 +195,7 @@ public class OldPacket extends Thread {
                         id = Integer.toString(byteData[36]);
                         ips = FormatUtils.ip(ip.source());
                         if (data.indexOf(0, 172) < 0) {
-                        lprc = true;
+                            lprc = true;
                             return;
                         }
                         nick = data.substring(172, data.indexOf(0, 172));
@@ -213,7 +213,7 @@ public class OldPacket extends Thread {
                                 Loggs.loguj("Packet-LPRC", ex);
                             }
                         }
-                       lprc = true;
+                        lprc = true;
                     } else if (data.contains(TAHC)) {
                         while (!tahc) {
                             try {
@@ -294,11 +294,11 @@ public class OldPacket extends Thread {
                         srv.addBaseCDK(cdk, ips);
 
                     } /*else if (data.contains(NRTM)) {
-                        String cmd = data.substring(35, data.length() - 4);
-                        System.out.println(cmd);
-                        MPacket p = new MPacket(cmd);
+                     String cmd = data.substring(35, data.length() - 4);
+                     System.out.println(cmd);
+                     MPacket p = new MPacket(cmd);
 
-                    }*/
+                     }*/
 
                 }
             }

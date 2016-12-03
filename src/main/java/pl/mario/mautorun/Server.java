@@ -20,6 +20,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.xml.bind.DatatypeConverter;
 
 import static pl.mario.mautorun.Main.*;
 
@@ -354,24 +355,24 @@ public class Server extends Thread {
 
     /*static void getInterface() {
 
-        Enumeration<NetworkInterface> nets = null;
-        try {
-            nets = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for (NetworkInterface netint : Collections.list(nets)) {
+     Enumeration<NetworkInterface> nets = null;
+     try {
+     nets = NetworkInterface.getNetworkInterfaces();
+     } catch (SocketException ex) {
+     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     for (NetworkInterface netint : Collections.list(nets)) {
 
-            System.out.printf("Display name: %s\n", netint.getDisplayName());
-            System.out.printf("Name: %s\n", netint.getName());
-            Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-            for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-                System.out.printf("InetAddress: %s\n", inetAddress);
-            }
-            System.out.printf("\n");
-        }
+     System.out.printf("Display name: %s\n", netint.getDisplayName());
+     System.out.printf("Name: %s\n", netint.getName());
+     Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+     for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+     System.out.printf("InetAddress: %s\n", inetAddress);
+     }
+     System.out.printf("\n");
+     }
 
-    }*/
+     }*/
     void closeServer() {
         Main.sniffer.closeSniffers();
         try {
@@ -622,9 +623,31 @@ public class Server extends Thread {
 
     }
 
+    public byte[] sendHexPck(String str) {
+        DatagramPacket packet = null;
+        try {
+            byte[] msg = DatatypeConverter.parseHexBinary(str);
+            DatagramSocket socket = new DatagramSocket();
+            InetAddress servAddr = InetAddress.getByName(ip);
+            byte buf[] = msg;
+            socket.setSoTimeout(2000);
+
+            socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
+            buf = new byte[4096];
+
+            packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);  //odbieramy komende
+
+        } catch (IOException ex) {
+            //System.out.println("pakiet " + ex);
+            return null;
+        }
+        return packet.getData();
+    }
+
     public String sendPck(String msg) {
         String message = "";
-        String message2 ="";
+        String message2 = "";
         try {
             String rcon = "/" + this.rcon;
             InetAddress servAddr = InetAddress.getByName(ip);
@@ -645,7 +668,7 @@ public class Server extends Thread {
             message = new String(packet.getData());
             message = message.trim();
             message2 = message.substring(22);
-            message2 = message2.substring(0,message2.length()-4);
+            message2 = message2.substring(0, message2.length() - 4);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -667,7 +690,7 @@ public class Server extends Thread {
             buff = new byte[4096];
             DatagramPacket prcon = new DatagramPacket(buff, buff.length);
             socket.receive(prcon);  //odbieramy komende
-            
+
             socket.setSoTimeout(2000);
             socket.send(new DatagramPacket(buf, buf.length, servAddr, port));              //nastepnie komende
             DatagramPacket packet = null;
@@ -687,7 +710,7 @@ public class Server extends Thread {
             socket.close();
 
         } catch (Exception ex) {
-           
+
         }
         return message;
     }
@@ -812,8 +835,7 @@ public class Server extends Thread {
                 odp = "No answer, wrong command";
             }
             gui.dodajLog(odp.trim(), gui.gray);
-            
-            
+
         }
     }
 

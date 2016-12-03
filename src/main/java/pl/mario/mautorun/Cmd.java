@@ -36,8 +36,8 @@ public class Cmd extends Thread {
         this.pnick = player.getNick();
         this.pip = player.getIp();
     }
-    
-    public Cmd( String linia) {
+
+    public Cmd(String linia) {
         this.linia = linia.toLowerCase();
         this.pid = 0;
 
@@ -46,13 +46,13 @@ public class Cmd extends Thread {
         this.pnick = "Admin";
         this.pip = "0.0.0.0";
     }
-    
+
     void help() {
         if (!admin(1)) {
             return;
         }
         try {
-            
+
             announce("to see detailed instructions -> ");
             announce("send /help command - e.g /help ban");
             Thread.sleep(2000);
@@ -94,7 +94,7 @@ public class Cmd extends Thread {
             announce("/crash - close server");
             announce("to see detailed instructions -> ");
             announce("send /help command - e.g /help ban");
-       
+
         } catch (InterruptedException ex) {
             Loggs.loguj("Cmd-help", ex);
         }
@@ -680,8 +680,6 @@ public class Cmd extends Thread {
 
     }
 
-    
-
     void announce(String msg) {
         srv.sendPck("/lo announce (\"" + msg + "\")");
     }
@@ -691,8 +689,9 @@ public class Cmd extends Thread {
     }
 
     boolean admin(int admin) {
-        if(pid == 0)
+        if (pid == 0) {
             return true;
+        }
         if (srv.getPlayer(pid).getAccess() < admin) {
             return false;
         } else {
@@ -701,7 +700,7 @@ public class Cmd extends Thread {
     }
 
     void censor() {
-        
+
         if (!admin(1)) {
             return;
         }
@@ -978,7 +977,7 @@ public class Cmd extends Thread {
         if (!admin(2)) {
             return;
         }
-        gui.dodajLog("Server closed by [" +pid+"] "+ pnick + "\n", gui.red);
+        gui.dodajLog("Server closed by [" + pid + "] " + pnick + "\n", gui.red);
         announce("Server closing...");
         announce("Server closing...");
         announce("Server closing...");
@@ -996,9 +995,7 @@ public class Cmd extends Thread {
             } catch (InterruptedException ex) {
                 Loggs.loguj("Cmd-cmds", ex);
             }
-            }
+        }
     }
-
-
 
 }

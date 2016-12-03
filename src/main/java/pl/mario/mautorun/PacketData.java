@@ -47,8 +47,8 @@ public class PacketData {
     public int getExpiry() {
         return expiry;
     }
-    
-    public void addExpiry(){
+
+    public void addExpiry() {
         this.expiry++;
     }
 

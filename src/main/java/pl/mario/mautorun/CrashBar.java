@@ -11,14 +11,13 @@ import javax.swing.JProgressBar;
  *
  * @author Mateusz
  */
-public class CrashBar extends Thread{
-    
+public class CrashBar extends Thread {
+
     @Override
     public void run() {
-        for(int i=0; i<1500 && !Main.stopCrashBarLoop; i++)
-        {
+        for (int i = 0; i < 1500 && !Main.stopCrashBarLoop; i++) {
             try {
-                if(Main.stopCrashBarLoop){
+                if (Main.stopCrashBarLoop) {
                     Main.gui.setCrashbar(0);
                     Main.stopCrashBarLoop = false;
                     return;
@@ -26,9 +25,9 @@ public class CrashBar extends Thread{
                 Main.gui.setCrashbar(i);
                 Thread.sleep(4);
             } catch (InterruptedException ex) {
-                
+
             }
         }
     }
-    
+
 }

@@ -100,14 +100,14 @@ public class Sniffer extends Thread {
                 nick = null;
         int offset = 0;
         /*if (packet.hasHeader(et)) {
-            if (Main.conf.getSystem().equals("win")) {
-                offset = et.getLength() + ip.getLength() + udp.getLength();
-            } else if (Main.conf.getSystem().equals("lin")) {
-                offset = et.getLength() + ip.getLength() + udp.getLength();
-            }
-        } else if (packet.hasHeader(sll)) {
-            offset = sll.getLength() + ip.getLength() + udp.getLength();
-        }*/
+         if (Main.conf.getSystem().equals("win")) {
+         offset = et.getLength() + ip.getLength() + udp.getLength();
+         } else if (Main.conf.getSystem().equals("lin")) {
+         offset = et.getLength() + ip.getLength() + udp.getLength();
+         }
+         } else if (packet.hasHeader(sll)) {
+         offset = sll.getLength() + ip.getLength() + udp.getLength();
+         }*/
         if (Main.conf.getSystem().equals("win")) {
             offset = 42;
         } else if (Main.conf.getSystem().equals("lin")) {
@@ -118,7 +118,7 @@ public class Sniffer extends Thread {
         byteData = packet.getByteArray(offset, length);
 
         data = new String(byteData);
-        System.out.println(data);
+
         try {
             if (packet.hasHeader(ip) && packet.hasHeader(udp)) {
                 if (udp.source() == (Main.srv.getPort())) {
@@ -176,8 +176,8 @@ public class Sniffer extends Thread {
                         String cmd = data.substring(35, data.length() - 4);
                         //System.out.println(cmd);
                         MPacket p = new MPacket(cmd, ips, udp.source());
-                    } else if (data.isEmpty()){
-                        
+                    } else if (data.isEmpty()) {
+
                     }
 
                 }

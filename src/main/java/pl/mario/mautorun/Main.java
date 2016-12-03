@@ -26,6 +26,7 @@ public class Main extends Thread {
     static long time;
     static List<String> cmds;
     static List<String> anns;
+
     public Main() {
 
     }
@@ -48,9 +49,10 @@ public class Main extends Thread {
         //Error sett = new Error();
         Loggs logs = new Loggs();
         conf = new Configuration();
-        Web.update();
-        
-        //sett.setVisible(false);
+//////////////////////////////////////////////////////////////////////////////////////////////
+//        Web.update();
+//////////////////////////////////////////////////////////////////////////////////////////////       
+
         cmds = new ArrayList<>();
         cmds.add("");
         anns = new ArrayList<>();
@@ -61,9 +63,9 @@ public class Main extends Thread {
         time = System.currentTimeMillis();
         while (true) {
             try {
-                conf.setMrunTime((System.currentTimeMillis() - time)/1000);
-                gui.getmRunTime().setText((conf.getMrunTime() / (60*60)) + "h " 
-                        + ((conf.getMrunTime()/60) % (60)) + "min "+ conf.getMrunTime()%60 +"sec");
+                conf.setMrunTime((System.currentTimeMillis() - time) / 1000);
+                gui.getmRunTime().setText((conf.getMrunTime() / (60 * 60)) + "h "
+                        + ((conf.getMrunTime() / 60) % (60)) + "min " + conf.getMrunTime() % 60 + "sec");
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Loggs.loguj("Main-main", ex);
@@ -110,12 +112,19 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.5";
+    static String version = "1.5.6";
     static String changes = ""
-            + "v1.6.0\n"
+            + "v1.5.7 - .12.2016\n"
+            + "     - "//zmodyfikowac snifera tak zeby uzyc firtra
+            //usunac wyswietlanie pakietow
+            //naprawic fakeplayers
+            //wymyslic cos na flooda zeby serwer sie nie crashowal
+            + "v1.5.6 - 02.12.2016\n"
             + "     - Fixed Google VPS Bug\n"
-            + "     - Added remotely ban field"
-            + "     -"
+            + "     - Added remotely ban/unban field\n"
+            + "     - Mirroring sniffers\n"
+            + "     - FakePlayers tool\n"
+            + "     - "
             + "v1.5.5\n"
             + "     - New website to control updates\n"
             + "     - Fixed Connect error web\n"

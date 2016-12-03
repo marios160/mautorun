@@ -12,8 +12,9 @@ public class PckTTES extends Packet {
 
     boolean action(PacketData packet) {
         Player player = srv.getPlayer(packet.getByteData()[36]);
-           if (player == null)
+        if (player == null) {
             return false;
+        }
         player.setTeam(packet.getByteData()[40]);
         int igi = 0, cons = 0;
         for (Player zm : Main.srv.getPlayers()) {

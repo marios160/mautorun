@@ -1,4 +1,3 @@
-
 package pl.mario.mautorun;
 
 import java.io.File;
@@ -8,26 +7,25 @@ import java.io.PrintWriter;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-
 public class AreaText extends javax.swing.JFrame {
 
     File file = null;
-    
+
     public AreaText() {
         initComponents();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-             
+
             }
         });
     }
-    
+
     public AreaText(File file) {
         initComponents();
         this.file = file;
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-             
+
             }
         });
     }
@@ -81,8 +79,9 @@ public class AreaText extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(this.file == null)
+        if (this.file == null) {
             return;
+        }
         try {
             PrintWriter base = null;
             if (!file.exists()) {
@@ -96,7 +95,6 @@ public class AreaText extends javax.swing.JFrame {
         }
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea changes;
@@ -120,5 +118,4 @@ public class AreaText extends javax.swing.JFrame {
         this.jButton1 = jButton1;
     }
 
-    
 }

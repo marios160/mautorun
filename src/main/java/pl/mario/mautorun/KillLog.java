@@ -102,7 +102,6 @@ public class KillLog extends javax.swing.JFrame {
         logArea.setText(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
     void dodajLog(String msg, SimpleAttributeSet color) {
         try {
             log.insertString(log.getLength(), Main.conf.getTime() + msg + "\n", color);
@@ -121,7 +120,8 @@ public class KillLog extends javax.swing.JFrame {
             Loggs.loguj("KillLog-dodajLog", ex);
         }
     }
-public void setFont() {
+
+    public void setFont() {
         log = logArea.getStyledDocument();
         red = new SimpleAttributeSet();
         boom = new SimpleAttributeSet();
@@ -155,9 +155,9 @@ public void setFont() {
         StyleConstants.setBold(boom, true);
 
     }
-private boolean logauto = true;
-private StyledDocument log;
-SimpleAttributeSet boom;
+    private boolean logauto = true;
+    private StyledDocument log;
+    SimpleAttributeSet boom;
     SimpleAttributeSet red;
     SimpleAttributeSet blue;
     SimpleAttributeSet green;

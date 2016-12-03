@@ -1,4 +1,3 @@
-
 package pl.mario.mautorun;
 
 import java.io.File;
@@ -16,19 +15,18 @@ import java.util.Date;
  *
  * @author Mateusz
  */
-public class Configuration implements Serializable{
-    
+public class Configuration implements Serializable {
 
     static final long serialVersionUID = 1000000L;
     private String juniorRcon;
-    private  String system;
-    private  SimpleDateFormat time;
-    private  String exe;
+    private String system;
+    private SimpleDateFormat time;
+    private String exe;
     private int visitors;
     private long mrunTime;
     private int crashes;
     private boolean crash;
-    
+
     private int warnings;
     private int defMask;
     private int maxMask;
@@ -43,11 +41,9 @@ public class Configuration implements Serializable{
     private boolean items;
     private AnnounceSenderConf announceSenderConf1;
     private AnnounceSenderConf announceSenderConf2;
-    
-    
 
     public Configuration() {
-        this.system = System.getProperty("os.name").toLowerCase().substring(0,3);
+        this.system = System.getProperty("os.name").toLowerCase().substring(0, 3);
         this.time = new SimpleDateFormat("[MM.dd][HH:mm:ss]");
         if (system.equals("win")) {
             Main.path = "mfiles\\";
@@ -75,9 +71,9 @@ public class Configuration implements Serializable{
         this.announceSenderConf1 = c.announceSenderConf1;
         this.announceSenderConf2 = c.announceSenderConf2;
     }
-    
-    public Configuration(int x){
-        this.system = System.getProperty("os.name").toLowerCase().substring(0,3);
+
+    public Configuration(int x) {
+        this.system = System.getProperty("os.name").toLowerCase().substring(0, 3);
         this.time = new SimpleDateFormat("[MM.dd][HH:mm:ss]");
         if (system.equals("win")) {
             Main.path = "mfiles\\";
@@ -104,37 +100,39 @@ public class Configuration implements Serializable{
         this.announceSenderConf1 = null;
         this.announceSenderConf1 = null;
     }
-    
-    public Configuration getConfFile()
-    {
-        File file2 = new File(Main.path+"cfg.mat");
+
+    public Configuration getConfFile() {
+        File file2 = new File(Main.path + "cfg.mat");
         Configuration c = null;
-        
-        if(file2.exists())
-        {
-            ObjectInputStream pl2=null;
+
+        if (file2.exists()) {
+            ObjectInputStream pl2 = null;
             try {
-                pl2=new ObjectInputStream(new FileInputStream(Main.path+"cfg.mat"));
-                c = (Configuration)pl2.readObject();
+                pl2 = new ObjectInputStream(new FileInputStream(Main.path + "cfg.mat"));
+                c = (Configuration) pl2.readObject();
                 pl2.close();
-            } catch (IOException | ClassNotFoundException ex) {Loggs.loguj("Conf-pobierzklase", ex);}
-        }
-        else
+            } catch (IOException | ClassNotFoundException ex) {
+                Loggs.loguj("Conf-pobierzklase", ex);
+            }
+        } else {
             c = new Configuration(1);
-        
+        }
+
         return c;
     }
-    
-    public void setClassFile(Configuration c)
-    {
-        ObjectOutputStream pl=null;
+
+    public void setClassFile(Configuration c) {
+        ObjectOutputStream pl = null;
         try {
-            pl = new ObjectOutputStream(new FileOutputStream(Main.path+"cfg.mat"));
+            pl = new ObjectOutputStream(new FileOutputStream(Main.path + "cfg.mat"));
             pl.writeObject(c);
             pl.flush();
             pl.close();
-        } catch (FileNotFoundException ex) {Loggs.loguj("Conf-zapiszklase", ex);}
-         catch (IOException ex) { Loggs.loguj("Conf-zapiszklase", ex);}
+        } catch (FileNotFoundException ex) {
+            Loggs.loguj("Conf-zapiszklase", ex);
+        } catch (IOException ex) {
+            Loggs.loguj("Conf-zapiszklase", ex);
+        }
     }
 
     public boolean isWelcomeCheck() {
@@ -172,7 +170,6 @@ public class Configuration implements Serializable{
     public int getWarnings() {
         return warnings;
     }
-
 
     public void setWarnings(int warnings) {
         this.warnings = warnings;
@@ -212,13 +209,14 @@ public class Configuration implements Serializable{
 
     public String getTime() {
         this.time = new SimpleDateFormat("[MM.dd][HH:mm:ss]");
-        return this.time.format(new Date())+" ";
+        return this.time.format(new Date()) + " ";
     }
-    
+
     public String getTime(String format) {
         this.time = new SimpleDateFormat(format);
-        return this.time.format(new Date())+" ";
+        return this.time.format(new Date()) + " ";
     }
+
     public SimpleDateFormat gettTime() {
         return this.time;
     }
@@ -238,9 +236,9 @@ public class Configuration implements Serializable{
     public int getVisitors() {
         return visitors;
     }
-    
+
     public void addVisitors() {
-       this.visitors++;
+        this.visitors++;
     }
 
     public void setVisitors(int visitors) {
@@ -318,6 +316,7 @@ public class Configuration implements Serializable{
     public void setAnnounceSenderConf1(AnnounceSenderConf announceSenderConf1) {
         this.announceSenderConf1 = announceSenderConf1;
     }
+
     public AnnounceSenderConf getAnnounceSenderConf2() {
         return announceSenderConf2;
     }
@@ -325,8 +324,5 @@ public class Configuration implements Serializable{
     public void setAnnounceSenderConf2(AnnounceSenderConf announceSenderConf2) {
         this.announceSenderConf2 = announceSenderConf2;
     }
-   
-    
-    
 
 }
