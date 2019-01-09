@@ -68,15 +68,9 @@ public class Web extends Thread {
 
     public static String pobierzIP() {
         String ip = null;
-        if (visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php")) {
-            ip = readHTML("http://www.igi2.xaa.pl/mautorun/ip");
-            visitHTML("http://www.igi2.xaa.pl/mautorun/mautorunip.php?usun=1");
-        } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php")) {
-            ip = readHTML("http://www.mariopl.y0.pl/mautorun/ip");
-            visitHTML("http://www.mariopl.y0.pl/mautorun/mautorunip.php?usun=1");
-        } else if (visitHTML("http://www.mariopl.comli.com/mautorun/mautorunip.php")) {
-            ip = readHTML("http://www.mariopl.comli.com/mautorun/ip");
-            visitHTML("http://www.mariopl.comli.com/mautorun/mautorunip.php?usun=1");
+        if (visitHTML("www.http://mlauncher.prv.pl/mautorun/mautorunip.php")) {
+            ip = readHTML("http://mlauncher.prv.pl/mautorun/ip");
+            visitHTML("http://mlauncher.prv.pl/mautorun/mautorunip.php?usun=1");
         } else {
             JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
             System.exit(1);
@@ -87,13 +81,9 @@ public class Web extends Thread {
     public static void update() {
         try {
             String version = "";
-            if (visitHTML("http://www.igi2.xaa.pl/mautorun/update")) {
-                version = readHTML("http://www.igi2.xaa.pl/mautorun/update");
-            } else if (visitHTML("http://www.mariopl.y0.pl/mautorun/update")) {
-                version = readHTML("http://www.mariopl.y0.pl/mautorun/update");
-            } else if (visitHTML("http://www.mariopl.comli.com/mautorun/update")) {
-                version = readHTML("http://www.mariopl.comli.com/mautorun/update");
-            } else {
+           if (visitHTML("http://mlauncher.prv.pl/mautorun/update")) {
+                version = readHTML("http://mlauncher.prv.pl/mautorun/update");
+            }  else {
                 JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
                 System.exit(1);
             }

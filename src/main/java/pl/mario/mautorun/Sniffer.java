@@ -123,7 +123,10 @@ public class Sniffer extends Thread {
             if (packet.hasHeader(ip) && packet.hasHeader(udp)) {
                 if (udp.source() == (Main.srv.getPort())) {
 
-                    if (data.contains(LPED)) {
+                    if (data.trim().isEmpty()){
+                        System.out.println();
+                        Server.dos = true;
+                    } else if (data.contains(LPED)) {
                         synchronized (sniff.lped) {
                             sniff.lped.add(packet);
                         }
@@ -174,8 +177,8 @@ public class Sniffer extends Thread {
                         }
                     } else if (data.contains(NRTM)) {
                         String cmd = data.substring(35, data.length() - 4);
-                        //System.out.println(cmd);
-                        MPacket p = new MPacket(cmd, ips, udp.source());
+                        System.out.println(cmd);
+                        //MPacket p = new MPacket(cmd, ips, udp.source());
                     } else if (data.isEmpty()) {
 
                     }

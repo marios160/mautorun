@@ -41,25 +41,32 @@ public class StartSniffer extends Thread {
                         .toString());
                 return;
             }
-
+            
+            boolean foundInterface = false;
             String addr = "";
             list = new ArrayList<>();
             for (PcapIf alldev : alldevs) {
-                if (alldev.getAddresses().isEmpty()) {
-                    Sniffer s = new Sniffer(alldev, addr, this);
-                    list.add(s);
-                    s.start();
-                    continue;
-                }
+//                if (alldev.getAddresses().isEmpty()) {
+//                    Sniffer s = new Sniffer(alldev, addr, this);
+//                    list.add(s);
+//                    s.start();
+//                    continue;
+//                }
                 for (PcapAddr adr : alldev.getAddresses()) {
                     if (adr.getAddr() != null) {
                         addr = adr.getAddr().toString();
                     }
-                    if (addr.indexOf("[INET4:0.0.0.0]") < 0 && addr.indexOf("[INET4:") > -1) {
+                    //if (addr.indexOf("[INET4:0.0.0.0]") < 0 && addr.indexOf("[INET4:") > -1) {
+                    if(addr.contains(Web.pobierzIP())){
                         Sniffer s = new Sniffer(alldev, addr, this);
                         list.add(s);
                         s.start();
+                        foundInterface = true;
+                        break;
                     }
+                }
+                if (foundInterface) {
+                    break;
                 }
             }
             PckHTUA pckHTUA = new PckHTUA(htua);

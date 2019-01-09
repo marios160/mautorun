@@ -85,12 +85,13 @@ public class Main extends Thread {
 
         while (!stopMainLoop) {
             try {
+                
                 srv = new Server(serv);
                 srv.start();
                 srv.join();
-                sniffer.closeSniffers();
-                sniffer = new StartSniffer();
-                sniffer.start();
+//                sniffer.closeSniffers();
+//                sniffer = new StartSniffer();
+//                sniffer.start();
             } catch (InterruptedException ex) {
                 Loggs.loguj("Main-Run", ex);
             }
@@ -112,7 +113,7 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.6";
+    static String version = "1.5.6.1";
     static String changes = ""
             + "v1.5.7 - .12.2016\n"
             + "     - "//zmodyfikowac snifera tak zeby uzyc firtra

@@ -1064,7 +1064,7 @@ public class Gui extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Tools", jPanel1);
 
-        jLabel4.setText("By Mario PL 2016");
+        jLabel4.setText("By Mario PL 2018");
 
         jLabel8.setText("version 1.0.0");
 

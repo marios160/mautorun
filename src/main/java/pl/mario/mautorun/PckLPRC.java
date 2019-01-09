@@ -19,10 +19,10 @@ public class PckLPRC extends Packet {
         try {
 
             String id = Integer.toString(packet.getByteData()[36]);
-            if (packet.getData().indexOf(0, 172) < 0) {
+            if (packet.getData().indexOf(0, 171) < 0) {
                 return true;
             }
-            String nick = packet.getData().substring(172, packet.getData().indexOf(0, 172));
+            String nick = packet.getData().substring(171, packet.getData().indexOf(0, 171));
 
             if (nick.trim().isEmpty()) {
                 gui.dodajLog("[" + id + "] NO NAME was kicked (REMOTELY)", gui.pink);

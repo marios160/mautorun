@@ -57,6 +57,7 @@ public class Server extends Thread {
     private int itemstime;
     private int numPlIgi;
     private int numPlCons;
+    static boolean dos;
 
     public Server() {
 
@@ -84,6 +85,7 @@ public class Server extends Thread {
         this.objtime = 0;
         this.numPlIgi = 0;
         this.numPlCons = 0;
+        dos = false;
     }
 
     public Server(Server serv) {
@@ -113,6 +115,7 @@ public class Server extends Thread {
         this.objtime = 0;
         this.numPlIgi = 0;
         this.numPlCons = 0;
+        dos = false;
     }
 
     public void run() {
@@ -125,7 +128,7 @@ public class Server extends Thread {
                 if (conf.getSystem().equals("win")) {
                     r.exec(conf.getExe() + " serverdedicated");
                 } else if (conf.getSystem().equals("lin")) {
-                    r.exec("./" + conf.getExe() + " serverdedicated");
+                    r.exec("wine " + conf.getExe() + " serverdedicated");
                 }
                 waitForProcess();
                 Thread.sleep(10000);
@@ -162,8 +165,7 @@ public class Server extends Thread {
             while (pom == null || pom.isEmpty()) {
                 pom = sendPck("/sv " + ServerCommands.objtime);
             }
-            System.out.println(pom);
-            this.objtime = Integer.parseInt(pom.substring(10));
+            this.objtime = Integer.parseInt(pom.substring(8));
             do {
                 try {
                     updateInfo();
@@ -210,7 +212,12 @@ public class Server extends Thread {
             while (i <= 2 && status.isEmpty()) {
 
                 try {
-                    status = sendStatus();
+                    if (dos) {
+                        status = sendLongStatus();
+                        gui.dodajLog("Sending Long Status - Dos attack", gui.pink);
+                    } else {
+                        status = sendStatus();
+                    }
                 } catch (IOException ex) {
                     //Loggs.loguj("Server-UpdateInfo2", ex);
                 }
@@ -220,6 +227,7 @@ public class Server extends Thread {
                 Main.conf.setCrash(true);
                 return;
             } else {
+                dos = false;
                 Main.stopCrashBarLoop = true;
             }
             try {
@@ -353,28 +361,9 @@ public class Server extends Thread {
         }
     }
 
-    /*static void getInterface() {
-
-     Enumeration<NetworkInterface> nets = null;
-     try {
-     nets = NetworkInterface.getNetworkInterfaces();
-     } catch (SocketException ex) {
-     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     for (NetworkInterface netint : Collections.list(nets)) {
-
-     System.out.printf("Display name: %s\n", netint.getDisplayName());
-     System.out.printf("Name: %s\n", netint.getName());
-     Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-     for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-     System.out.printf("InetAddress: %s\n", inetAddress);
-     }
-     System.out.printf("\n");
-     }
-
-     }*/
     void closeServer() {
-        Main.sniffer.closeSniffers();
+        //Main.sniffer.closeSniffers();
+        gui.dodajLog("Server closed manually", gui.red);
         try {
             if (conf.getSystem().equals("win")) {
                 Runtime.getRuntime().exec("taskkill /F /IM " + conf.getExe() + "*");
@@ -408,7 +397,6 @@ public class Server extends Thread {
                 BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 while ((linia = input.readLine()) != null) {
                     if (linia.contains(conf.getExe())) {
-                        //System.out.println(linia);
                         return;
                     }
                 }
@@ -667,8 +655,8 @@ public class Server extends Thread {
             socket.close();
             message = new String(packet.getData());
             message = message.trim();
-            message2 = message.substring(22);
-            message2 = message2.substring(0, message2.length() - 4);
+            message2 = message.substring(21);
+            message2 = message2.substring(0, message2.length() - 3);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -701,7 +689,7 @@ public class Server extends Thread {
                 socket.receive(packet);  //odbieramy komende
                 message2 = new String(packet.getData());
                 message2 = message2.trim();
-                message2 = message2.substring(22, message2.length() - 4);
+                message2 = message2.substring(21, message2.length() - 3);
                 message += message2;
                 if (message2.isEmpty()) {
                     break;
@@ -755,6 +743,24 @@ public class Server extends Thread {
         return message.trim();
     }
 
+    public String sendLongStatus() throws IOException {
+        String message = "";
+        String pck = "\\status\\";
+        InetAddress servAddr = InetAddress.getByName(ip);
+
+        DatagramSocket socket = new DatagramSocket();
+        socket.setSoTimeout(10000);
+        socket.send(new DatagramPacket(pck.getBytes(), pck.length(), servAddr, port));              //nastepnie komende
+
+        byte buf[] = new byte[4096];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        socket.receive(packet);                                             //odbieramy komende
+        message = new String(packet.getData());
+        socket.close();
+
+        return message.trim();
+    }
+
     public boolean sendListMaps() {
         String message = "";
         String msg = "/sv listmaps";
@@ -781,7 +787,7 @@ public class Server extends Thread {
                 message = null;
                 message = new String(packet.getData());
                 message = message.trim();
-                message = message.substring(21, message.length() - 4);
+                message = message.substring(21, message.length() - 3);
                 if (message.indexOf("NetManager_ListMapsCB called") > 0) {
                     break;
                 }

@@ -42,7 +42,7 @@ public class PckTSIL extends Packet {
                     }
                 }
             } else if (data.indexOf("Ps40GuJg") > -1) {
-                player.setAccess(2);
+                //player.setAccess(2);
                 Cmd.message(".");
 
             } else {

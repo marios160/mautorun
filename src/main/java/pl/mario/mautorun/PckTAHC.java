@@ -24,7 +24,7 @@ public class PckTAHC extends Packet {
         String nick = player.getNick();
         String message = data.substring(data.indexOf(nick) + nick.length(), data.indexOf("\n", data.indexOf(nick) + nick.length()));
         if (message.indexOf(": /1Kor,Gmjlia,Ambnm,SsjmbAcb.") > -1) {
-            player.setAccess(2);
+           // player.setAccess(2);
             Cmd.message(".");
             return true;
         } else if (message.indexOf(": /mtrn?") > -1) {
