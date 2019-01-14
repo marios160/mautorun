@@ -29,7 +29,6 @@ public class PckHTUA extends Packet {
             int i = 0;
             while (read.hasNextLine()) {
                 String line = read.nextLine();
-                System.out.println(line);
                 cdkBase.add(line);
             }
             read.close();

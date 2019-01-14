@@ -68,13 +68,16 @@ public class Web extends Thread {
 
     public static String pobierzIP() {
         String ip = null;
-        if (visitHTML("www.http://mlauncher.prv.pl/mautorun/mautorunip.php")) {
-            ip = readHTML("http://mlauncher.prv.pl/mautorun/ip");
-            visitHTML("http://mlauncher.prv.pl/mautorun/mautorunip.php?usun=1");
-        } else {
-            JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
-            System.exit(1);
-        }
+        //if (visitHTML("http://mlauncher.prv.pl/mautorun/mautorunip.php")) {
+            ip = readHTML("http://mlauncher.prv.pl/mautorun/mautorunip.php");
+            if(ip.indexOf(">>>>----") > -1 && ip.indexOf("----<<<<") > -1){
+                ip = ip.substring(ip.indexOf(">>>>----")+8,ip.indexOf("----<<<<"));
+            }
+         //   visitHTML("http://mlauncher.prv.pl/mautorun/mautorunip.php?usun=1");
+//        } else {
+//            JOptionPane.showMessageDialog(Main.gui, "Connection error in web");
+//            System.exit(1);
+//        }
         return ip.trim();
     }
 
