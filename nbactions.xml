@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.args>-classpath %classpath pl.mario.mautorun.Main</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>D:\GRY\IGI2</exec.workingdir>
             </properties>
