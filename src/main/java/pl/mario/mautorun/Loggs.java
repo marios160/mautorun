@@ -32,7 +32,8 @@ public class Loggs {
     }
 
     public static void loguj(String fun, Exception message) {
-        String mes = "";
+        String mes = message.getMessage()+"\n";
+        mes += message.getLocalizedMessage()+"\n";
         for (StackTraceElement stack : message.getStackTrace()) {
             mes += stack.toString() + "\n";
         }

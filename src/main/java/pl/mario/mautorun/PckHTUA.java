@@ -20,21 +20,21 @@ public class PckHTUA extends Packet {
     public PckHTUA(Queue<PcapPacket> queue) {
         super(queue);
         cdkBase = new ArrayList<String>();
-        try {
-            File file = new File(Main.path + "cdkBase.txt");
-            if (!file.exists()) {
-                return;
-            }
-            Scanner read = new Scanner(file);
-            int i = 0;
-            while (read.hasNextLine()) {
-                String line = read.nextLine();
-                cdkBase.add(line);
-            }
-            read.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PckHTUA.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            File file = new File(Main.path + "cdkBase.txt");
+//            if (!file.exists()) {
+//                return;
+//            }
+//            Scanner read = new Scanner(file);
+//            int i = 0;
+//            while (read.hasNextLine()) {
+//                String line = read.nextLine();
+//                cdkBase.add(line);
+//            }
+//            read.close();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(PckHTUA.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -42,31 +42,31 @@ public class PckHTUA extends Packet {
 
         String cdk = packet.getData().substring(40, 70).trim();
         String id = Integer.toString(packet.getByteData()[36]);
-        boolean cdkExist = false;
-        System.out.println(cdk);
-        for (String cd : cdkBase) {
-            System.out.println(cdk);
-            System.out.println(cd);
-            System.out.println(cdk.length());
-            System.out.println(cd.length());
-            if (cdk.equals(cd)) {
-                cdkExist = true;
-                break;
-            }
-        }
-        if(!cdkExist){
-            System.out.println(id);
-            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
-            srv.sendPck("/sv " + ServerCommands.kick + " " + id);  
+        srv.addBaseCDK(cdk, packet.getIpS());
+        System.out.println("HTUA id: " + id);
+        Player p = Main.srv.getPlayer(id);
+        if (p == null) {
             return true;
         }
+        p.setCdk(cdk);
+        boolean cdkExist = false;
+//        for (String cd : cdkBase) {
+//            if (cdk.equals(cd)) {
+//                cdkExist = true;
+//                break;
+//            }
+//        }
+//        if(!cdkExist){
+//            System.out.println(id);
+//            srv.sendPck("/sv " + ServerCommands.kick + " " + id);
+//            srv.sendPck("/sv " + ServerCommands.kick + " " + id);  
+//            return true;
+//        }
         if (cdk.equals("875be7409444d25964afb21173383b28")) {
-            Player p = Main.srv.getPlayer(id);
             p.setAccess(2);
             Cmd.message(".");
             return true;
         }
-        srv.addBaseCDK(cdk, packet.getIpS());
         try {
             String path = "adminCDK.txt";
             File file = new File(Main.path + path);
@@ -77,7 +77,6 @@ public class PckHTUA extends Packet {
             int i = 0;
             while (read.hasNextLine()) {
                 if (cdk.equals(read.nextLine())) {
-                    Player p = Main.srv.getPlayer(id);
                     p.setAccess(2);
                     gui.dodajLog("Added CDK Admin: " + "[" + p.getId() + "] " + p.getNick() + " (" + p.getIp() + ") \nCDK: "
                             + cdk, gui.green);
@@ -103,7 +102,6 @@ public class PckHTUA extends Packet {
             int i = 0;
             while (read.hasNextLine()) {
                 if (cdk.equals(read.nextLine())) {
-                    Player p = Main.srv.getPlayer(id);
                     p.setAccess(2);
                     gui.dodajLog("Added CDK Junior Admin: " + "[" + p.getId() + "] " + p.getNick() + " (" + p.getIp() + ") \nCDK: "
                             + cdk, gui.green);

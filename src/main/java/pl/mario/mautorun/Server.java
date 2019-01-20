@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.xml.bind.DatatypeConverter;
 
 import static pl.mario.mautorun.Main.*;
+import static pl.mario.mautorun.MLauncher.removePlayerAccess;
 
 /**
  *
@@ -157,6 +158,8 @@ public class Server extends Thread {
             while (!sendListMaps());
             gui.getMap_button().setModel(new javax.swing.DefaultComboBoxModel(listMaps));
             Main.conf.setCrash(false);
+            MLauncher mlauncher = new MLauncher();
+            mlauncher.start();
             gui.getStartSrvTogg().setText("Disable Server");
             gui.setCrashbar(0);
             gui.setAlwaysOnTop(true);
@@ -456,6 +459,8 @@ public class Server extends Thread {
         String ip = player.getIp();
         String nick = player.getNick();
         int team = player.getTeam();
+        removePlayerAccess(player);
+        
         if (oldPlayers.size() == 5) {
             oldPlayers.remove(0);
         }

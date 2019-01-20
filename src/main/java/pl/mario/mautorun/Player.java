@@ -11,6 +11,7 @@ public class Player {
     private String id;
     private String nick;
     private String ip;
+    private String cdk;
     private int port;
     private int team = -1;
     private int access;
@@ -35,6 +36,7 @@ public class Player {
         this.id = "";
         this.nick = "";
         this.ip = "";
+        this.cdk ="";
         this.team = -1;
         this.access = 0;
         this.warrnings = 0;
@@ -53,6 +55,7 @@ public class Player {
         this.id = id;
         this.nick = nick;
         this.ip = ip;
+        this.cdk = "";
         this.port = port;
         this.access = 0;
         this.team = -1;
@@ -71,6 +74,14 @@ public class Player {
         this.steam += this.id + "\\";
     }
 
+    public String getCdk() {
+        return cdk;
+    }
+
+    public void setCdk(String cdk) {
+        this.cdk = cdk;
+    }
+    
     public String getId() {
         return id;
     }

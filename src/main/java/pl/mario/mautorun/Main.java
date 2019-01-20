@@ -85,7 +85,6 @@ public class Main extends Thread {
 
         while (!stopMainLoop) {
             try {
-                
                 srv = new Server(serv);
                 srv.start();
                 srv.join();
@@ -113,8 +112,10 @@ public class Main extends Thread {
 
     }
 
-    static String version = "1.5.6.1";
+    static String version = "2.0.0";
     static String changes = ""
+            + "v2.0.0 - 20.01.2019\n"
+            + "     - MLauncher module"
             + "v1.5.7 - .12.2016\n"
             + "     - "//zmodyfikowac snifera tak zeby uzyc firtra
             //usunac wyswietlanie pakietow
