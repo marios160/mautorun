@@ -37,7 +37,7 @@ public class MLauncher extends Thread {
                 Map<Integer, String> players = querySelectStatus("2");
                 if (!players.isEmpty()) {
                     for (Map.Entry<Integer, String> el : players.entrySet()) {
-                        String cmd = "iptables -A INPUT -s " + el.getValue() + " -p udp --dport 26001 --sport 26015 -j ACCEPT";
+                        String cmd = "iptables -A INPUT -s " + el.getValue() + " -p udp --dport 26001 -j ACCEPT";
                         execCmd(cmd);
                         PrintWriter log = new PrintWriter(new FileWriter(Main.path + "PlayersAccess.txt", true));
                         log.append(cmd.replace("-A", "-D") + "\n");
@@ -77,7 +77,7 @@ public class MLauncher extends Thread {
     }
 
     public static void delIptablesRule(String ip) {
-        String cmd = "iptables -D INPUT -s " + ip + " -p udp --dport 26001 --sport 26015 -j ACCEPT";
+        String cmd = "iptables -D INPUT -s " + ip + " -p udp --dport 26001 -j ACCEPT";
         String result = "";
         do {
             result = execCmd(cmd);
